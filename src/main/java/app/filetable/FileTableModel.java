@@ -1,4 +1,4 @@
-package app.table;
+package app.filetable;
 
 import model.file.FileEntity;
 
@@ -10,10 +10,10 @@ import java.util.ResourceBundle;
 public class FileTableModel extends AbstractTableModel {
 
     private List<FileEntity> files;
-    private ResourceBundle bundle;
-    private Column[] columns = Column.values();
+    private final ResourceBundle bundle;
+    private FileTableColumn[] columns = FileTableColumn.values();
 
-    public FileTableModel(ResourceBundle bundle) {
+    public FileTableModel(final ResourceBundle bundle) {
         files = new ArrayList<>();
         this.bundle = bundle;
     }

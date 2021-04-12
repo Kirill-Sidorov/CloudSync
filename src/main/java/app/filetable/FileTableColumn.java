@@ -1,11 +1,11 @@
-package app.table;
+package app.filetable;
 
 import model.file.FileEntity;
 
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
-public enum Column {
+public enum FileTableColumn {
     NAME {
         @Override
         public String getColumnName(ResourceBundle bundle) { return bundle.getString("ui.table.files.column.name"); }

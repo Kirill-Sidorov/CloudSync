@@ -2,10 +2,10 @@ package app;
 
 import app.logic.DiskSize;
 import app.logic.FileClickLogic;
-import app.table.Column;
-import app.table.DateTableCellRenderer;
-import app.table.FileTableModel;
-import app.table.SizeTableCellRenderer;
+import app.filetable.FileTableColumn;
+import app.filetable.DateTableCellRenderer;
+import app.filetable.FileTableModel;
+import app.filetable.SizeTableCellRenderer;
 import app.task.TableUpdateTask;
 import model.disk.Disk;
 import model.file.FileEntity;
@@ -70,8 +70,8 @@ public class FilePanel {
         pathTextField = new JTextField();
         fileTableModel = new FileTableModel(bundle);
         fileTable = new JTable(fileTableModel);
-        fileTable.getColumnModel().getColumn(Column.DATE.ordinal()).setCellRenderer(new DateTableCellRenderer(bundle));
-        fileTable.getColumnModel().getColumn(Column.SIZE.ordinal()).setCellRenderer(new SizeTableCellRenderer(bundle));
+        fileTable.getColumnModel().getColumn(FileTableColumn.DATE.ordinal()).setCellRenderer(new DateTableCellRenderer(bundle));
+        fileTable.getColumnModel().getColumn(FileTableColumn.SIZE.ordinal()).setCellRenderer(new SizeTableCellRenderer(bundle));
         fileTable.setAutoCreateRowSorter(true);
         scrollPane = new JScrollPane(fileTable);
 

@@ -7,6 +7,8 @@ import model.disk.Disk;
 import model.result.CloudsConnectResult;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 
 public class MainFrame {
@@ -68,7 +70,15 @@ public class MainFrame {
 
     private void initListeners() {
         cloudManagerMenu.addActionListener(event -> {
-            new CloudManagerDialog(mainFrame, bundle);
+            CloudManagerDialog dialog = new CloudManagerDialog(mainFrame, bundle, drives, cloudsInfo);
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
+                    updateComboBoxes();
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 
@@ -76,5 +86,4 @@ public class MainFrame {
         leftPanel.updateDiskComboBox();
         rightPanel.updateDiskComboBox();
     }
-
 }

@@ -31,7 +31,7 @@ public class CloudDrivesConnectTask extends SwingWorker<CloudsConnectResult, Voi
                 for (String path : tokens) {
                     Disk disk = type.auth(path).authorize();
                     cloudDrives.put(disk.name(), disk);
-                    cloudsInfo.put(disk.name(), new CloudInfo(type, path));
+                    cloudsInfo.put(disk.name(), new CloudInfo(type, disk.name(), path));
                 }
             }
         }
