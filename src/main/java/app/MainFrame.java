@@ -7,6 +7,7 @@ import model.disk.Disk;
 import model.result.CloudsConnectResult;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
@@ -19,6 +20,7 @@ public class MainFrame {
     private JMenuItem cloudManagerMenu;
 
     private JSplitPane splitPane;
+    private JPanel syncControlPanel;
     private FilePanel leftPanel;
     private FilePanel rightPanel;
 
@@ -56,9 +58,15 @@ public class MainFrame {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel.getMainJPanel(), rightPanel.getMainJPanel());
         splitPane.setResizeWeight(0.5);
 
+        syncControlPanel = new JPanel();
+        syncControlPanel.add(new JButton("Sync left"));
+        syncControlPanel.add(new JButton("Sync right"));
+        syncControlPanel.add(new JButton("Sync all"));
+
         mainFrame = new JFrame();
         mainFrame.setJMenuBar(menuBar);
-        mainFrame.getContentPane().add(splitPane);
+        mainFrame.add(splitPane);
+        mainFrame.add(syncControlPanel, BorderLayout.SOUTH);
         mainFrame.setIconImage(new ImageIcon(getClass().getResource("/img/app-icon.png")).getImage());
         mainFrame.setTitle("CloudSync");
         mainFrame.pack();

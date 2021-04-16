@@ -16,6 +16,8 @@ import model.result.Result;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
@@ -72,6 +74,16 @@ public class FilePanel {
         fileTable = new JTable(fileTableModel);
         fileTable.getColumnModel().getColumn(FileTableColumn.DATE.ordinal()).setCellRenderer(new DateTableCellRenderer(bundle));
         fileTable.getColumnModel().getColumn(FileTableColumn.SIZE.ordinal()).setCellRenderer(new SizeTableCellRenderer(bundle));
+        fileTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        fileTable.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                fileTable.clearSelection();
+            }
+        });
+
         fileTable.setAutoCreateRowSorter(true);
         scrollPane = new JScrollPane(fileTable);
 
