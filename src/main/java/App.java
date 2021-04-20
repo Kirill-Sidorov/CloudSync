@@ -7,6 +7,6 @@ public class App {
     private App() {}
     public static void main(String[] args) {
         FlatLightLaf.install();
-        SwingUtilities.invokeLater(() -> new MainFrame());
+        SwingUtilities.invokeLater(MainFrame::new);
     }
 }

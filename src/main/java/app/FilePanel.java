@@ -208,4 +208,6 @@ public class FilePanel {
     public JPanel getMainJPanel() {
         return filePanel;
     }
+
+    public String getCurrentPath() { return currentPath; }
 }

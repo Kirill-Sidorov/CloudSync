@@ -1,13 +1,12 @@
 package model.disk;
 
+import app.task.Progress;
 import drive.local.LocalDir;
 import drive.local.LocalLocalFile;
 import drive.local.LocalPath;
 import model.result.DirResult;
 import model.result.PathResult;
 import model.result.Result;
-
-import javax.swing.*;
 
 public class Local implements Disk {
     private final String name;
@@ -29,7 +28,7 @@ public class Local implements Disk {
     }
 
     @Override
-    public DirResult files(String path, JProgressBar progress) {
+    public DirResult files(String path, Progress progress) {
         return new LocalDir(path).files(progress);
     }
 

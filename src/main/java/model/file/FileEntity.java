@@ -1,6 +1,7 @@
 package model.file;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class FileEntity {
     private String path;
@@ -17,6 +18,20 @@ public class FileEntity {
         this.size = size;
         this.typeName = typeName;
         this.isDirectory = isDirectory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FileEntity that = (FileEntity) o;
+        return path.equals(that.path) &&
+                modifiedDate.equals(that.modifiedDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(path, modifiedDate);
     }
 
     public String getPath() { return path; }
@@ -38,4 +53,5 @@ public class FileEntity {
     }
 
     public boolean isDirectory() { return isDirectory; }
+
 }

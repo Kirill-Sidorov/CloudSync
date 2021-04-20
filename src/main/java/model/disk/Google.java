@@ -1,11 +1,10 @@
 package model.disk;
 
+import app.task.Progress;
 import com.google.api.services.drive.Drive;
 import drive.googledrive.GoogleDir;
 import drive.googledrive.GooglePath;
 import model.result.*;
-
-import javax.swing.*;
 
 public class Google implements Disk {
 
@@ -30,7 +29,7 @@ public class Google implements Disk {
     }
 
     @Override
-    public DirResult files(String path, JProgressBar progress) {
+    public DirResult files(String path, Progress progress) {
         return new GoogleDir(path, service).files(progress);
     }
 

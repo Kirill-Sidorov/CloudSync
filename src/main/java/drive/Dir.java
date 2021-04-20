@@ -1,9 +1,8 @@
 package drive;
 
+import app.task.Progress;
 import model.result.DirResult;
 
-import javax.swing.*;
-
 public interface Dir {
-    DirResult files(final JProgressBar progress);
+    DirResult files(final Progress progress);
 }

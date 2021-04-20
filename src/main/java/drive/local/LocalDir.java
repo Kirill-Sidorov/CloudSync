@@ -1,11 +1,11 @@
 package drive.local;
 
+import app.task.Progress;
 import drive.Dir;
 import model.file.FileEntity;
 import model.result.*;
 import model.result.Error;
 
-import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.time.Instant;
@@ -24,7 +24,7 @@ public class LocalDir implements Dir {
     }
 
     @Override
-    public DirResult files(final JProgressBar progress) {
+    public DirResult files(Progress progress) {
         ErrorResult result;
         List<FileEntity> listFileEntity = new ArrayList<>();
         File dir = new File(path);
@@ -34,7 +34,7 @@ public class LocalDir implements Dir {
             int i = 0;
             for (File file : files) {
                 listFileEntity.add(getFileEntity(file));
-                progress.setValue(i += chunk);
+                progress.increase(i += chunk);
             }
             result = new ErrorResult(Error.NO);
         } else {

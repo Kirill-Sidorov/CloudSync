@@ -1,5 +1,6 @@
 package drive.googledrive;
 
+import app.task.Progress;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
@@ -9,7 +10,6 @@ import model.file.FileEntity;
 import model.result.*;
 import model.result.Error;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -28,7 +28,7 @@ public class GoogleDir implements Dir {
     }
 
     @Override
-    public DirResult files(final JProgressBar progress) {
+    public DirResult files(Progress progress) {
         ErrorResult result = new ErrorResult(Error.NO);
         List<FileEntity> files = new ArrayList<>();
         String pageToken = null;
@@ -43,7 +43,7 @@ public class GoogleDir implements Dir {
                 int i = 0;
                 for (File file : fileList.getFiles()) {
                     files.add(getFileEntity(file));
-                    progress.setValue(i += chunk);
+                    progress.increase(i += chunk);
                 }
                 pageToken = fileList.getNextPageToken();
             } catch (IOException e) {

@@ -24,9 +24,8 @@ public class TableUpdateTask extends SwingWorker<DirResult, Void> {
 
     @Override
     protected DirResult doInBackground() throws Exception {
-        progress.setValue(0);
         progress.setVisible(true);
-        return disk.files(path, progress);
+        return disk.files(path, progress::setValue);
     }
 
     @Override
@@ -37,5 +36,6 @@ public class TableUpdateTask extends SwingWorker<DirResult, Void> {
             updating.result(new DirResult(new ArrayList<>(), 0L, 0L, new ErrorResult(Error.UPDATE_THREAD_CRASH)));
         }
         progress.setVisible(false);
+        progress.setValue(0);
     }
 }

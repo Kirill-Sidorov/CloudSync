@@ -19,6 +19,8 @@ public class MainFrame {
     private JMenu programMenu;
     private JMenuItem cloudManagerMenu;
 
+    private JButton compareDirsButton;
+
     private JSplitPane splitPane;
     private JPanel syncControlPanel;
     private FilePanel leftPanel;
@@ -59,9 +61,9 @@ public class MainFrame {
         splitPane.setResizeWeight(0.5);
 
         syncControlPanel = new JPanel();
-        syncControlPanel.add(new JButton("Sync left"));
-        syncControlPanel.add(new JButton("Sync right"));
-        syncControlPanel.add(new JButton("Sync all"));
+        compareDirsButton = new JButton("Compare dirs");
+
+        syncControlPanel.add(compareDirsButton);
 
         mainFrame = new JFrame();
         mainFrame.setJMenuBar(menuBar);
