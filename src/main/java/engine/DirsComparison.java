@@ -1,7 +1,8 @@
 package engine;
 
 import model.disk.Disk;
-import model.file.FileEntity;
+import model.entity.Entity;
+import model.result.ComparisonResult;
 import model.result.DirResult;
 
 import java.util.HashSet;
@@ -22,16 +23,34 @@ public class DirsComparison {
         this.rightPath = rightPath;
     }
 
-    public void compare() {
-        DirResult result = leftDisk.files(leftPath, value -> {});
-        Set<FileEntity> leftFiles = new HashSet<>(result.files());
-        result = rightDisk.files(rightPath, value -> {});
-        Set<FileEntity> rightFiles = new HashSet<>(result.files());
+    public ComparisonResult compare() {
 
-        for (FileEntity file : leftFiles) {
-            if (!file.isDirectory()) {
+        DirResult result = leftDisk.files(leftPath, value -> {});
+        Set<Entity> leftFiles = new HashSet<>(result.files());
+
+        result = rightDisk.files(rightPath, value -> {});
+        Set<Entity> rightFiles = new HashSet<>(result.files());
+
+        for (Entity rightFile : result.files()) {
+
+
+
+            if (leftFiles.contains(rightFile)) {
+
+
 
             }
+
+
+
+            if (rightFile.isDirectory()) {
+
+            } else {
+                if (leftFiles.remove(rightFile)) {
+                    rightFiles.remove(rightFile);
+                }
+            }
         }
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package app.cloudtable;
+package app.table.cloudtable;
 
 import model.cloud.CloudInfo;
 import java.util.ResourceBundle;

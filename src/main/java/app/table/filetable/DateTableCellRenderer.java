@@ -1,4 +1,4 @@
-package app.filetable;
+package app.table.filetable;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

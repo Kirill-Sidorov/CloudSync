@@ -1,6 +1,6 @@
 package app;
 
-import app.cloudtable.CloudTableModel;
+import app.table.cloudtable.CloudTableModel;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
 

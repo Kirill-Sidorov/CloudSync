@@ -1,9 +1,9 @@
-package model.file;
+package model.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class FileEntity {
+public class FileEntity implements Entity {
     private String path;
     private String name;
     private LocalDateTime modifiedDate;
@@ -25,33 +25,36 @@ public class FileEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FileEntity that = (FileEntity) o;
-        return path.equals(that.path) &&
-                modifiedDate.equals(that.modifiedDate);
+        return name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(path, modifiedDate);
+        return Objects.hash(name);
     }
 
-    public String getPath() { return path; }
+    @Override
+    public String path() { return path; }
 
-    public String getName() {
+    @Override
+    public String name() {
         return name;
     }
 
-    public LocalDateTime getModifiedDate() {
+    @Override
+    public LocalDateTime modifiedDate() {
         return modifiedDate;
     }
 
-    public Long getSize() {
-        return size;
-    }
+    @Override
+    public Long size() { return size; }
 
-    public String getTypeName() {
+    @Override
+    public String typeName() {
         return typeName;
     }
 
+    @Override
     public boolean isDirectory() { return isDirectory; }
 
 }

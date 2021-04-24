@@ -1,6 +1,6 @@
-package app.filetable;
+package app.table.filetable;
 
-import model.file.FileEntity;
+import model.entity.Entity;
 
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -14,7 +14,7 @@ public enum FileTableColumn {
         public Class<?> getColumnClass() { return String.class; }
 
         @Override
-        public Object getValueAt(FileEntity file) { return file.getName(); }
+        public Object getValueAt(Entity file) { return file.name(); }
     },
     TYPE {
         @Override
@@ -24,7 +24,7 @@ public enum FileTableColumn {
         public Class<?> getColumnClass() { return String.class; }
 
         @Override
-        public Object getValueAt(FileEntity file) { return file.getTypeName(); }
+        public Object getValueAt(Entity file) { return file.typeName(); }
     },
     DATE {
         @Override
@@ -34,7 +34,7 @@ public enum FileTableColumn {
         public Class<?> getColumnClass() { return LocalDateTime.class; }
 
         @Override
-        public Object getValueAt(FileEntity file) { return file.getModifiedDate(); }
+        public Object getValueAt(Entity file) { return file.modifiedDate(); }
     },
     SIZE {
         @Override
@@ -44,11 +44,11 @@ public enum FileTableColumn {
         public Class<?> getColumnClass() { return Long.class; }
 
         @Override
-        public Object getValueAt(FileEntity file) { return file.getSize(); }
+        public Object getValueAt(Entity file) { return file.size(); }
     };
 
     public abstract String getColumnName(ResourceBundle bundle);
     public abstract Class<?> getColumnClass();
-    public abstract Object getValueAt(FileEntity file);
+    public abstract Object getValueAt(Entity file);
 }
 

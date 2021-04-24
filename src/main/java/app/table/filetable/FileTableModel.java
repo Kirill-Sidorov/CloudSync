@@ -1,6 +1,6 @@
-package app.filetable;
+package app.table.filetable;
 
-import model.file.FileEntity;
+import model.entity.Entity;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 public class FileTableModel extends AbstractTableModel {
 
-    private List<FileEntity> files;
+    private List<Entity> files;
     private final ResourceBundle bundle;
     private FileTableColumn[] columns = FileTableColumn.values();
 
@@ -33,9 +33,9 @@ public class FileTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) { return columns[column].getColumnName(bundle); }
 
-    public FileEntity getFile(int row) { return files.get(row); }
+    public Entity getFile(int row) { return files.get(row); }
 
-    public void setFiles(List<FileEntity> files) {
+    public void setFiles(List<Entity> files) {
         this.files = files;
         fireTableDataChanged();
     }

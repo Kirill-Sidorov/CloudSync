@@ -1,17 +1,17 @@
 package model.result;
 
-import model.file.FileEntity;
+import model.entity.Entity;
 
 import java.util.List;
 
 public class DirResult implements Result {
 
-    private final List<FileEntity> files;
+    private final List<Entity> files;
     private long totalSpace;
     private long unallocatedSpace;
     private final Result result;
 
-    public DirResult(final List<FileEntity> files, long totalSpace, long unallocatedSpace, final ErrorResult result) {
+    public DirResult(final List<Entity> files, long totalSpace, long unallocatedSpace, final ErrorResult result) {
         this.files = files;
         this.totalSpace = totalSpace;
         this.unallocatedSpace = unallocatedSpace;
@@ -23,7 +23,7 @@ public class DirResult implements Result {
     @Override
     public Error error() { return result.error(); }
 
-    public List<FileEntity> files() { return files; }
+    public List<Entity> files() { return files; }
     public long totalSpace() { return totalSpace; }
     public long unallocatedSpace() { return unallocatedSpace; }
 }

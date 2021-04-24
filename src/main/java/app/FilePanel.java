@@ -2,13 +2,13 @@ package app;
 
 import app.logic.DiskSize;
 import app.logic.FileClickLogic;
-import app.filetable.FileTableColumn;
-import app.filetable.DateTableCellRenderer;
-import app.filetable.FileTableModel;
-import app.filetable.SizeTableCellRenderer;
+import app.table.filetable.FileTableColumn;
+import app.table.filetable.DateTableCellRenderer;
+import app.table.filetable.FileTableModel;
+import app.table.filetable.SizeTableCellRenderer;
 import app.task.TableUpdateTask;
 import model.disk.Disk;
-import model.file.FileEntity;
+import model.entity.Entity;
 import model.result.DirResult;
 import model.result.Error;
 import model.result.PathResult;
@@ -70,6 +70,7 @@ public class FilePanel {
         backButton.setEnabled(false);
         updateButton = new JButton(new ImageIcon(getClass().getResource("/img/refresh-button.png")));
         pathTextField = new JTextField();
+        pathTextField.setFocusable(false);
         fileTableModel = new FileTableModel(bundle);
         fileTable = new JTable(fileTableModel);
         fileTable.getColumnModel().getColumn(FileTableColumn.DATE.ordinal()).setCellRenderer(new DateTableCellRenderer(bundle));
@@ -136,12 +137,13 @@ public class FilePanel {
 
         backButton.addActionListener(event -> processResult(currentDisk.previousDirPath(currentPath, humanReadablePath)));
 
+        // not clicked when comparison mode
         fileTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     int row = fileTable.rowAtPoint(e.getPoint());
-                    FileEntity file = fileTableModel.getFile(row);
+                    Entity file = fileTableModel.getFile(row);
                     processResult(new FileClickLogic(file, currentDisk, humanReadablePath).perform());
                 }
             }
@@ -205,9 +207,11 @@ public class FilePanel {
         }
     }
 
-    public JPanel getMainJPanel() {
+    public JPanel mainJPanel() {
         return filePanel;
     }
 
-    public String getCurrentPath() { return currentPath; }
+    public String currentPath() { return currentPath; }
+
+    public Disk currentDisk() { return currentDisk; }
 }

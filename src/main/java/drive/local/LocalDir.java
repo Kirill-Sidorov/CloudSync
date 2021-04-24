@@ -2,7 +2,8 @@ package drive.local;
 
 import app.task.Progress;
 import drive.Dir;
-import model.file.FileEntity;
+import model.entity.Entity;
+import model.entity.FileEntity;
 import model.result.*;
 import model.result.Error;
 
@@ -26,7 +27,7 @@ public class LocalDir implements Dir {
     @Override
     public DirResult files(Progress progress) {
         ErrorResult result;
-        List<FileEntity> listFileEntity = new ArrayList<>();
+        List<Entity> listFileEntity = new ArrayList<>();
         File dir = new File(path);
         File[] files = FileSystemView.getFileSystemView().getFiles(dir, true);
         if (files.length != 0) {

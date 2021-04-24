@@ -6,7 +6,8 @@ import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import drive.Dir;
-import model.file.FileEntity;
+import model.entity.Entity;
+import model.entity.FileEntity;
 import model.result.*;
 import model.result.Error;
 
@@ -30,7 +31,7 @@ public class GoogleDir implements Dir {
     @Override
     public DirResult files(Progress progress) {
         ErrorResult result = new ErrorResult(Error.NO);
-        List<FileEntity> files = new ArrayList<>();
+        List<Entity> files = new ArrayList<>();
         String pageToken = null;
         do {
             try {

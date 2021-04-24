@@ -2,6 +2,7 @@ package app;
 
 import app.task.CloudDrivesConnectTask;
 import drive.local.LocalFS;
+import engine.DirsComparison;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
 import model.result.CloudsConnectResult;
@@ -57,7 +58,7 @@ public class MainFrame {
 
         leftPanel = new FilePanel(bundle, drives);
         rightPanel = new FilePanel(bundle, drives);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel.getMainJPanel(), rightPanel.getMainJPanel());
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel.mainJPanel(), rightPanel.mainJPanel());
         splitPane.setResizeWeight(0.5);
 
         syncControlPanel = new JPanel();
@@ -89,6 +90,15 @@ public class MainFrame {
                 }
             });
             dialog.setVisible(true);
+        });
+
+        compareDirsButton.addActionListener(event -> {
+            new DirsComparison(
+                    leftPanel.currentDisk(),
+                    leftPanel.currentPath(),
+                    rightPanel.currentDisk(),
+                    rightPanel.currentPath()
+            ).compare();
         });
     }
 
