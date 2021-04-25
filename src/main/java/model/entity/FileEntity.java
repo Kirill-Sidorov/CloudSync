@@ -19,7 +19,7 @@ public class FileEntity implements Entity {
         this.typeName = typeName;
         this.isDirectory = isDirectory;
     }
-
+// delete ?
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

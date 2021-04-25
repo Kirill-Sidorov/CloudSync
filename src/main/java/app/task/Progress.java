@@ -2,5 +2,5 @@ package app.task;
 
 @FunctionalInterface
 public interface Progress {
-    void increase(int value);
+    void value(int i);
 }

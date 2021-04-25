@@ -44,7 +44,7 @@ public class GoogleDir implements Dir {
                 int i = 0;
                 for (File file : fileList.getFiles()) {
                     files.add(getFileEntity(file));
-                    progress.increase(i += chunk);
+                    progress.value(i += chunk);
                 }
                 pageToken = fileList.getNextPageToken();
             } catch (IOException e) {

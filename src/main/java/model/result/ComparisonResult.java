@@ -1,26 +1,34 @@
 package model.result;
 
-import model.entity.FileEntity;
+import model.entity.Entity;
 
 import java.util.List;
 
 public class ComparisonResult implements Result {
 
-    private final List<FileEntity> leftFiles;
-    private final List<FileEntity> rightFiles;
+    private final List<Entity> leftFiles;
+    private final List<Entity> rightFiles;
+    private final String errorMessage;
+    private final Result result;
 
-    public ComparisonResult(final List<FileEntity> leftFiles, final List<FileEntity> rightFiles) {
+    public ComparisonResult(final List<Entity> leftFiles, final List<Entity> rightFiles, final String errorMessage, final SuccessResult result) {
         this.leftFiles = leftFiles;
         this.rightFiles = rightFiles;
+        this.errorMessage = errorMessage;
+        this.result = result;
     }
 
     @Override
     public Status status() {
-        return Status.OK;
+        return result.status();
     }
 
     @Override
     public Error error() {
-        return Error.NO;
+        return result.error();
     }
+
+    public List<Entity> leftFiles() { return leftFiles; }
+    public List<Entity> rightFiles() { return rightFiles; }
+    public String errorMessage() { return errorMessage; }
 }

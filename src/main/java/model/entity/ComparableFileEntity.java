@@ -2,12 +2,16 @@ package model.entity;
 
 import java.time.LocalDateTime;
 
-public class ComparableEntity implements Entity {
+public class ComparableFileEntity implements Entity {
 
-    private final FileEntity file;
+    private final Entity file;
+    private final boolean isNewFile;
+    private final boolean isLastModified;
 
-    public ComparableEntity(final FileEntity file) {
+    public ComparableFileEntity(final Entity file, final boolean isNewFile, final boolean isLastModified) {
         this.file = file;
+        this.isNewFile = isNewFile;
+        this.isLastModified = isLastModified;
     }
 
     @Override
@@ -27,4 +31,7 @@ public class ComparableEntity implements Entity {
 
     @Override
     public boolean isDirectory() { return file.isDirectory(); }
+
+    public boolean isNewFile() { return isNewFile; }
+    public boolean isLastModified() { return isLastModified; }
 }

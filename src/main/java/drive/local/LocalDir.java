@@ -35,7 +35,7 @@ public class LocalDir implements Dir {
             int i = 0;
             for (File file : files) {
                 listFileEntity.add(getFileEntity(file));
-                progress.increase(i += chunk);
+                progress.value(i += chunk);
             }
             result = new ErrorResult(Error.NO);
         } else {

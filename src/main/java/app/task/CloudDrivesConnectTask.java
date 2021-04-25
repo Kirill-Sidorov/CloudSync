@@ -14,10 +14,10 @@ import java.util.Map;
 
 public class CloudDrivesConnectTask extends SwingWorker<CloudsConnectResult, Void> {
 
-    private final Updating updating;
+    private final ViewUpdating viewUpdating;
 
-    public CloudDrivesConnectTask(final Updating updating) {
-        this.updating = updating;
+    public CloudDrivesConnectTask(final ViewUpdating viewUpdating) {
+        this.viewUpdating = viewUpdating;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CloudDrivesConnectTask extends SwingWorker<CloudsConnectResult, Voi
     @Override
     protected void done() {
         try {
-            updating.result(get());
+            viewUpdating.result(get());
         } catch (Exception e) {
             System.out.println("connecting thread crash");
         }

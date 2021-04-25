@@ -13,13 +13,13 @@ public class TableUpdateTask extends SwingWorker<DirResult, Void> {
     private final Disk disk;
     private final String path;
     private final JProgressBar progress;
-    private final Updating updating;
+    private final ViewUpdating viewUpdating;
 
-    public TableUpdateTask(final Disk disk, final String path, final JProgressBar progress, final Updating updating) {
+    public TableUpdateTask(final Disk disk, final String path, final JProgressBar progress, final ViewUpdating viewUpdating) {
         this.disk = disk;
         this.path = path;
         this.progress = progress;
-        this.updating = updating;
+        this.viewUpdating = viewUpdating;
     }
 
     @Override
@@ -31,9 +31,9 @@ public class TableUpdateTask extends SwingWorker<DirResult, Void> {
     @Override
     protected void done() {
         try {
-            updating.result(get());
+            viewUpdating.result(get());
         } catch (Exception e) {
-            updating.result(new DirResult(new ArrayList<>(), 0L, 0L, new ErrorResult(Error.UPDATE_THREAD_CRASH)));
+            viewUpdating.result(new DirResult(new ArrayList<>(), 0L, 0L, new ErrorResult(Error.UPDATE_THREAD_CRASH)));
         }
         progress.setVisible(false);
         progress.setValue(0);
