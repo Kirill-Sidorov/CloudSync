@@ -1,8 +1,9 @@
 package app;
 
+import app.dialog.CloudManagerDialog;
 import app.task.CloudDrivesConnectTask;
+import app.task.DirsCompareTask;
 import drive.local.LocalFS;
-import engine.DirsComparison;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
 import model.result.CloudsConnectResult;
@@ -13,7 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 
-public class MainFrame {
+public class MainFrameControl {
 
     private JFrame mainFrame;
     private JMenuBar menuBar;
@@ -24,14 +25,14 @@ public class MainFrame {
 
     private JSplitPane splitPane;
     private JPanel syncControlPanel;
-    private FilePanel leftPanel;
-    private FilePanel rightPanel;
+    private FilePanelControl leftPanel;
+    private FilePanelControl rightPanel;
 
     private ResourceBundle bundle;
     private Map<String, Disk> drives;
     private Map<String, CloudInfo> cloudsInfo;
 
-    public MainFrame() {
+    public MainFrameControl() {
         bundle = ResourceBundle.getBundle("bundle.strings", Locale.getDefault());
         initDrives();
         initView();
@@ -56,8 +57,8 @@ public class MainFrame {
         programMenu.add(cloudManagerMenu);
         menuBar.add(programMenu);
 
-        leftPanel = new FilePanel(bundle, drives);
-        rightPanel = new FilePanel(bundle, drives);
+        leftPanel = new FilePanelControl(bundle, drives);
+        rightPanel = new FilePanelControl(bundle, drives);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel.mainJPanel(), rightPanel.mainJPanel());
         splitPane.setResizeWeight(0.5);
 
@@ -93,12 +94,14 @@ public class MainFrame {
         });
 
         compareDirsButton.addActionListener(event -> {
-            new DirsComparison(
-                    leftPanel.currentDisk(),
-                    leftPanel.currentPath(),
-                    rightPanel.currentDisk(),
-                    rightPanel.currentPath()
-            ).compare();
+            ProgressMonitor progressMonitor = new ProgressMonitor(mainFrame, "Test Task","Task starting", 0, 100);
+            DirsCompareTask task = new DirsCompareTask(progressMonitor, leftPanel.compData(), rightPanel.compData(), bundle);
+            task.addPropertyChangeListener(changeEvent -> {
+                if ("progress".equals(changeEvent.getPropertyName())) {
+                    progressMonitor.setProgress((Integer)changeEvent.getNewValue());
+                }
+            });
+            task.execute();
         });
     }
 

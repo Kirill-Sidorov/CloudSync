@@ -29,7 +29,7 @@ public class LocalDir implements Dir {
         ErrorResult result;
         List<Entity> listFileEntity = new ArrayList<>();
         File dir = new File(path);
-        File[] files = FileSystemView.getFileSystemView().getFiles(dir, true);
+        File[] files = FileSystemView.getFileSystemView().getFiles(dir, false);
         if (files.length != 0) {
             int chunk = files.length > 100 ? files.length / 100 : 100 / files.length;
             int i = 0;

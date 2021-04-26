@@ -7,6 +7,7 @@ import app.table.filetable.DateTableCellRenderer;
 import app.table.filetable.FileTableModel;
 import app.table.filetable.SizeTableCellRenderer;
 import app.task.TableUpdateTask;
+import engine.CompData;
 import model.disk.Disk;
 import model.entity.Entity;
 import model.result.DirResult;
@@ -23,7 +24,7 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class FilePanel {
+public class FilePanelControl {
     private JPanel filePanel;
 
     private JComboBox diskComboBox;
@@ -44,7 +45,7 @@ public class FilePanel {
     private final ResourceBundle bundle;
     private final Map<String, Disk> drives;
 
-    public FilePanel(final ResourceBundle bundle, final Map<String, Disk> drives) {
+    public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives) {
         this.bundle = bundle;
         this.drives = drives;
         initView();
@@ -151,6 +152,8 @@ public class FilePanel {
     }
 
     private void processResult(Result result) {
+        progressBarUpdateTable.setVisible(false);
+        progressBarUpdateTable.setValue(0);
         switch (result.status()) {
             case NEED_UPDATE_TABLE:
                 currentPath = ((PathResult) result).path();
@@ -186,12 +189,15 @@ public class FilePanel {
 
     public void updateTable() {
         if (updateTask == null || updateTask.isDone()) {
+            progressBarUpdateTable.setVisible(true);
             backButton.setEnabled(false);
             pathTextField.setText(humanReadablePath);
-            updateTask = new TableUpdateTask(currentDisk,
-                    currentPath,
-                    progressBarUpdateTable,
-                    this::processResult);
+            updateTask = new TableUpdateTask(currentDisk, currentPath, this::processResult);
+            updateTask.addPropertyChangeListener(event -> {
+                if ("progress".equals(event.getPropertyName())) {
+                    progressBarUpdateTable.setValue((Integer)event.getNewValue());
+                }
+            });
             updateTask.execute();
         }
     }
@@ -211,7 +217,5 @@ public class FilePanel {
         return filePanel;
     }
 
-    public String currentPath() { return currentPath; }
-
-    public Disk currentDisk() { return currentDisk; }
+    public CompData compData() { return new CompData(currentDisk, currentPath); }
 }

@@ -45,6 +45,5 @@ public class CloudDrivesConnectTask extends SwingWorker<CloudsConnectResult, Voi
         } catch (Exception e) {
             System.out.println("connecting thread crash");
         }
-        super.done();
     }
 }

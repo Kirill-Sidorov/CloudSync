@@ -1,4 +1,4 @@
-package app;
+package app.dialog;
 
 import app.table.cloudtable.CloudTableModel;
 import model.cloud.CloudInfo;
