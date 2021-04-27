@@ -1,5 +1,6 @@
 package app.task;
 
+import app.dialog.CompProcessDialog;
 import engine.CompData;
 import engine.CompEngine;
 import model.entity.CompDirEntity;
@@ -12,16 +13,24 @@ import java.util.ResourceBundle;
 
 public class DirsCompareTask extends SwingWorker<CompResult, String> {
 
-    private final ProgressMonitor progressMonitor;
     private final CompData leftData;
     private final CompData rightData;
+    private final CompProcessDialog dialog;
     private final ResourceBundle bundle;
 
-    public DirsCompareTask(final ProgressMonitor progressMonitor, final CompData leftData, final CompData rightData, final ResourceBundle bundle) {
-        this.progressMonitor = progressMonitor;
+    public DirsCompareTask(final CompData leftData, final CompData rightData, final CompProcessDialog dialog, final ResourceBundle bundle) {
         this.leftData = leftData;
         this.rightData = rightData;
+        this.dialog = dialog;
         this.bundle = bundle;
+
+        addPropertyChangeListener(changeEvent -> {
+            if ("progress".equals(changeEvent.getPropertyName())) {
+                dialog.progressBar().setValue((Integer) changeEvent.getNewValue());
+            }
+        });
+
+        dialog.cancelButton().addActionListener(event -> cancel(true));
     }
 
     @Override
@@ -31,14 +40,17 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
 
     @Override
     protected void process(List<String> chunks) {
-        progressMonitor.setNote(chunks.get(chunks.size() - 1));
+        dialog.infoLabel().setText(chunks.get(chunks.size() - 1));
     }
 
     @Override
     protected void done() {
         CompResult result = null;
+        dialog.dispose();
         try {
-            result = get();
+            if (!isCancelled()) {
+                result = get();
+            }
             System.out.println("compare complete");
         } catch (Exception e) {
             System.out.println("compare crash");

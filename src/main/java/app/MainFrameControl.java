@@ -1,6 +1,7 @@
 package app;
 
 import app.dialog.CloudManagerDialog;
+import app.dialog.CompProcessDialog;
 import app.task.CloudDrivesConnectTask;
 import app.task.DirsCompareTask;
 import drive.local.LocalFS;
@@ -94,13 +95,9 @@ public class MainFrameControl {
         });
 
         compareDirsButton.addActionListener(event -> {
-            ProgressMonitor progressMonitor = new ProgressMonitor(mainFrame, "Test Task","Task starting", 0, 100);
-            DirsCompareTask task = new DirsCompareTask(progressMonitor, leftPanel.compData(), rightPanel.compData(), bundle);
-            task.addPropertyChangeListener(changeEvent -> {
-                if ("progress".equals(changeEvent.getPropertyName())) {
-                    progressMonitor.setProgress((Integer)changeEvent.getNewValue());
-                }
-            });
+            CompProcessDialog dialog = new CompProcessDialog(mainFrame, bundle);
+            DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, bundle);
+            dialog.setVisible(true);
             task.execute();
         });
     }
