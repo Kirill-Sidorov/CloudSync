@@ -2,7 +2,6 @@ package drive.googledrive;
 
 import app.task.Progress;
 import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import drive.Dir;
@@ -39,34 +38,25 @@ public class GoogleDir implements Dir {
                         .setQ(String.format("'%s' in parents", path))
                         .setFields("nextPageToken, files(id, name, size, modifiedTime, mimeType, fileExtension)")
                         .execute();
+                double i = 0;
+                double chunk = 0;
                 int size = fileList.getFiles().size();
-                int chunk = size > 100 ? size / 100 : 100 / size;
-                int i = 0;
+                if (size > 0) {
+                    chunk = (double) 100 / size;
+                }
                 for (File file : fileList.getFiles()) {
                     files.add(getFileEntity(file));
-                    progress.value(i += chunk);
+                    i += chunk;
+                    progress.value((int)i);
                 }
                 pageToken = fileList.getNextPageToken();
             } catch (IOException e) {
                 result = new ErrorResult(Error.FAILED_GET_DIRECTORY_FILES);
             }
         } while (pageToken != null);
-        long[] sizeInfo = getDriveSizeInfo();
-        return new DirResult(files, sizeInfo[0], sizeInfo[1], result);
-    }
-
-    public long[] getDriveSizeInfo() {
-        long totalSpace = 0L;
-        long unallocatedSpace = 0L;
-        try {
-            About about = service.about().get().setFields("storageQuota(limit, usageInDrive)").execute();
-            totalSpace = (about.getStorageQuota().getLimit() != null) ? about.getStorageQuota().getLimit() : 0L;
-            unallocatedSpace = (about.getStorageQuota().getUsageInDrive() != null) ? totalSpace - about.getStorageQuota().getUsageInDrive() : 0L;
-        } catch (IOException e) {
-            totalSpace = 0L;
-            unallocatedSpace = 0L;
-        }
-        return new long[]{totalSpace, unallocatedSpace};
+        GoogleDiskSize diskSize = new GoogleDiskSize(service);
+        diskSize.request();
+        return new DirResult(files, diskSize.totalSpace(), diskSize.unallocatedSpace(), result);
     }
 
     private FileEntity getFileEntity(final File file) {

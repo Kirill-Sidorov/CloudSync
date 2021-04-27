@@ -2,15 +2,8 @@ package engine;
 
 import app.task.LabelUpdating;
 import app.task.Progress;
-import model.disk.Disk;
-import model.entity.ComparableDirEntity;
-import model.entity.ComparableFileEntity;
 import model.entity.Entity;
-import model.result.ComparisonResult;
-import model.result.DirResult;
-import model.result.Error;
-import model.result.Status;
-import model.result.SuccessResult;
+import model.result.*;
 
 import java.util.*;
 
@@ -18,28 +11,23 @@ public class CompEngine {
 
     private final CompData leftData;
     private final CompData rightData;
-    private final Progress progress;
-    private final LabelUpdating labelUpdating;
-    private final ResourceBundle bundle;
 
     private StringBuilder errorMessage;
     private Status status;
 
-    public CompEngine(final CompData leftData, final CompData rightData, final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
+    public CompEngine(final CompData leftData, final CompData rightData) {
         this.leftData = leftData;
         this.rightData = rightData;
-        this.progress = progress;
-        this.labelUpdating = labelUpdating;
-        this.bundle = bundle;
     }
 
-    public ComparisonResult compare() {
+    public CompResult compare(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
         status = Status.EQUAL;
         errorMessage = new StringBuilder();
         List<Entity> leftList = new ArrayList<>();
         List<Entity> rightList = new ArrayList<>();
 
         labelUpdating.text("Get dirs files");
+
         progress.value(0);
         DirResult dirResult = leftData.disk().files(leftData.dirPath(), progress);
         Map<String, Entity> leftMap = new HashMap<>();
@@ -54,59 +42,29 @@ public class CompEngine {
             labelUpdating.text(rightFile.name());
             Entity leftFile = leftMap.get(rightFile.name());
             if (leftFile == null) {
-                executeWhenFileNotExist(rightFile, rightData.disk(), rightList);
+                status = Status.NOT_EQUAL;
+                FileNotExistResult result = new FileNotExistLogic(rightFile, rightData.disk()).execute(progress, labelUpdating, bundle);
+                errorMessage.append(result.errorMessage());
+                rightList.add(result.file());
             } else {
-                executeWhenFileExist(leftFile, rightFile, leftList, rightList, leftMap);
+                FileExistResult result = new FileExistLogic(leftFile, leftData.disk(), rightFile, rightData.disk()).execute(progress, labelUpdating, bundle);
+                errorMessage.append(result.errorMessage());
+                if (result.status() == Status.NOT_EQUAL) {
+                    status = Status.NOT_EQUAL;
+                    rightList.add(result.rightFile());
+                    leftList.add(result.leftFile());
+                } else {
+                    leftMap.remove(leftFile.name());
+                }
             }
         }
-
         for (Entity leftFile : leftMap.values()) {
+            status = Status.NOT_EQUAL;
             labelUpdating.text(leftFile.name());
-            executeWhenFileNotExist(leftFile, leftData.disk(), leftList);
+            FileNotExistResult result = new FileNotExistLogic(leftFile, leftData.disk()).execute(progress, labelUpdating, bundle);
+            errorMessage.append(result.errorMessage());
+            leftList.add(result.file());
         }
-        return new ComparisonResult(leftList, rightList, errorMessage.toString(), new SuccessResult(status));
-    }
-
-    private void executeWhenFileNotExist(Entity file, Disk disk, List<Entity> list) {
-        status = Status.NOT_EQUAL;
-        if (file.isDirectory()) {
-            progress.value(0);
-            DirResult result = disk.files(file.path(), progress);
-            if (result.error() != Error.NO) {
-                errorMessage.append(String.format("%s : %s\n", file.name(), result.error().getMessage(bundle)));
-            }
-            list.add(new ComparableDirEntity(file, result.files()));
-        } else {
-            list.add(new ComparableFileEntity(file, true, true));
-        }
-    }
-
-    public void executeWhenFileExist(Entity leftFile, Entity rightFile, List<Entity> leftList, List<Entity> rightList, Map<String, Entity> leftMap) {
-        if (rightFile.isDirectory()) {
-            ComparisonResult result = new CompEngine(
-                    new CompData(leftData.disk(), leftFile.path()),
-                    new CompData(rightData.disk(), rightFile.path()),
-                    progress,
-                    labelUpdating,
-                    bundle)
-                    .compare();
-            if (result.status() == Status.EQUAL) {
-                leftMap.remove(leftFile.name());
-            } else {
-                status = Status.NOT_EQUAL;
-                errorMessage.append(String.format("%s\n", result.errorMessage()));
-                rightList.add(new ComparableDirEntity(rightFile, result.rightFiles()));
-                leftList.add(new ComparableDirEntity(leftFile, result.leftFiles()));
-            }
-        } else {
-            if (rightFile.modifiedDate().isEqual(leftFile.modifiedDate())) {
-                leftMap.remove(leftFile.name());
-            } else {
-                status = Status.NOT_EQUAL;
-                boolean isLastModified = rightFile.modifiedDate().isBefore(leftFile.modifiedDate());
-                rightList.add(new ComparableFileEntity(rightFile, false, isLastModified));
-                leftList.add(new ComparableFileEntity(leftFile, false, !isLastModified));
-            }
-        }
+        return new CompResult(leftList, rightList, errorMessage.toString(), status);
     }
 }

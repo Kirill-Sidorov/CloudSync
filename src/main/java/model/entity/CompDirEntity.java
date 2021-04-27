@@ -1,17 +1,16 @@
 package model.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class ComparableFileEntity implements Entity {
+public class CompDirEntity implements Entity {
 
     private final Entity file;
-    private final boolean isNewFile;
-    private final boolean isLastModified;
+    private final List<Entity> files;
 
-    public ComparableFileEntity(final Entity file, final boolean isNewFile, final boolean isLastModified) {
+    public CompDirEntity(final Entity file, final List<Entity> files) {
         this.file = file;
-        this.isNewFile = isNewFile;
-        this.isLastModified = isLastModified;
+        this.files = files;
     }
 
     @Override
@@ -32,6 +31,5 @@ public class ComparableFileEntity implements Entity {
     @Override
     public boolean isDirectory() { return file.isDirectory(); }
 
-    public boolean isNewFile() { return isNewFile; }
-    public boolean isLastModified() { return isLastModified; }
+    public List<Entity> files() { return files; }
 }

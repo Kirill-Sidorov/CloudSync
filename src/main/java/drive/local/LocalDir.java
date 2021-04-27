@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class LocalDir implements Dir {
 
@@ -30,12 +29,16 @@ public class LocalDir implements Dir {
         List<Entity> listFileEntity = new ArrayList<>();
         File dir = new File(path);
         File[] files = FileSystemView.getFileSystemView().getFiles(dir, false);
-        if (files.length != 0) {
-            int chunk = files.length > 100 ? files.length / 100 : 100 / files.length;
-            int i = 0;
+        if (files != null) {
+            double i = 0;
+            double chunk = 0;
+            if (files.length > 0) {
+                chunk = (double) 100 / files.length;
+            }
             for (File file : files) {
                 listFileEntity.add(getFileEntity(file));
-                progress.value(i += chunk);
+                i += chunk;
+                progress.value((int)i);
             }
             result = new ErrorResult(Error.NO);
         } else {
@@ -44,7 +47,7 @@ public class LocalDir implements Dir {
         return new DirResult(listFileEntity, dir.getTotalSpace(), dir.getUsableSpace(), result);
     }
 
-    private FileEntity getFileEntity(File file) {
+    private FileEntity getFileEntity(final File file) {
         Long size;
         String typeName;
         LocalDateTime modifiedDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneOffset.systemDefault());
@@ -55,14 +58,9 @@ public class LocalDir implements Dir {
             isDirectory = true;
         } else {
             size = file.length();
-            typeName = getExtension(file.getName()).orElse("");
+            String fileName = file.getName();
+            typeName = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".") + 1) : "";
         }
         return new FileEntity(file.getPath(), file.getName(), modifiedDate, size, typeName, isDirectory);
-    }
-
-    private Optional<String> getExtension(String filename) {
-        return Optional.ofNullable(filename)
-                .filter(f -> f.contains("."))
-                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 }

@@ -8,8 +8,8 @@ import model.result.Result;
 public interface Disk {
     String name();
     String rootPath();
-    DirResult files(String path, Progress progress);
-    Result execute(String path);
-    PathResult nextDirPath(String path, String humanReadablePath);
-    PathResult previousDirPath(String path, String humanReadablePath);
+    DirResult files(final String path, final Progress progress);
+    Result execute(final String path);
+    PathResult nextDirPath(final String path, final String humanReadablePath);
+    PathResult previousDirPath(final String path, final String humanReadablePath);
 }

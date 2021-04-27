@@ -7,6 +7,10 @@ public enum Error {
         @Override
         public String getMessage(ResourceBundle bundle) { return ""; }
     },
+    UNKNOWN {
+        @Override
+        public String getMessage(ResourceBundle bundle) { return "Unknown"; }
+    },
     FILE_NOT_FOUND_ERROR {
         @Override
         public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.file_or_directory_does_not_exist"); }

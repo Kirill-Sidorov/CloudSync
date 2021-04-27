@@ -2,15 +2,15 @@ package app.task;
 
 import engine.CompData;
 import engine.CompEngine;
-import model.entity.ComparableDirEntity;
+import model.entity.CompDirEntity;
 import model.entity.Entity;
-import model.result.ComparisonResult;
+import model.result.CompResult;
 
 import javax.swing.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DirsCompareTask extends SwingWorker<ComparisonResult, String> {
+public class DirsCompareTask extends SwingWorker<CompResult, String> {
 
     private final ProgressMonitor progressMonitor;
     private final CompData leftData;
@@ -25,8 +25,8 @@ public class DirsCompareTask extends SwingWorker<ComparisonResult, String> {
     }
 
     @Override
-    protected ComparisonResult doInBackground() throws Exception {
-        return new CompEngine(leftData, rightData, this::setProgress, this::publish, bundle).compare();
+    protected CompResult doInBackground() throws Exception {
+        return new CompEngine(leftData, rightData).compare(this::setProgress, this::publish, bundle);
     }
 
     @Override
@@ -36,9 +36,10 @@ public class DirsCompareTask extends SwingWorker<ComparisonResult, String> {
 
     @Override
     protected void done() {
-        ComparisonResult result = null;
+        CompResult result = null;
         try {
             result = get();
+            System.out.println("compare complete");
         } catch (Exception e) {
             System.out.println("compare crash");
         }
@@ -59,7 +60,7 @@ public class DirsCompareTask extends SwingWorker<ComparisonResult, String> {
         for (Entity file : files) {
             System.out.println(file.name());
             if (file.isDirectory()) {
-                showFiles(((ComparableDirEntity) file).files());
+                showFiles(((CompDirEntity) file).files());
             }
         }
     }
