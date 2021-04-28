@@ -1,6 +1,7 @@
 package drive.local;
 
 import model.disk.Disk;
+import model.disk.LocalDisk;
 
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -11,7 +12,7 @@ public class LocalFS {
     public Map<String, Disk> drives() {
         Map<String, Disk> localDrives = new HashMap<>();
         for (Path path : FileSystems.getDefault().getRootDirectories()) {
-            localDrives.put(path.toString(), new model.disk.Local(path.toString()));
+            localDrives.put(path.toString(), new LocalDisk(new LocalFileData(path.toFile()).create()));
         }
         return localDrives;
     }

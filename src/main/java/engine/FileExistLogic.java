@@ -28,13 +28,9 @@ public class FileExistLogic {
 
     public FileExistResult execute(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
         if (rightFile.isDirectory()) {
-            CompResult result = new CompEngine(new CompData(leftDisk, leftFile.path()), new CompData(rightDisk, rightFile.path()))
+            CompResult result = new CompEngine(new CompData(leftDisk, leftFile), new CompData(rightDisk, rightFile))
                     .compare(progress, labelUpdating, bundle);
-            return new FileExistResult(
-                    new CompDirEntity(leftFile, result.leftFiles()),
-                    new CompDirEntity(rightFile, result.rightFiles()),
-                    result.errorMessage(),
-                    result.status());
+            return new FileExistResult(result.leftDir(), result.rightDir(), result.errorMessage(), result.status());
         } else {
             Status status = Status.EQUAL;
             boolean isLastModified = false;

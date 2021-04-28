@@ -1,17 +1,18 @@
 package engine;
 
 import model.disk.Disk;
+import model.entity.Entity;
 
 public class CompData {
 
     private final Disk disk;
-    private final String dirPath;
+    private final Entity fileEntity;
 
-    public CompData(final Disk disk, final String dirPath) {
+    public CompData(final Disk disk, final Entity fileEntity) {
         this.disk = disk;
-        this.dirPath = dirPath;
+        this.fileEntity = fileEntity;
     }
 
     public Disk disk() { return disk; }
-    public String dirPath() { return dirPath; }
+    public Entity fileEntity() { return fileEntity; }
 }

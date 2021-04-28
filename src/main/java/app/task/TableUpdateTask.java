@@ -1,6 +1,7 @@
 package app.task;
 
 import model.disk.Disk;
+import model.entity.Entity;
 import model.result.DirResult;
 import model.result.Error;
 import model.result.ErrorResult;
@@ -11,18 +12,18 @@ import java.util.ArrayList;
 public class TableUpdateTask extends SwingWorker<DirResult, Void> {
 
     private final Disk disk;
-    private final String path;
+    private final Entity fileEntity;
     private final ViewUpdating viewUpdating;
 
-    public TableUpdateTask(final Disk disk, final String path, final ViewUpdating viewUpdating) {
+    public TableUpdateTask(final Disk disk, final Entity fileEntity, final ViewUpdating viewUpdating) {
         this.disk = disk;
-        this.path = path;
+        this.fileEntity = fileEntity;
         this.viewUpdating = viewUpdating;
     }
 
     @Override
     protected DirResult doInBackground() throws Exception {
-        return disk.files(path, this::setProgress);
+        return disk.files(fileEntity, this::setProgress);
     }
 
     @Override

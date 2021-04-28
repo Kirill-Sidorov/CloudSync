@@ -2,6 +2,7 @@ package engine;
 
 import app.task.LabelUpdating;
 import app.task.Progress;
+import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.*;
 
@@ -26,13 +27,13 @@ public class CompEngine {
         List<Entity> leftList = new ArrayList<>();
         List<Entity> rightList = new ArrayList<>();
 
-        labelUpdating.text("Get dirs files");
-
-        DirResult dirResult = leftData.disk().files(leftData.dirPath(), progress);
+        labelUpdating.text(leftData.fileEntity().name());
+        DirResult dirResult = leftData.disk().files(leftData.fileEntity(), progress);
         Map<String, Entity> leftMap = new HashMap<>();
         dirResult.files().forEach(file -> leftMap.put(file.name(), file));
 
-        dirResult = rightData.disk().files(rightData.dirPath(), progress);
+        labelUpdating.text(rightData.fileEntity().name());
+        dirResult = rightData.disk().files(rightData.fileEntity(), progress);
 
         for (Entity rightFile : dirResult.files()) {
             labelUpdating.text(rightFile.name());
@@ -61,6 +62,10 @@ public class CompEngine {
             errorMessage.append(result.errorMessage());
             leftList.add(result.file());
         }
-        return new CompResult(leftList, rightList, errorMessage.toString(), status);
+        return new CompResult(
+                new CompDirEntity(leftData.fileEntity(), leftList),
+                new CompDirEntity(rightData.fileEntity(), rightList),
+                errorMessage.toString(),
+                status);
     }
 }

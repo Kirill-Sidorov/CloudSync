@@ -6,24 +6,20 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import drive.Dir;
 import model.entity.Entity;
-import model.entity.FileEntity;
 import model.result.*;
 import model.result.Error;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GoogleDir implements Dir {
 
-    private final String path;
+    private final Entity fileEntity;
     private final Drive service;
 
-    public GoogleDir(final String path, final Drive service) {
-        this.path = path;
+    public GoogleDir(final Entity fileEntity, final Drive service) {
+        this.fileEntity = fileEntity;
         this.service = service;
     }
 
@@ -35,7 +31,7 @@ public class GoogleDir implements Dir {
         do {
             try {
                 FileList fileList = service.files().list()
-                        .setQ(String.format("'%s' in parents", path))
+                        .setQ(String.format("'%s' in parents", fileEntity.path()))
                         .setFields("nextPageToken, files(id, name, size, modifiedTime, mimeType, fileExtension)")
                         .execute();
                 double i = 0;
@@ -46,7 +42,7 @@ public class GoogleDir implements Dir {
                     chunk = (double) 100 / size;
                 }
                 for (File file : fileList.getFiles()) {
-                    files.add(getFileEntity(file));
+                    files.add(new GoogleFileData(file).create());
                     i += chunk;
                     progress.value((int)i);
                 }
@@ -58,26 +54,5 @@ public class GoogleDir implements Dir {
         GoogleDiskSize diskSize = new GoogleDiskSize(service);
         diskSize.request();
         return new DirResult(files, diskSize.totalSpace(), diskSize.unallocatedSpace(), result);
-    }
-
-    private FileEntity getFileEntity(final File file) {
-        String id;
-        String name;
-        Long size;
-        String typeName;
-        boolean isDirectory = false;
-        Instant instant = Instant.ofEpochMilli(file.getModifiedTime().getValue());
-        LocalDateTime modifiedDate = LocalDateTime.ofInstant(instant, ZoneOffset.systemDefault());
-
-        id = (file.getId() != null) ? file.getId() : "";
-        name = (file.getName() != null) ? file.getName() : "";
-        size = (file.getSize() != null) ? file.getSize() : null;
-        typeName = (file.getFileExtension() != null) ? file.getFileExtension() : "";
-
-        if (file.getMimeType().equals("application/vnd.google-apps.folder")) {
-            typeName = "dir";
-            isDirectory = true;
-        }
-        return new FileEntity(id, name, modifiedDate, size, typeName, isDirectory);
     }
 }

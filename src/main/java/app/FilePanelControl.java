@@ -1,7 +1,6 @@
 package app;
 
 import app.logic.DiskSize;
-import app.logic.FileClickLogic;
 import app.table.filetable.FileTableColumn;
 import app.table.filetable.DateTableCellRenderer;
 import app.table.filetable.FileTableModel;
@@ -15,7 +14,6 @@ import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.DirResult;
 import model.result.Error;
-import model.result.PathResult;
 import model.result.Result;
 
 import javax.swing.*;
@@ -26,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class FilePanelControl {
     private JPanel filePanel;
@@ -41,20 +40,21 @@ public class FilePanelControl {
 
     private FileTableModel fileTableModel;
     private Disk currentDisk;
-    private String currentPath;
     private String humanReadablePath;
     private TableUpdateTask updateTask;
 
     private final ResourceBundle bundle;
     private final Map<String, Disk> drives;
+    private final Stack<Entity> dirs;
 
     public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives) {
         this.bundle = bundle;
         this.drives = drives;
         initView();
         initListeners();
+        dirs = new Stack<>();
         currentDisk = drives.get((String) diskComboBox.getSelectedItem());
-        currentPath = currentDisk.rootPath();
+        dirs.push(currentDisk.rootFile());
         humanReadablePath = currentDisk.name();
         updateTable();
     }
@@ -134,12 +134,18 @@ public class FilePanelControl {
             if (drive != null) {
                 currentDisk = drives.get((String) diskComboBox.getSelectedItem());
                 humanReadablePath = currentDisk.name();
-                currentPath = currentDisk.rootPath();
+                dirs.clear();
+                dirs.push(currentDisk.rootFile());
                 updateTable();
             }
         });
 
-        backButton.addActionListener(event -> processResult(currentDisk.previousDirPath(currentPath, humanReadablePath)));
+        backButton.addActionListener(event -> {
+            dirs.pop();
+            int index = humanReadablePath.lastIndexOf("\\");
+            humanReadablePath = (index == -1) ? humanReadablePath : humanReadablePath.substring(0, index);
+            updateTable();
+        });
 
         // not clicked when comparison mode
         fileTable.addMouseListener(new MouseAdapter() {
@@ -149,9 +155,14 @@ public class FilePanelControl {
                     int row = fileTable.getSelectedRow();
                     if (row != -1) {
                         row = fileTable.convertRowIndexToModel(row);
-                        //int row = fileTable.rowAtPoint(e.getPoint());
                         Entity file = fileTableModel.getFile(row);
-                        processResult(new FileClickLogic(file, currentDisk, humanReadablePath).perform());
+                        if (file.isDirectory()) {
+                            dirs.push(file);
+                            humanReadablePath = humanReadablePath + "\\" + file.name();
+                            updateTable();
+                        } else {
+                            processResult(currentDisk.execute(file));
+                        }
                     }
                 }
             }
@@ -162,11 +173,6 @@ public class FilePanelControl {
         progressBarUpdateTable.setVisible(false);
         progressBarUpdateTable.setValue(0);
         switch (result.status()) {
-            case NEED_UPDATE_TABLE:
-                currentPath = ((PathResult) result).path();
-                humanReadablePath = ((PathResult) result).humanReadablePath();
-                updateTable();
-                break;
             case NEED_UPDATE_VIEW_PANEL:
                 processUpdateViewPanel((DirResult) result);
                 break;
@@ -181,7 +187,7 @@ public class FilePanelControl {
         diskInfoLabel.setText(String.format(bundle.getString("string.format.drive_size_info"),
                 new DiskSize(result.totalSpace()).convert(),
                 new DiskSize(result.unallocatedSpace()).convert()));
-        if (!currentPath.equals(currentDisk.rootPath())) {
+        if (dirs.size() > 1) {
             backButton.setEnabled(true);
         }
         if (result.error() != Error.NO) {
@@ -199,7 +205,7 @@ public class FilePanelControl {
             progressBarUpdateTable.setVisible(true);
             backButton.setEnabled(false);
             pathTextField.setText(humanReadablePath);
-            updateTask = new TableUpdateTask(currentDisk, currentPath, this::processResult);
+            updateTask = new TableUpdateTask(currentDisk, dirs.peek(), this::processResult);
             updateTask.addPropertyChangeListener(event -> {
                 if ("progress".equals(event.getPropertyName())) {
                     progressBarUpdateTable.setValue((Integer)event.getNewValue());
@@ -226,5 +232,5 @@ public class FilePanelControl {
 
     public JPanel mainJPanel() { return filePanel; }
 
-    public CompData compData() { return new CompData(currentDisk, currentPath); }
+    public CompData compData() { return new CompData(currentDisk, dirs.peek()); }
 }

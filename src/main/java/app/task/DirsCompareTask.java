@@ -56,12 +56,12 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
             System.out.println("compare crash");
         }
         if (result != null) {
-            List<Entity> files = result.leftFiles();
+            List<Entity> files = result.leftDir().files();
             System.out.println("------------------------------------------");
             System.out.println(result.errorMessage());
             System.out.println("Left files");
             showFiles(files);
-            files = result.rightFiles();
+            files = result.rightDir().files();
             System.out.println("Right files");
             showFiles(files);
             System.out.println("//////////////////////////////////////////");

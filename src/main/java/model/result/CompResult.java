@@ -1,19 +1,17 @@
 package model.result;
 
-import model.entity.Entity;
-
-import java.util.List;
+import model.entity.CompDirEntity;
 
 public class CompResult implements Result {
 
-    private final List<Entity> leftFiles;
-    private final List<Entity> rightFiles;
+    private final CompDirEntity leftDir;
+    private final CompDirEntity rightDir;
     private final String errorMessage;
     private final Status status;
 
-    public CompResult(final List<Entity> leftFiles, final List<Entity> rightFiles, final String errorMessage, final Status status) {
-        this.leftFiles = leftFiles;
-        this.rightFiles = rightFiles;
+    public CompResult(final CompDirEntity leftDir, final CompDirEntity rightDir, final String errorMessage, final Status status) {
+        this.leftDir = leftDir;
+        this.rightDir = rightDir;
         this.errorMessage = errorMessage;
         this.status = status;
     }
@@ -29,6 +27,6 @@ public class CompResult implements Result {
     }
 
     public String errorMessage() { return errorMessage; }
-    public List<Entity> leftFiles() { return leftFiles; }
-    public List<Entity> rightFiles() { return rightFiles; }
+    public CompDirEntity leftDir() { return leftDir; }
+    public CompDirEntity rightDir() { return rightDir; }
 }

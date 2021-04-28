@@ -16,7 +16,8 @@ import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import drive.Auth;
 import model.disk.Disk;
-import model.disk.Google;
+import model.disk.GoogleDisk;
+import model.entity.Entity;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class GoogleAuth implements Auth {
     @Override
     public Disk authorize() {
         String name = "";
-        String rootPath = "";
+        Entity fileEntity = null;
         Drive service = null;
         try {
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -50,16 +51,15 @@ public class GoogleAuth implements Auth {
                     .setApplicationName(APPLICATION_NAME)
                     .build();
             About about = service.about().get().setFields("user").execute();
-            File file = service.files().get("root").setFields("id, name").execute();
+            File file = service.files().get("root").setFields("id, name, size, modifiedTime, mimeType, fileExtension").execute();
             name = (about.getUser().getEmailAddress() != null) ? about.getUser().getEmailAddress() : "";
-            rootPath = (file.getId() != null) ? file.getId() : "";
-
+            fileEntity = new GoogleFileData(file).create();
         } catch (IOException e) {
             System.out.println("google credentials error");
         } catch (GeneralSecurityException e) {
             System.out.println("google authorize error");
         }
-        return new Google(name, rootPath, service);
+        return new GoogleDisk(name, fileEntity, service);
     }
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {

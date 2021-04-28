@@ -1,19 +1,19 @@
 package drive.local;
 
 import drive.LocalFile;
+import model.entity.Entity;
 import model.result.*;
 import model.result.Error;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class LocalLocalFile implements LocalFile {
-    private final String path;
+    private final Entity fileEntity;
 
-    public LocalLocalFile(final String path) {
-        this.path = path;
+    public LocalLocalFile(final Entity fileEntity) {
+        this.fileEntity = fileEntity;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class LocalLocalFile implements LocalFile {
         Result result;
         if (Desktop.isDesktopSupported()) {
             try {
-                File file = Paths.get(path).toFile();
+                File file = new File(fileEntity.path());
                 if (file.exists()) {
                     Desktop.getDesktop().open(file);
                     result = new SuccessResult(Status.OK);

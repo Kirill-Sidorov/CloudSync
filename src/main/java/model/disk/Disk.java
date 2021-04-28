@@ -1,15 +1,13 @@
 package model.disk;
 
 import app.task.Progress;
+import model.entity.Entity;
 import model.result.DirResult;
-import model.result.PathResult;
 import model.result.Result;
 
 public interface Disk {
     String name();
-    String rootPath();
-    DirResult files(final String path, final Progress progress);
-    Result execute(final String path);
-    PathResult nextDirPath(final String path, final String humanReadablePath);
-    PathResult previousDirPath(final String path, final String humanReadablePath);
+    Entity rootFile();
+    DirResult files(final Entity file, final Progress progress);
+    Result execute(final Entity file);
 }

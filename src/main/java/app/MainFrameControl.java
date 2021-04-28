@@ -44,14 +44,12 @@ public class MainFrameControl {
     private void initDrives() {
         drives = new LocalFS().drives();
         cloudsInfo = new HashMap<>();
-        /*
         new CloudDrivesConnectTask(result -> {
             CloudsConnectResult cloudsConnectResult = (CloudsConnectResult) result;
             drives.putAll(cloudsConnectResult.cloudDrives());
             cloudsInfo.putAll(cloudsConnectResult.cloudsInfo());
             updateComboBoxes();
         }).execute();
-        */
     }
 
     private void initView() {
