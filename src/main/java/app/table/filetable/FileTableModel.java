@@ -11,7 +11,7 @@ public class FileTableModel extends AbstractTableModel {
 
     private List<Entity> files;
     private final ResourceBundle bundle;
-    private FileTableColumn[] columns = FileTableColumn.values();
+    private final FileTableColumn[] columns = FileTableColumn.values();
 
     public FileTableModel(final ResourceBundle bundle) {
         files = new ArrayList<>();

@@ -7,6 +7,7 @@ import app.task.DirsCompareTask;
 import drive.local.LocalFS;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
+import model.entity.CompDirEntity;
 import model.result.CloudsConnectResult;
 
 import javax.swing.*;
@@ -43,12 +44,14 @@ public class MainFrameControl {
     private void initDrives() {
         drives = new LocalFS().drives();
         cloudsInfo = new HashMap<>();
+        /*
         new CloudDrivesConnectTask(result -> {
             CloudsConnectResult cloudsConnectResult = (CloudsConnectResult) result;
             drives.putAll(cloudsConnectResult.cloudDrives());
             cloudsInfo.putAll(cloudsConnectResult.cloudsInfo());
             updateComboBoxes();
         }).execute();
+        */
     }
 
     private void initView() {
@@ -100,6 +103,11 @@ public class MainFrameControl {
             dialog.setVisible(true);
             task.execute();
         });
+    }
+
+    private void viewComparableDirs(CompDirEntity leftDir, CompDirEntity rightDir) {
+        //leftPanel.viewComparableDir(leftDir);
+        //rightPanel.viewComparableDir(rightDir);
     }
 
     private void updateComboBoxes() {

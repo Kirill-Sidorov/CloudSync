@@ -6,9 +6,12 @@ import app.table.filetable.FileTableColumn;
 import app.table.filetable.DateTableCellRenderer;
 import app.table.filetable.FileTableModel;
 import app.table.filetable.SizeTableCellRenderer;
+import app.table.treefiletable.FileTreeTableModel;
+import app.table.treefiletable.JTreeTable;
 import app.task.TableUpdateTask;
 import engine.CompData;
 import model.disk.Disk;
+import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.DirResult;
 import model.result.Error;
@@ -143,9 +146,13 @@ public class FilePanelControl {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    int row = fileTable.rowAtPoint(e.getPoint());
-                    Entity file = fileTableModel.getFile(row);
-                    processResult(new FileClickLogic(file, currentDisk, humanReadablePath).perform());
+                    int row = fileTable.getSelectedRow();
+                    if (row != -1) {
+                        row = fileTable.convertRowIndexToModel(row);
+                        //int row = fileTable.rowAtPoint(e.getPoint());
+                        Entity file = fileTableModel.getFile(row);
+                        processResult(new FileClickLogic(file, currentDisk, humanReadablePath).perform());
+                    }
                 }
             }
         });
@@ -213,9 +220,11 @@ public class FilePanelControl {
         }
     }
 
-    public JPanel mainJPanel() {
-        return filePanel;
+    public void viewComparableDir(CompDirEntity dir) {
+        fileTable = new JTreeTable(new FileTreeTableModel(dir, bundle));
     }
+
+    public JPanel mainJPanel() { return filePanel; }
 
     public CompData compData() { return new CompData(currentDisk, currentPath); }
 }

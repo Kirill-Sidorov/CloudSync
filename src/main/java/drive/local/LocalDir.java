@@ -32,6 +32,7 @@ public class LocalDir implements Dir {
         if (files != null) {
             double i = 0;
             double chunk = 0;
+            progress.value(0);
             if (files.length > 0) {
                 chunk = (double) 100 / files.length;
             }

@@ -27,7 +27,6 @@ public class DirStructure {
         List<Entity> files = new ArrayList<>();
         StringBuilder errorMessage = new StringBuilder();
 
-        progress.value(0);
         DirResult dirResult = disk.files(file.path(), progress);
         if (dirResult.error() != Error.NO) {
             errorMessage.append(String.format("%s : %s\n", file.name(), dirResult.error().getMessage(bundle)));

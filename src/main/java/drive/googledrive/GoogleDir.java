@@ -40,6 +40,7 @@ public class GoogleDir implements Dir {
                         .execute();
                 double i = 0;
                 double chunk = 0;
+                progress.value(0);
                 int size = fileList.getFiles().size();
                 if (size > 0) {
                     chunk = (double) 100 / size;

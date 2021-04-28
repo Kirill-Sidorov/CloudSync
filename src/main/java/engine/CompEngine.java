@@ -28,17 +28,13 @@ public class CompEngine {
 
         labelUpdating.text("Get dirs files");
 
-        progress.value(0);
         DirResult dirResult = leftData.disk().files(leftData.dirPath(), progress);
         Map<String, Entity> leftMap = new HashMap<>();
         dirResult.files().forEach(file -> leftMap.put(file.name(), file));
 
-        progress.value(0);
         dirResult = rightData.disk().files(rightData.dirPath(), progress);
-        Map<String, Entity> rightMap = new HashMap<>();
-        dirResult.files().forEach(file -> rightMap.put(file.name(), file));
 
-        for (Entity rightFile : rightMap.values()) {
+        for (Entity rightFile : dirResult.files()) {
             labelUpdating.text(rightFile.name());
             Entity leftFile = leftMap.get(rightFile.name());
             if (leftFile == null) {

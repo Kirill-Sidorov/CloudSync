@@ -12,7 +12,7 @@ public class CompProcessDialog extends JDialog {
 
     public CompProcessDialog(final JFrame parentFrame, final ResourceBundle bundle) {
         super(parentFrame, bundle.getString("ui.dialog"), false);
-        infoLabel = new JLabel("Message Some");
+        infoLabel = new JLabel();
         progressBar = new JProgressBar();
         cancelButton = new JButton("Cancel");
 
