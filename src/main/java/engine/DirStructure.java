@@ -40,7 +40,7 @@ public class DirStructure {
                 }
                 files.add(result.file());
             } else {
-                files.add(new CompFileEntity(fileEntity, true, false));
+                files.add(new CompFileEntity(fileEntity));
             }
         }
 

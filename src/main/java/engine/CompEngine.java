@@ -50,9 +50,8 @@ public class CompEngine {
                     status = Status.NOT_EQUAL;
                     rightList.add(result.rightFile());
                     leftList.add(result.leftFile());
-                } else {
-                    leftMap.remove(leftFile.name());
                 }
+                leftMap.remove(leftFile.name());
             }
         }
         for (Entity leftFile : leftMap.values()) {

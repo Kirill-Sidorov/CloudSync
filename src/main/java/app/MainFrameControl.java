@@ -2,16 +2,18 @@ package app;
 
 import app.dialog.CloudManagerDialog;
 import app.dialog.CompProcessDialog;
-import app.task.CloudDrivesConnectTask;
+import app.table.treefiletable.JTreeTable;
 import app.task.DirsCompareTask;
 import drive.local.LocalFS;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
-import model.entity.CompDirEntity;
-import model.result.CloudsConnectResult;
+import model.result.CompResult;
+import model.result.Result;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
@@ -24,15 +26,22 @@ public class MainFrameControl {
     private JMenuItem cloudManagerMenu;
 
     private JButton compareDirsButton;
+    private JButton syncModeButton;
+    private JButton cancelCompModeButton;
 
     private JSplitPane splitPane;
     private JPanel syncControlPanel;
     private FilePanelControl leftPanel;
     private FilePanelControl rightPanel;
 
+    private ImageIcon[] syncModeImages = new ImageIcon[] {new ImageIcon(getClass().getResource("/img/all-sync.png")),
+                                                          new ImageIcon(getClass().getResource("/img/right-sync.png"))};
+
     private ResourceBundle bundle;
     private Map<String, Disk> drives;
     private Map<String, CloudInfo> cloudsInfo;
+
+    private boolean temp = false;
 
     public MainFrameControl() {
         bundle = ResourceBundle.getBundle("bundle.strings", Locale.getDefault());
@@ -44,12 +53,14 @@ public class MainFrameControl {
     private void initDrives() {
         drives = new LocalFS().drives();
         cloudsInfo = new HashMap<>();
+        /*
         new CloudDrivesConnectTask(result -> {
             CloudsConnectResult cloudsConnectResult = (CloudsConnectResult) result;
             drives.putAll(cloudsConnectResult.cloudDrives());
             cloudsInfo.putAll(cloudsConnectResult.cloudsInfo());
             updateComboBoxes();
         }).execute();
+         */
     }
 
     private void initView() {
@@ -59,15 +70,52 @@ public class MainFrameControl {
         programMenu.add(cloudManagerMenu);
         menuBar.add(programMenu);
 
-        leftPanel = new FilePanelControl(bundle, drives);
-        rightPanel = new FilePanelControl(bundle, drives);
+        JTreeTable rightTreeTable = new JTreeTable(bundle);
+        JTreeTable leftTreeTable = new JTreeTable(bundle);
+
+        rightTreeTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                leftTreeTable.repaint();
+            }
+        });
+
+        leftTreeTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                rightTreeTable.repaint();
+            }
+        });
+
+        leftPanel = new FilePanelControl(bundle, drives, leftTreeTable);
+        rightPanel = new FilePanelControl(bundle, drives, rightTreeTable);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel.mainJPanel(), rightPanel.mainJPanel());
         splitPane.setResizeWeight(0.5);
 
         syncControlPanel = new JPanel();
         compareDirsButton = new JButton("Compare dirs");
+        syncModeButton = new JButton(syncModeImages[0]);
+        cancelCompModeButton = new JButton("cancelCompModeButton");
+
+        syncModeButton.addActionListener(e -> {
+            if (temp) {
+                temp = false;
+                syncModeButton.setIcon(syncModeImages[0]);
+            } else {
+                temp = true;
+                syncModeButton.setIcon(syncModeImages[1]);
+            }
+        });
+        cancelCompModeButton.addActionListener(event -> viewFileTables());
+
+        syncModeButton.setVisible(false);
+        cancelCompModeButton.setVisible(false);
 
         syncControlPanel.add(compareDirsButton);
+        syncControlPanel.add(syncModeButton);
+        syncControlPanel.add(cancelCompModeButton);
 
         mainFrame = new JFrame();
         mainFrame.setJMenuBar(menuBar);
@@ -97,15 +145,27 @@ public class MainFrameControl {
 
         compareDirsButton.addActionListener(event -> {
             CompProcessDialog dialog = new CompProcessDialog(mainFrame, bundle);
-            DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, bundle);
+            DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::viewComparableDirs, bundle);
             dialog.setVisible(true);
             task.execute();
         });
     }
 
-    private void viewComparableDirs(CompDirEntity leftDir, CompDirEntity rightDir) {
-        //leftPanel.viewComparableDir(leftDir);
-        //rightPanel.viewComparableDir(rightDir);
+    private void viewFileTables() {
+        compareDirsButton.setVisible(true);
+        syncModeButton.setVisible(false);
+        cancelCompModeButton.setVisible(false);
+        leftPanel.viewFileTable();
+        rightPanel.viewFileTable();
+    }
+
+    private void viewComparableDirs(Result result) {
+        CompResult compResult = (CompResult) result;
+        compareDirsButton.setVisible(false);
+        syncModeButton.setVisible(true);
+        cancelCompModeButton.setVisible(true);
+        leftPanel.viewComparableDir(compResult.leftDir());
+        rightPanel.viewComparableDir(compResult.rightDir());
     }
 
     private void updateComboBoxes() {

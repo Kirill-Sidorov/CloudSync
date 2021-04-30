@@ -17,15 +17,23 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
     public Object getRoot() { return root; }
 
     @Override
+    public boolean isLeaf(Object node) {
+        return getChildCount(node) == 0;
+    }
+
+    @Override
     public void valueForPathChanged(TreePath path, Object newValue) {}
 
     public int getIndexOfChild(Object parent, Object child) {
+        /*
         for (int i = 0; i < getChildCount(parent); i++) {
             if (getChild(parent, i).equals(child)) {
                 return i;
             }
         }
         return -1;
+         */
+        return 0;
     }
 
     @Override

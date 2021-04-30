@@ -1,30 +1,45 @@
 package app.table.treefiletable;
 
+import model.entity.CompFileEntity;
 import model.entity.Entity;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public enum FileTreeTableColumn {
+    ACTION {
+        @Override
+        public String getColumnName(ResourceBundle bundle) { return "Version"; }
+
+        @Override
+        public Class<?> getColumnClass() { return ImageIcon.class; }
+
+        @Override
+        public Object getValueAt(Entity file) {
+            ImageIcon result = null;
+            if (!file.isDirectory()) {
+                CompFileEntity compFileEntity = (CompFileEntity)file;
+                if (!compFileEntity.isNewFile()) {
+                    if (compFileEntity.isLastModified()) {
+                        result = new ImageIcon(getClass().getResource("/img/add.png"));
+                    } else {
+                        result = new ImageIcon(getClass().getResource("/img/cancel.png"));
+                    }
+                }
+            }
+            return result;
+        }
+    },
     NAME {
         @Override
         public String getColumnName(ResourceBundle bundle) { return bundle.getString("ui.table.files.column.name"); }
 
         @Override
-        public Class<?> getColumnClass() { return FileTreeTableModel.class; }
+        public Class<?> getColumnClass() { return TreeTableModel.class; }
 
         @Override
         public Object getValueAt(Entity file) { return file.name(); }
-    },
-    TYPE {
-        @Override
-        public String getColumnName(ResourceBundle bundle) { return bundle.getString("ui.table.files.column.type"); }
-
-        @Override
-        public Class<?> getColumnClass() { return String.class; }
-
-        @Override
-        public Object getValueAt(Entity file) { return file.typeName(); }
     },
     DATE {
         @Override

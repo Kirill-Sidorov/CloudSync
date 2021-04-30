@@ -12,6 +12,8 @@ public class CompDirEntity implements Entity {
         this.file = file;
         this.files = files;
     }
+    @Override
+    public String toString() { return file.name(); }
 
     @Override
     public String path() { return file.path(); }

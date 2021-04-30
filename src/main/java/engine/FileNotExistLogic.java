@@ -23,7 +23,7 @@ public class FileNotExistLogic {
         if (file.isDirectory()) {
             return new DirStructure(disk, file).get(progress, labelUpdating, bundle);
         } else {
-            return new FileNotExistResult(new CompFileEntity(file, true, true));
+            return new FileNotExistResult(new CompFileEntity(file));
         }
     }
 }

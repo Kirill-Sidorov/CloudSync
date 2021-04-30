@@ -2,9 +2,9 @@ package app;
 
 import app.logic.DiskSize;
 import app.table.filetable.FileTableColumn;
-import app.table.filetable.DateTableCellRenderer;
+import app.table.DateTableCellRenderer;
 import app.table.filetable.FileTableModel;
-import app.table.filetable.SizeTableCellRenderer;
+import app.table.SizeTableCellRenderer;
 import app.table.treefiletable.FileTreeTableModel;
 import app.table.treefiletable.JTreeTable;
 import app.task.TableUpdateTask;
@@ -27,14 +27,19 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 
 public class FilePanelControl {
+
+    private final String FILE_TABLE = "file_table";
+    private final String TREE_FILE_TABLE = "tree_file_table";
+
     private JPanel filePanel;
 
     private JComboBox diskComboBox;
     private JProgressBar progressBarUpdateTable;
     private JLabel diskInfoLabel;
     private JTextField pathTextField;
-    private JScrollPane scrollPane;
+    private JPanel cardsPanel;
     private JTable fileTable;
+    private JTreeTable treeFileTable;
     private JButton backButton;
     private JButton updateButton;
 
@@ -47,16 +52,17 @@ public class FilePanelControl {
     private final Map<String, Disk> drives;
     private final Stack<Entity> dirs;
 
-    public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives) {
+    public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives, final JTreeTable treeFileTable) {
         this.bundle = bundle;
         this.drives = drives;
+        this.treeFileTable = treeFileTable;
         initView();
         initListeners();
         dirs = new Stack<>();
         currentDisk = drives.get((String) diskComboBox.getSelectedItem());
         dirs.push(currentDisk.rootFile());
         humanReadablePath = currentDisk.name();
-        updateTable();
+        updateFileTable();
     }
 
     private void initView() {
@@ -88,9 +94,14 @@ public class FilePanelControl {
                 fileTable.clearSelection();
             }
         });
-
         fileTable.setAutoCreateRowSorter(true);
-        scrollPane = new JScrollPane(fileTable);
+        JScrollPane scrollFileTable = new JScrollPane(fileTable);
+
+        JScrollPane scrollTreeFileTable = new JScrollPane(treeFileTable);
+
+        cardsPanel = new JPanel(new CardLayout());
+        cardsPanel.add(scrollFileTable, FILE_TABLE);
+        cardsPanel.add(scrollTreeFileTable, TREE_FILE_TABLE);
 
         JPanel controlPanel = new JPanel();
         GroupLayout layout = new GroupLayout(controlPanel);
@@ -123,11 +134,11 @@ public class FilePanelControl {
 
         filePanel.add(controlPanel);
         filePanel.add(progressBarUpdateTable);
-        filePanel.add(scrollPane);
+        filePanel.add(cardsPanel);
     }
 
     private void initListeners() {
-        updateButton.addActionListener(event -> updateTable());
+        updateButton.addActionListener(event -> updateFileTable());
 
         diskComboBox.addActionListener(event -> {
             Object drive = diskComboBox.getSelectedItem();
@@ -136,7 +147,7 @@ public class FilePanelControl {
                 humanReadablePath = currentDisk.name();
                 dirs.clear();
                 dirs.push(currentDisk.rootFile());
-                updateTable();
+                updateFileTable();
             }
         });
 
@@ -144,7 +155,7 @@ public class FilePanelControl {
             dirs.pop();
             int index = humanReadablePath.lastIndexOf("\\");
             humanReadablePath = (index == -1) ? humanReadablePath : humanReadablePath.substring(0, index);
-            updateTable();
+            updateFileTable();
         });
 
         // not clicked when comparison mode
@@ -159,7 +170,7 @@ public class FilePanelControl {
                         if (file.isDirectory()) {
                             dirs.push(file);
                             humanReadablePath = humanReadablePath + "\\" + file.name();
-                            updateTable();
+                            updateFileTable();
                         } else {
                             processResult(currentDisk.execute(file));
                         }
@@ -200,7 +211,7 @@ public class FilePanelControl {
         //JOptionPane.showMessageDialog(component, text, BundleHolder.getBundle().getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
     }
 
-    public void updateTable() {
+    private void updateFileTable() {
         if (updateTask == null || updateTask.isDone()) {
             progressBarUpdateTable.setVisible(true);
             backButton.setEnabled(false);
@@ -227,7 +238,20 @@ public class FilePanelControl {
     }
 
     public void viewComparableDir(CompDirEntity dir) {
-        fileTable = new JTreeTable(new FileTreeTableModel(dir, bundle));
+        diskComboBox.setEnabled(false);
+        updateButton.setEnabled(false);
+        backButton.setEnabled(false);
+        treeFileTable.setTreeTableModel(new FileTreeTableModel(dir, bundle));
+        CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
+        cardLayout.show(cardsPanel, TREE_FILE_TABLE);
+    }
+
+    public void viewFileTable() {
+        diskComboBox.setEnabled(true);
+        updateButton.setEnabled(true);
+        backButton.setEnabled(true);
+        CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
+        cardLayout.show(cardsPanel, FILE_TABLE);
     }
 
     public JPanel mainJPanel() { return filePanel; }

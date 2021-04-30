@@ -16,12 +16,14 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
     private final CompData leftData;
     private final CompData rightData;
     private final CompProcessDialog dialog;
+    private final ViewUpdating viewUpdating;
     private final ResourceBundle bundle;
 
-    public DirsCompareTask(final CompData leftData, final CompData rightData, final CompProcessDialog dialog, final ResourceBundle bundle) {
+    public DirsCompareTask(final CompData leftData, final CompData rightData, final CompProcessDialog dialog, final ViewUpdating viewUpdating, final ResourceBundle bundle) {
         this.leftData = leftData;
         this.rightData = rightData;
         this.dialog = dialog;
+        this.viewUpdating = viewUpdating;
         this.bundle = bundle;
 
         addPropertyChangeListener(changeEvent -> {
@@ -45,16 +47,16 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
 
     @Override
     protected void done() {
-        CompResult result = null;
         dialog.dispose();
         try {
-            if (!isCancelled()) {
-                result = get();
-            }
             System.out.println("compare complete");
+            if (!isCancelled()) {
+                viewUpdating.result(get());
+            }
         } catch (Exception e) {
             System.out.println("compare crash");
         }
+        /*
         if (result != null) {
             List<Entity> files = result.leftDir().files();
             System.out.println("------------------------------------------");
@@ -66,8 +68,10 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
             showFiles(files);
             System.out.println("//////////////////////////////////////////");
         }
-    }
+        */
 
+    }
+/*
     private void showFiles(List<Entity> files) {
         for (Entity file : files) {
             System.out.println(file.name());
@@ -76,4 +80,5 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
             }
         }
     }
+ */
 }

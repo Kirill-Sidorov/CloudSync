@@ -3,7 +3,6 @@ package engine;
 import app.task.LabelUpdating;
 import app.task.Progress;
 import model.disk.Disk;
-import model.entity.CompDirEntity;
 import model.entity.CompFileEntity;
 import model.entity.Entity;
 import model.result.CompResult;
@@ -38,10 +37,11 @@ public class FileExistLogic {
                 status = Status.NOT_EQUAL;
                 isLastModified = rightFile.modifiedDate().isBefore(leftFile.modifiedDate());
             }
-            return new FileExistResult(
-                    new CompFileEntity(rightFile, false, isLastModified),
-                    new CompFileEntity(leftFile, false, !isLastModified),
-                    status);
+            CompFileEntity left = new CompFileEntity(leftFile, isLastModified);
+            CompFileEntity right = new CompFileEntity(rightFile, !isLastModified);
+            left.setLinkedFile(right);
+            right.setLinkedFile(left);
+            return new FileExistResult(left, right, status);
         }
     }
 }

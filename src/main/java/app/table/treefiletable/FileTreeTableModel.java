@@ -25,7 +25,7 @@ public class FileTreeTableModel extends AbstractTreeTableModel {
     public String getColumnName(int column) { return columns[column].getColumnName(bundle); }
 
     @Override
-    public Class getColumnClass(int column) { return columns[column].getColumnClass(); }
+    public Class<?> getColumnClass(int column) { return columns[column].getColumnClass(); }
 
     @Override
     public Object getValueAt(Object node, int column) { return columns[column].getValueAt((Entity)node); }
