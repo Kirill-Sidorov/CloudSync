@@ -50,22 +50,13 @@ public class FilePanelControl {
 
     private final ResourceBundle bundle;
     private final Map<String, Disk> drives;
-    private final Stack<Entity> dirs;
+    private final Stack<Entity> dirs = new Stack<>();;
 
     public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives, final JTreeTable treeFileTable) {
         this.bundle = bundle;
         this.drives = drives;
         this.treeFileTable = treeFileTable;
-        initView();
-        initListeners();
-        dirs = new Stack<>();
-        currentDisk = drives.get((String) diskComboBox.getSelectedItem());
-        dirs.push(currentDisk.rootFile());
-        humanReadablePath = currentDisk.name();
-        updateFileTable();
-    }
 
-    private void initView() {
         filePanel = new JPanel();
         filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
 
@@ -135,9 +126,7 @@ public class FilePanelControl {
         filePanel.add(controlPanel);
         filePanel.add(progressBarUpdateTable);
         filePanel.add(cardsPanel);
-    }
 
-    private void initListeners() {
         updateButton.addActionListener(event -> updateFileTable());
 
         diskComboBox.addActionListener(event -> {
@@ -178,6 +167,11 @@ public class FilePanelControl {
                 }
             }
         });
+
+        currentDisk = drives.get((String) diskComboBox.getSelectedItem());
+        dirs.push(currentDisk.rootFile());
+        humanReadablePath = currentDisk.name();
+        updateFileTable();
     }
 
     private void processResult(Result result) {

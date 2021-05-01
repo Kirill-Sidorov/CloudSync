@@ -2,11 +2,13 @@ package app;
 
 import app.dialog.CloudManagerDialog;
 import app.dialog.CompProcessDialog;
+import app.logic.SyncMode;
 import app.table.treefiletable.JTreeTable;
 import app.task.DirsCompareTask;
 import drive.local.LocalFS;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
+import model.entity.CompDirEntity;
 import model.result.CompResult;
 import model.result.Result;
 
@@ -28,29 +30,28 @@ public class MainFrameControl {
     private JButton compareDirsButton;
     private JButton syncModeButton;
     private JButton cancelCompModeButton;
+    private JButton syncDirsButton;
 
     private JSplitPane splitPane;
     private JPanel syncControlPanel;
     private FilePanelControl leftPanel;
     private FilePanelControl rightPanel;
 
-    private ImageIcon[] syncModeImages = new ImageIcon[] {new ImageIcon(getClass().getResource("/img/all-sync.png")),
-                                                          new ImageIcon(getClass().getResource("/img/right-sync.png"))};
-
-    private ResourceBundle bundle;
+    private final SyncMode[] syncModes = SyncMode.values();
+    private final ResourceBundle bundle;
     private Map<String, Disk> drives;
     private Map<String, CloudInfo> cloudsInfo;
 
-    private boolean temp = false;
+
+    private CompDirEntity leftCompDir;
+    private CompDirEntity rightCompDir;
+
+    private int currentSyncMode;
 
     public MainFrameControl() {
         bundle = ResourceBundle.getBundle("bundle.strings", Locale.getDefault());
-        initDrives();
-        initView();
-        initListeners();
-    }
+        currentSyncMode = 0;
 
-    private void initDrives() {
         drives = new LocalFS().drives();
         cloudsInfo = new HashMap<>();
         /*
@@ -61,9 +62,7 @@ public class MainFrameControl {
             updateComboBoxes();
         }).execute();
          */
-    }
 
-    private void initView() {
         menuBar = new JMenuBar();
         programMenu = new JMenu(bundle.getString("ui.menu_bar.menu.app"));
         cloudManagerMenu = new JMenuItem(bundle.getString("ui.menu_bar.menu_item.cloud_manager"));
@@ -95,42 +94,31 @@ public class MainFrameControl {
         splitPane.setResizeWeight(0.5);
 
         syncControlPanel = new JPanel();
-        compareDirsButton = new JButton("Compare dirs");
-        syncModeButton = new JButton(syncModeImages[0]);
-        cancelCompModeButton = new JButton("cancelCompModeButton");
+        compareDirsButton = new JButton(bundle.getString("ui.button.comp_current_dirs"));
+        syncModeButton = new JButton(syncModes[0].image());
+        cancelCompModeButton = new JButton(bundle.getString("ui.button.cancel_comp_mode"));
+        syncDirsButton = new JButton(bundle.getString("ui.button.sync_dirs"));
 
-        syncModeButton.addActionListener(e -> {
-            if (temp) {
-                temp = false;
-                syncModeButton.setIcon(syncModeImages[0]);
-            } else {
-                temp = true;
-                syncModeButton.setIcon(syncModeImages[1]);
-            }
-        });
         cancelCompModeButton.addActionListener(event -> viewFileTables());
 
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
+        syncDirsButton.setVisible(false);
 
         syncControlPanel.add(compareDirsButton);
         syncControlPanel.add(syncModeButton);
+        syncControlPanel.add(syncDirsButton);
         syncControlPanel.add(cancelCompModeButton);
 
-        mainFrame = new JFrame();
-        mainFrame.setJMenuBar(menuBar);
-        mainFrame.add(splitPane);
-        mainFrame.add(syncControlPanel, BorderLayout.SOUTH);
-        mainFrame.setIconImage(new ImageIcon(getClass().getResource("/img/app-icon.png")).getImage());
-        mainFrame.setTitle("CloudSync");
-        mainFrame.pack();
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setSize(1200, 600);
-        mainFrame.setVisible(true);
-    }
+        syncModeButton.addActionListener(e -> {
+            if (syncModes.length - 1 > currentSyncMode) {
+                syncModeButton.setIcon(syncModes[++currentSyncMode].image());
+            } else {
+                currentSyncMode = 0;
+                syncModeButton.setIcon(syncModes[0].image());
+            }
+        });
 
-    private void initListeners() {
         cloudManagerMenu.addActionListener(event -> {
             CloudManagerDialog dialog = new CloudManagerDialog(mainFrame, bundle, drives, cloudsInfo);
             dialog.addWindowListener(new WindowAdapter() {
@@ -149,12 +137,26 @@ public class MainFrameControl {
             dialog.setVisible(true);
             task.execute();
         });
+
+        mainFrame = new JFrame();
+        mainFrame.setJMenuBar(menuBar);
+        mainFrame.add(splitPane);
+        mainFrame.add(syncControlPanel, BorderLayout.SOUTH);
+        mainFrame.setIconImage(new ImageIcon(getClass().getResource("/img/app-icon.png")).getImage());
+        mainFrame.setTitle("CloudSync");
+        mainFrame.pack();
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setSize(1200, 600);
+
+        mainFrame.setVisible(true);
     }
 
     private void viewFileTables() {
         compareDirsButton.setVisible(true);
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
+        syncDirsButton.setVisible(false);
         leftPanel.viewFileTable();
         rightPanel.viewFileTable();
     }
@@ -164,8 +166,11 @@ public class MainFrameControl {
         compareDirsButton.setVisible(false);
         syncModeButton.setVisible(true);
         cancelCompModeButton.setVisible(true);
-        leftPanel.viewComparableDir(compResult.leftDir());
-        rightPanel.viewComparableDir(compResult.rightDir());
+        syncDirsButton.setVisible(true);
+        leftCompDir = compResult.leftDir();
+        rightCompDir = compResult.rightDir();
+        leftPanel.viewComparableDir(leftCompDir);
+        rightPanel.viewComparableDir(rightCompDir);
     }
 
     private void updateComboBoxes() {

@@ -14,7 +14,7 @@ public class CompProcessDialog extends JDialog {
         super(parentFrame, bundle.getString("ui.dialog"), false);
         infoLabel = new JLabel();
         progressBar = new JProgressBar();
-        cancelButton = new JButton("Cancel");
+        cancelButton = new JButton(bundle.getString("ui.button.cancel"));
 
         Container container = getContentPane();
         GroupLayout groupLayout = new GroupLayout(container);
@@ -43,6 +43,7 @@ public class CompProcessDialog extends JDialog {
         pack();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
+        setSize(400, 180);
         setLocationRelativeTo(getOwner());
     }
 

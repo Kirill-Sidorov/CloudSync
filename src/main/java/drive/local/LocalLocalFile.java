@@ -36,4 +36,9 @@ public class LocalLocalFile implements LocalFile {
         }
         return result;
     }
+
+    @Override
+    public Result copy() {
+        return null;
+    }
 }
