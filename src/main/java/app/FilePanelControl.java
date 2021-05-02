@@ -8,8 +8,11 @@ import app.table.SizeTableCellRenderer;
 import app.table.treefiletable.FileTreeTableModel;
 import app.table.treefiletable.JTreeTable;
 import app.task.TableUpdateTask;
-import engine.CompData;
+import drive.local.LocalFileAction;
+import engine.comp.CompData;
+import engine.sync.SyncData;
 import model.disk.Disk;
+import model.disk.Local;
 import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.DirResult;
@@ -42,15 +45,18 @@ public class FilePanelControl {
     private JTreeTable treeFileTable;
     private JButton backButton;
     private JButton updateButton;
+    private JButton cancelButton;
 
-    private FileTableModel fileTableModel;
+    private final FileTableModel fileTableModel;
     private Disk currentDisk;
     private String humanReadablePath;
     private TableUpdateTask updateTask;
 
     private final ResourceBundle bundle;
     private final Map<String, Disk> drives;
-    private final Stack<Entity> dirs = new Stack<>();;
+    private final Stack<Entity> dirs = new Stack<>();
+
+    private CompDirEntity compDirEntity;
 
     public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives, final JTreeTable treeFileTable) {
         this.bundle = bundle;
@@ -70,6 +76,8 @@ public class FilePanelControl {
         backButton = new JButton(new ImageIcon(getClass().getResource("/img/back-button.png")));
         backButton.setEnabled(false);
         updateButton = new JButton(new ImageIcon(getClass().getResource("/img/refresh-button.png")));
+        cancelButton = new JButton(new ImageIcon(getClass().getResource("/img/cancel-button.png")));
+        cancelButton.setEnabled(false);
         pathTextField = new JTextField();
         pathTextField.setFocusable(false);
         fileTableModel = new FileTableModel(bundle);
@@ -106,6 +114,7 @@ public class FilePanelControl {
                 .addGroup(layout.createSequentialGroup()
                         .addComponent(diskComboBox)
                         .addComponent(updateButton)
+                        .addComponent(cancelButton)
                         .addComponent(diskInfoLabel))
                 .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
@@ -117,6 +126,7 @@ public class FilePanelControl {
         vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(diskComboBox)
                 .addComponent(updateButton)
+                .addComponent(cancelButton)
                 .addComponent(diskInfoLabel));
         vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(backButton)
@@ -147,7 +157,8 @@ public class FilePanelControl {
             updateFileTable();
         });
 
-        // not clicked when comparison mode
+        cancelButton.addActionListener(event -> updateTask.cancel(true));
+
         fileTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -161,7 +172,13 @@ public class FilePanelControl {
                             humanReadablePath = humanReadablePath + "\\" + file.name();
                             updateFileTable();
                         } else {
-                            processResult(currentDisk.execute(file));
+                            if (currentDisk.isCloud()) {
+                                // ask user: Download this file?
+                                // then download and run file
+                            } else {
+                                Result result = ((Local)currentDisk).actionWithFile(file).execute();
+                                processResult(result);
+                            }
                         }
                     }
                 }
@@ -188,6 +205,8 @@ public class FilePanelControl {
     }
 
     private void processUpdateViewPanel(DirResult result) {
+        cancelButton.setEnabled(false);
+        updateButton.setEnabled(true);
         fileTableModel.setFiles(result.files());
         diskInfoLabel.setText(String.format(bundle.getString("string.format.drive_size_info"),
                 new DiskSize(result.totalSpace()).convert(),
@@ -208,6 +227,8 @@ public class FilePanelControl {
     private void updateFileTable() {
         if (updateTask == null || updateTask.isDone()) {
             progressBarUpdateTable.setVisible(true);
+            cancelButton.setEnabled(true);
+            updateButton.setEnabled(false);
             backButton.setEnabled(false);
             pathTextField.setText(humanReadablePath);
             updateTask = new TableUpdateTask(currentDisk, dirs.peek(), this::processResult);
@@ -235,6 +256,7 @@ public class FilePanelControl {
         diskComboBox.setEnabled(false);
         updateButton.setEnabled(false);
         backButton.setEnabled(false);
+        compDirEntity = dir;
         treeFileTable.setTreeTableModel(new FileTreeTableModel(dir, bundle));
         CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
         cardLayout.show(cardsPanel, TREE_FILE_TABLE);
@@ -248,7 +270,9 @@ public class FilePanelControl {
         cardLayout.show(cardsPanel, FILE_TABLE);
     }
 
+    // delete, get panel from constructor
     public JPanel mainJPanel() { return filePanel; }
 
     public CompData compData() { return new CompData(currentDisk, dirs.peek()); }
+    public SyncData syncData() { return new SyncData(currentDisk, compDirEntity); }
 }

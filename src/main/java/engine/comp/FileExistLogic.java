@@ -1,7 +1,8 @@
-package engine;
+package engine.comp;
 
 import app.task.LabelUpdating;
 import app.task.Progress;
+import app.task.TaskState;
 import model.disk.Disk;
 import model.entity.CompFileEntity;
 import model.entity.Entity;
@@ -25,10 +26,10 @@ public class FileExistLogic {
         this.rightDisk = rightDisk;
     }
 
-    public FileExistResult execute(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
+    public FileExistResult execute(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         if (rightFile.isDirectory()) {
             CompResult result = new CompEngine(new CompData(leftDisk, leftFile), new CompData(rightDisk, rightFile))
-                    .compare(progress, labelUpdating, bundle);
+                    .compare(progress, labelUpdating, state, bundle);
             return new FileExistResult(result.leftDir(), result.rightDir(), result.errorMessage(), result.status());
         } else {
             Status status = Status.EQUAL;

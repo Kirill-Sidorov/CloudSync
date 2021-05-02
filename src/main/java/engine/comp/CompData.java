@@ -1,4 +1,4 @@
-package engine;
+package engine.comp;
 
 import model.disk.Disk;
 import model.entity.Entity;

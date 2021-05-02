@@ -1,6 +1,5 @@
 package drive.local;
 
-import drive.LocalFile;
 import model.entity.Entity;
 import model.result.*;
 import model.result.Error;
@@ -9,14 +8,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class LocalLocalFile implements LocalFile {
+public class LocalFileAction {
     private final Entity fileEntity;
 
-    public LocalLocalFile(final Entity fileEntity) {
+    public LocalFileAction(final Entity fileEntity) {
         this.fileEntity = fileEntity;
     }
 
-    @Override
     public Result execute() {
         Result result;
         if (Desktop.isDesktopSupported()) {
@@ -35,10 +33,5 @@ public class LocalLocalFile implements LocalFile {
             result = new ErrorResult(Error.FILE_NOT_RUN_ERROR);
         }
         return result;
-    }
-
-    @Override
-    public Result copy() {
-        return null;
     }
 }

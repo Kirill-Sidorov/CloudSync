@@ -1,6 +1,7 @@
 package drive.googledrive;
 
 import app.task.Progress;
+import app.task.TaskState;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
@@ -24,13 +25,17 @@ public class GoogleDir implements Dir {
     }
 
     @Override
-    public DirResult files(Progress progress) {
+    public DirResult files(Progress progress, TaskState state) {
         ErrorResult result = new ErrorResult(Error.NO);
         List<Entity> files = new ArrayList<>();
         String pageToken = null;
         do {
+            if (state.isCancel()) {
+                break;
+            }
             try {
                 FileList fileList = service.files().list()
+                        .setPageToken(pageToken)
                         .setQ(String.format("'%s' in parents", fileEntity.path()))
                         .setFields("nextPageToken, files(id, name, size, modifiedTime, mimeType, fileExtension)")
                         .execute();
@@ -38,6 +43,7 @@ public class GoogleDir implements Dir {
                 double chunk = 0;
                 progress.value(0);
                 int size = fileList.getFiles().size();
+                System.out.println(size);
                 if (size > 0) {
                     chunk = (double) 100 / size;
                 }

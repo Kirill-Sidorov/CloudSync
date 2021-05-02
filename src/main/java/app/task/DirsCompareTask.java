@@ -1,10 +1,8 @@
 package app.task;
 
 import app.dialog.CompProcessDialog;
-import engine.CompData;
-import engine.CompEngine;
-import model.entity.CompDirEntity;
-import model.entity.Entity;
+import engine.comp.CompData;
+import engine.comp.CompEngine;
 import model.result.CompResult;
 
 import javax.swing.*;
@@ -25,19 +23,18 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
         this.dialog = dialog;
         this.viewUpdating = viewUpdating;
         this.bundle = bundle;
-
         addPropertyChangeListener(changeEvent -> {
             if ("progress".equals(changeEvent.getPropertyName())) {
                 dialog.progressBar().setValue((Integer) changeEvent.getNewValue());
             }
         });
-
         dialog.cancelButton().addActionListener(event -> cancel(true));
+        dialog.setVisible(true);
     }
 
     @Override
     protected CompResult doInBackground() throws Exception {
-        return new CompEngine(leftData, rightData).compare(this::setProgress, this::publish, bundle);
+        return new CompEngine(leftData, rightData).compare(this::setProgress, this::publish, this::isCancelled, bundle);
     }
 
     @Override
@@ -49,7 +46,6 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
     protected void done() {
         dialog.dispose();
         try {
-            System.out.println("compare complete");
             if (!isCancelled()) {
                 viewUpdating.result(get());
             }

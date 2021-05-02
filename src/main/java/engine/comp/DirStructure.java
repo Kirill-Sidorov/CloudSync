@@ -1,7 +1,8 @@
-package engine;
+package engine.comp;
 
 import app.task.LabelUpdating;
 import app.task.Progress;
+import app.task.TaskState;
 import model.disk.Disk;
 import model.entity.CompDirEntity;
 import model.entity.CompFileEntity;
@@ -23,18 +24,18 @@ public class DirStructure {
         this.file = file;
     }
 
-    public FileNotExistResult get(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
+    public FileNotExistResult get(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         List<Entity> files = new ArrayList<>();
         StringBuilder errorMessage = new StringBuilder();
 
-        DirResult dirResult = disk.files(file, progress);
+        DirResult dirResult = disk.files(file, progress, state);
         if (dirResult.error() != Error.NO) {
             errorMessage.append(String.format("%s : %s\n", file.name(), dirResult.error().getMessage(bundle)));
         }
         for (Entity fileEntity : dirResult.files()) {
             labelUpdating.text(fileEntity.name());
             if (fileEntity.isDirectory()) {
-                FileNotExistResult result = new DirStructure(disk, fileEntity).get(progress, labelUpdating, bundle);
+                FileNotExistResult result = new DirStructure(disk, fileEntity).get(progress, labelUpdating, state, bundle);
                 if (result.status() == Status.ERROR) {
                     errorMessage.append(result.errorMessage());
                 }

@@ -4,11 +4,12 @@ import app.dialog.CloudManagerDialog;
 import app.dialog.CompProcessDialog;
 import app.logic.SyncMode;
 import app.table.treefiletable.JTreeTable;
+import app.task.CloudDrivesConnectTask;
 import app.task.DirsCompareTask;
 import drive.local.LocalFS;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
-import model.entity.CompDirEntity;
+import model.result.CloudsConnectResult;
 import model.result.CompResult;
 import model.result.Result;
 
@@ -42,10 +43,6 @@ public class MainFrameControl {
     private Map<String, Disk> drives;
     private Map<String, CloudInfo> cloudsInfo;
 
-
-    private CompDirEntity leftCompDir;
-    private CompDirEntity rightCompDir;
-
     private int currentSyncMode;
 
     public MainFrameControl() {
@@ -54,14 +51,14 @@ public class MainFrameControl {
 
         drives = new LocalFS().drives();
         cloudsInfo = new HashMap<>();
-        /*
+
         new CloudDrivesConnectTask(result -> {
             CloudsConnectResult cloudsConnectResult = (CloudsConnectResult) result;
             drives.putAll(cloudsConnectResult.cloudDrives());
             cloudsInfo.putAll(cloudsConnectResult.cloudsInfo());
             updateComboBoxes();
         }).execute();
-         */
+
 
         menuBar = new JMenuBar();
         programMenu = new JMenu(bundle.getString("ui.menu_bar.menu.app"));
@@ -134,7 +131,6 @@ public class MainFrameControl {
         compareDirsButton.addActionListener(event -> {
             CompProcessDialog dialog = new CompProcessDialog(mainFrame, bundle);
             DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::viewComparableDirs, bundle);
-            dialog.setVisible(true);
             task.execute();
         });
 
@@ -167,10 +163,8 @@ public class MainFrameControl {
         syncModeButton.setVisible(true);
         cancelCompModeButton.setVisible(true);
         syncDirsButton.setVisible(true);
-        leftCompDir = compResult.leftDir();
-        rightCompDir = compResult.rightDir();
-        leftPanel.viewComparableDir(leftCompDir);
-        rightPanel.viewComparableDir(rightCompDir);
+        leftPanel.viewComparableDir(compResult.leftDir());
+        rightPanel.viewComparableDir(compResult.rightDir());
     }
 
     private void updateComboBoxes() {

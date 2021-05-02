@@ -42,6 +42,10 @@ public enum Error {
     UPDATE_THREAD_CRASH {
         @Override
         public String getMessage(ResourceBundle bundle) { return "update thread crash"; }
+    },
+    CURRENT_DISKS_CANNOT_BE_SYNCED {
+        @Override
+        public String getMessage(ResourceBundle bundle) { return "CURRENT_DISKS_CANNOT_BE_SYNCED"; }
     };
 
     public abstract String getMessage(ResourceBundle bundle);

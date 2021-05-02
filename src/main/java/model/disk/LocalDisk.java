@@ -1,13 +1,13 @@
 package model.disk;
 
 import app.task.Progress;
+import app.task.TaskState;
 import drive.local.LocalDir;
-import drive.local.LocalLocalFile;
+import drive.local.LocalFileAction;
 import model.entity.Entity;
 import model.result.DirResult;
-import model.result.Result;
 
-public class LocalDisk implements Disk {
+public class LocalDisk implements Disk, Local {
 
     private final Entity rootFile;
 
@@ -19,15 +19,16 @@ public class LocalDisk implements Disk {
     public String name() { return rootFile.path().replace("\\", ""); }
 
     @Override
+    public boolean isCloud() { return false; }
+
+    @Override
     public Entity rootFile() { return rootFile; }
 
     @Override
-    public DirResult files(Entity file, Progress progress) {
-        return new LocalDir(file).files(progress);
+    public DirResult files(Entity file, Progress progress, TaskState state) {
+        return new LocalDir(file).files(progress, state);
     }
 
     @Override
-    public Result execute(Entity file) {
-        return new LocalLocalFile(file).execute();
-    }
+    public LocalFileAction actionWithFile(Entity file) { return new LocalFileAction(file); }
 }

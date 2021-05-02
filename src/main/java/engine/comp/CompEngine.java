@@ -1,7 +1,8 @@
-package engine;
+package engine.comp;
 
 import app.task.LabelUpdating;
 import app.task.Progress;
+import app.task.TaskState;
 import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.*;
@@ -13,38 +14,37 @@ public class CompEngine {
     private final CompData leftData;
     private final CompData rightData;
 
-    private StringBuilder errorMessage;
-    private Status status;
-
     public CompEngine(final CompData leftData, final CompData rightData) {
         this.leftData = leftData;
         this.rightData = rightData;
     }
 
-    public CompResult compare(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
-        status = Status.EQUAL;
-        errorMessage = new StringBuilder();
+    public CompResult compare(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
+        Status status = Status.EQUAL;
+        StringBuilder errorMessage = new StringBuilder();
         List<Entity> leftList = new ArrayList<>();
         List<Entity> rightList = new ArrayList<>();
 
         labelUpdating.text(leftData.fileEntity().name());
-        DirResult dirResult = leftData.disk().files(leftData.fileEntity(), progress);
+        DirResult dirResult = leftData.disk().files(leftData.fileEntity(), progress, state);
         Map<String, Entity> leftMap = new HashMap<>();
         dirResult.files().forEach(file -> leftMap.put(file.name(), file));
 
         labelUpdating.text(rightData.fileEntity().name());
-        dirResult = rightData.disk().files(rightData.fileEntity(), progress);
+        dirResult = rightData.disk().files(rightData.fileEntity(), progress, state);
 
         for (Entity rightFile : dirResult.files()) {
             labelUpdating.text(rightFile.name());
             Entity leftFile = leftMap.get(rightFile.name());
             if (leftFile == null) {
                 status = Status.NOT_EQUAL;
-                FileNotExistResult result = new FileNotExistLogic(rightFile, rightData.disk()).execute(progress, labelUpdating, bundle);
+                FileNotExistResult result = new FileNotExistLogic(rightFile, rightData.disk())
+                        .execute(progress, labelUpdating, state, bundle);
                 errorMessage.append(result.errorMessage());
                 rightList.add(result.file());
             } else {
-                FileExistResult result = new FileExistLogic(leftFile, leftData.disk(), rightFile, rightData.disk()).execute(progress, labelUpdating, bundle);
+                FileExistResult result = new FileExistLogic(leftFile, leftData.disk(), rightFile, rightData.disk())
+                        .execute(progress, labelUpdating, state, bundle);
                 errorMessage.append(result.errorMessage());
                 if (result.status() == Status.NOT_EQUAL) {
                     status = Status.NOT_EQUAL;
@@ -57,7 +57,8 @@ public class CompEngine {
         for (Entity leftFile : leftMap.values()) {
             status = Status.NOT_EQUAL;
             labelUpdating.text(leftFile.name());
-            FileNotExistResult result = new FileNotExistLogic(leftFile, leftData.disk()).execute(progress, labelUpdating, bundle);
+            FileNotExistResult result = new FileNotExistLogic(leftFile, leftData.disk())
+                    .execute(progress, labelUpdating, state, bundle);
             errorMessage.append(result.errorMessage());
             leftList.add(result.file());
         }

@@ -20,10 +20,10 @@ public class CloudManagerDialog extends JDialog {
         JTable cloudTable = new JTable(cloudTableModel);
 
         cloudTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        cloudTable.setAutoCreateRowSorter(true);
+        cloudTable.setAutoCreateRowSorter(false);
         JScrollPane scrollPane = new JScrollPane(cloudTable);
 
-        JButton addButton = new JButton("Add");
+        JButton addButton = new JButton(bundle.getString("ui.button.add_drive"));
 
         addButton.addFocusListener(new FocusAdapter() {
             @Override
