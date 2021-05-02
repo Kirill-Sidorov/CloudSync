@@ -1,13 +1,10 @@
 package model.disk;
 
-import app.task.Progress;
-import app.task.TaskState;
+import drive.Dir;
 import drive.local.LocalDir;
-import drive.local.LocalFileAction;
 import model.entity.Entity;
-import model.result.DirResult;
 
-public class LocalDisk implements Disk, Local {
+public class LocalDisk implements Disk {
 
     private final Entity rootFile;
 
@@ -25,10 +22,5 @@ public class LocalDisk implements Disk, Local {
     public Entity rootFile() { return rootFile; }
 
     @Override
-    public DirResult files(Entity file, Progress progress, TaskState state) {
-        return new LocalDir(file).files(progress, state);
-    }
-
-    @Override
-    public LocalFileAction actionWithFile(Entity file) { return new LocalFileAction(file); }
+    public Dir dir(Entity file) { return new LocalDir(file); }
 }

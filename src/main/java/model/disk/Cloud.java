@@ -1,8 +1,8 @@
 package model.disk;
 
-import drive.CloudFileAction;
+import drive.CloudFile;
 import model.entity.Entity;
 
 public interface Cloud {
-    CloudFileAction actionWithFile(final Entity file);
+    CloudFile cloudFile(final Entity fileEntity);
 }

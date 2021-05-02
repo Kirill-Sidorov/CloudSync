@@ -23,7 +23,7 @@ public class TableUpdateTask extends SwingWorker<DirResult, Void> {
 
     @Override
     protected DirResult doInBackground() throws Exception {
-        return disk.files(fileEntity, this::setProgress, this::isCancelled);
+        return disk.dir(fileEntity).files(this::setProgress, this::isCancelled);
     }
 
     @Override

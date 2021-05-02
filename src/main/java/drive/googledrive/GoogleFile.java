@@ -1,23 +1,23 @@
 package drive.googledrive;
 
-import drive.CloudFileAction;
+import drive.CloudFile;
 import model.entity.Entity;
 import model.result.Result;
 
-public class GoogleFileAction implements CloudFileAction {
+public class GoogleFile implements CloudFile {
     private final Entity fileEntity;
 
-    public GoogleFileAction(final Entity fileEntity) {
+    public GoogleFile(final Entity fileEntity) {
         this.fileEntity = fileEntity;
     }
 
     @Override
-    public Result upload(Entity destinationFile) {
+    public Result upload(Entity destFile) {
         return null;
     }
 
     @Override
-    public Result download(Entity destinationFile) {
+    public Result download(Entity destFile) {
         return null;
     }
 }

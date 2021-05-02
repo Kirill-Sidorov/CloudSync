@@ -8,11 +8,10 @@ import app.table.SizeTableCellRenderer;
 import app.table.treefiletable.FileTreeTableModel;
 import app.table.treefiletable.JTreeTable;
 import app.task.TableUpdateTask;
-import drive.local.LocalFileAction;
+import drive.local.LocalFile;
 import engine.comp.CompData;
 import engine.sync.SyncData;
 import model.disk.Disk;
-import model.disk.Local;
 import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.DirResult;
@@ -172,12 +171,12 @@ public class FilePanelControl {
                             humanReadablePath = humanReadablePath + "\\" + file.name();
                             updateFileTable();
                         } else {
+
                             if (currentDisk.isCloud()) {
                                 // ask user: Download this file?
                                 // then download and run file
                             } else {
-                                Result result = ((Local)currentDisk).actionWithFile(file).execute();
-                                processResult(result);
+                                processResult(new LocalFile(file).execute());
                             }
                         }
                     }

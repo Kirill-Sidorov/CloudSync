@@ -8,10 +8,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class LocalFileAction {
+public class LocalFile {
     private final Entity fileEntity;
 
-    public LocalFileAction(final Entity fileEntity) {
+    public LocalFile(final Entity fileEntity) {
         this.fileEntity = fileEntity;
     }
 

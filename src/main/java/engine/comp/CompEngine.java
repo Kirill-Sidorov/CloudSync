@@ -26,12 +26,12 @@ public class CompEngine {
         List<Entity> rightList = new ArrayList<>();
 
         labelUpdating.text(leftData.fileEntity().name());
-        DirResult dirResult = leftData.disk().files(leftData.fileEntity(), progress, state);
+        DirResult dirResult = leftData.disk().dir(leftData.fileEntity()).files(progress, state);
         Map<String, Entity> leftMap = new HashMap<>();
         dirResult.files().forEach(file -> leftMap.put(file.name(), file));
 
         labelUpdating.text(rightData.fileEntity().name());
-        dirResult = rightData.disk().files(rightData.fileEntity(), progress, state);
+        dirResult = rightData.disk().dir(rightData.fileEntity()).files(progress, state);
 
         for (Entity rightFile : dirResult.files()) {
             labelUpdating.text(rightFile.name());

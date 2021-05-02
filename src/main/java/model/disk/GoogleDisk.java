@@ -1,13 +1,11 @@
 package model.disk;
 
-import app.task.Progress;
-import app.task.TaskState;
 import com.google.api.services.drive.Drive;
-import drive.CloudFileAction;
+import drive.CloudFile;
+import drive.Dir;
 import drive.googledrive.GoogleDir;
-import drive.googledrive.GoogleFileAction;
+import drive.googledrive.GoogleFile;
 import model.entity.Entity;
-import model.result.*;
 
 public class GoogleDisk implements Disk, Cloud {
 
@@ -31,9 +29,8 @@ public class GoogleDisk implements Disk, Cloud {
     public Entity rootFile() { return rootFile; }
 
     @Override
-    public DirResult files(Entity file, Progress progress, TaskState state) {
-        return new GoogleDir(file, service).files(progress, state);
-    }
+    public Dir dir(Entity file) { return new GoogleDir(file, service); }
+
     @Override
-    public CloudFileAction actionWithFile(Entity file) { return new GoogleFileAction(file); }
+    public CloudFile cloudFile(Entity fileEntity) { return new GoogleFile(fileEntity); }
 }

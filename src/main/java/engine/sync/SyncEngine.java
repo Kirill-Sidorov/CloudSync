@@ -3,12 +3,7 @@ package engine.sync;
 import app.logic.SyncMode;
 import app.task.LabelUpdating;
 import app.task.Progress;
-import model.disk.Cloud;
-import model.entity.CompDirEntity;
-import model.entity.Entity;
-import model.result.Error;
-import model.result.ErrorResult;
-import model.result.Result;
+import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
@@ -23,42 +18,18 @@ public class SyncEngine {
         this.syncMode = syncMode;
     }
 
-    public Result sync(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
-        Result result = new ErrorResult(Error.CURRENT_DISKS_CANNOT_BE_SYNCED);
+    public SyncResult start(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
+        SyncType syncType;
+        boolean leftDiskType = leftData.disk().isCloud();
+        boolean rightDiskType = rightData.disk().isCloud();
 
-        int cloudCount = 0;
-        if (leftData.disk().isCloud()) {
-            cloudCount++;
-        } else if (rightData.disk().isCloud()) {
-            cloudCount++;
-        }
-
-        if (cloudCount == 1) {
-
-        }
-
-        return result;
-    }
-
-    private SyncAction findSyncActionForLeftSync() {
-        if (leftData.disk().isCloud()) {
-            return (src, dest) -> ((Cloud)leftData.disk()).actionWithFile(src).upload(dest);
+        if (leftDiskType && rightDiskType) {
+            syncType = SyncType.CLOUD_TO_CLOUD;
+        } else if (!leftDiskType && !rightDiskType) {
+            syncType = SyncType.LOCAL_TO_LOCAL;
         } else {
-            return (src, dest) -> ((Cloud)rightData.disk()).actionWithFile(src).download(dest);
+            syncType = SyncType.CLOUD_TO_LOCAL;
         }
-    }
-
-    private SyncAction findSyncActionForRightSync() {
-        if (leftData.disk().isCloud()) {
-            return (src, dest) -> ((Cloud)leftData.disk()).actionWithFile(src).download(dest);
-        } else {
-            return (src, dest) -> ((Cloud)rightData.disk()).actionWithFile(src).upload(dest);
-        }
-    }
-
-    private Result syncOneWay(SyncAction syncAction, CompDirEntity source, CompDirEntity dest) {
-        for (Entity file : source.files()) {
-            // if dir? isNewDir? add createDir()
-        }
+        return syncType.syncLogic(leftData, rightData, syncMode).execute(progress, labelUpdating, bundle);
     }
 }
