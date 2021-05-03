@@ -1,6 +1,7 @@
-package engine.sync;
+package engine.sync.synctype;
 
 import app.logic.SyncMode;
+import engine.sync.SyncData;
 
 public enum SyncType {
     LOCAL_TO_LOCAL {

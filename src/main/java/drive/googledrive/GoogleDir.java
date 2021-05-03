@@ -61,4 +61,9 @@ public class GoogleDir implements Dir {
         diskSize.request();
         return new DirResult(files, diskSize.totalSpace(), diskSize.unallocatedSpace(), result);
     }
+
+    @Override
+    public Entity giveOrCreateDirInto(String dirName) {
+        return null;
+    }
 }

@@ -46,4 +46,9 @@ public class LocalDir implements Dir {
         }
         return new DirResult(listFileEntity, dir.getTotalSpace(), dir.getUsableSpace(), result);
     }
+
+    @Override
+    public Entity giveOrCreateDirInto(String dirName) {
+        return null;
+    }
 }

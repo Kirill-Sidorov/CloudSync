@@ -1,9 +1,12 @@
-package engine.sync;
+package engine.sync.synctype;
 
 import app.logic.SyncMode;
 import app.task.LabelUpdating;
 import app.task.Progress;
-import model.result.SyncResult;
+import engine.sync.SyncData;
+import model.result.Error;
+import model.result.ErrorResult;
+import model.result.Result;
 
 import java.util.ResourceBundle;
 
@@ -20,7 +23,7 @@ public class LocalToLocalSyncTypeLogic implements SyncTypeLogic {
     }
 
     @Override
-    public SyncResult execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
-        return null;
+    public Result execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
+        return new ErrorResult(Error.CURRENT_DISKS_CANNOT_BE_SYNCED);
     }
 }
