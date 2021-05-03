@@ -1,4 +1,4 @@
-package engine.sync;
+package engine.sync.type;
 
 import app.task.LabelUpdating;
 import app.task.Progress;

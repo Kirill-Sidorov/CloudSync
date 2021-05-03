@@ -1,9 +1,9 @@
-package engine.sync.synctype;
+package engine.sync.logic;
 
 import app.logic.SyncMode;
 import app.task.LabelUpdating;
 import app.task.Progress;
-import engine.sync.CloudToLocalSync;
+import engine.sync.type.CloudToLocalSync;
 import engine.sync.SyncAction;
 import engine.sync.SyncData;
 import model.disk.Cloud;
@@ -12,13 +12,13 @@ import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
-public class CloudToLocalSyncTypeLogic implements SyncTypeLogic {
+public class CloudToLocalSyncLogic implements SyncLogic {
 
     private final SyncData leftData;
     private final SyncData rightData;
     private final SyncMode syncMode;
 
-    public CloudToLocalSyncTypeLogic(final SyncData leftData, final SyncData rightData, final SyncMode syncMode) {
+    public CloudToLocalSyncLogic(final SyncData leftData, final SyncData rightData, final SyncMode syncMode) {
         this.leftData = leftData;
         this.rightData = rightData;
         this.syncMode = syncMode;

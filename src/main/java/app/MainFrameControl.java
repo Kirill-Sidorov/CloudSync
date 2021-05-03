@@ -1,7 +1,7 @@
 package app;
 
 import app.dialog.CloudManagerDialog;
-import app.dialog.CompProcessDialog;
+import app.dialog.ProcessDialog;
 import app.logic.SyncMode;
 import app.table.treefiletable.JTreeTable;
 import app.task.CloudDrivesConnectTask;
@@ -129,7 +129,7 @@ public class MainFrameControl {
         });
 
         compareDirsButton.addActionListener(event -> {
-            CompProcessDialog dialog = new CompProcessDialog(mainFrame, bundle);
+            ProcessDialog dialog = new ProcessDialog(mainFrame, bundle);
             DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::viewComparableDirs, bundle);
             task.execute();
         });

@@ -38,11 +38,8 @@ public class FileExistLogic {
                 status = Status.NOT_EQUAL;
                 isLastModified = rightFile.modifiedDate().isBefore(leftFile.modifiedDate());
             }
-            CompFileEntity left = new CompFileEntity(leftFile, isLastModified);
-            CompFileEntity right = new CompFileEntity(rightFile, !isLastModified);
-            left.setLinkedFile(right);
-            right.setLinkedFile(left);
-            return new FileExistResult(left, right, status);
+            CompFileEntity left = new CompFileEntity(leftFile, isLastModified, rightFile);
+            return new FileExistResult(left, left.linkedFile(), status);
         }
     }
 }

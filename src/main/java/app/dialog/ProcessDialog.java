@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
 
-public class CompProcessDialog extends JDialog {
+public class ProcessDialog extends JDialog {
 
     private final JLabel infoLabel;
     private final JProgressBar progressBar;
     private final JButton cancelButton;
 
-    public CompProcessDialog(final JFrame parentFrame, final ResourceBundle bundle) {
+    public ProcessDialog(final JFrame parentFrame, final ResourceBundle bundle) {
         super(parentFrame, bundle.getString("ui.dialog"), false);
         infoLabel = new JLabel();
         progressBar = new JProgressBar();

@@ -1,6 +1,6 @@
 package app.task;
 
-import app.dialog.CompProcessDialog;
+import app.dialog.ProcessDialog;
 import engine.comp.CompData;
 import engine.comp.CompEngine;
 import model.result.CompResult;
@@ -13,11 +13,11 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
 
     private final CompData leftData;
     private final CompData rightData;
-    private final CompProcessDialog dialog;
+    private final ProcessDialog dialog;
     private final ViewUpdating viewUpdating;
     private final ResourceBundle bundle;
 
-    public DirsCompareTask(final CompData leftData, final CompData rightData, final CompProcessDialog dialog, final ViewUpdating viewUpdating, final ResourceBundle bundle) {
+    public DirsCompareTask(final CompData leftData, final CompData rightData, final ProcessDialog dialog, final ViewUpdating viewUpdating, final ResourceBundle bundle) {
         this.leftData = leftData;
         this.rightData = rightData;
         this.dialog = dialog;

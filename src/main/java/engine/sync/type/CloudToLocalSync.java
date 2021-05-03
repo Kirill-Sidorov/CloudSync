@@ -1,9 +1,11 @@
-package engine.sync;
+package engine.sync.type;
 
 import app.task.LabelUpdating;
 import app.task.Progress;
+import engine.sync.SyncAction;
 import model.disk.Disk;
 import model.entity.CompDirEntity;
+import model.entity.CompFileEntity;
 import model.entity.Entity;
 import model.result.Result;
 import model.result.Status;
@@ -37,9 +39,11 @@ public class CloudToLocalSync implements Sync {
                         .sync(progress, labelUpdating, bundle);
                 errorMessage.append(syncResult.errorMessage());
             } else {
-                Result result = syncAction.execute(file, destEntity);
-                if (result.status() == Status.ERROR) {
-                    errorMessage.append(String.format("%s : %s\n", file.name(), result.error().getMessage(bundle)));
+                if (((CompFileEntity)file).isLastModified()) {
+                    Result result = syncAction.execute(file, destEntity);
+                    if (result.status() == Status.ERROR) {
+                        errorMessage.append(String.format("%s : %s\n", file.name(), result.error().getMessage(bundle)));
+                    }
                 }
             }
         }

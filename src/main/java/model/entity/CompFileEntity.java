@@ -5,21 +5,27 @@ import java.time.LocalDateTime;
 public class CompFileEntity implements Entity {
 
     private final Entity file;
-    private final boolean isNewFile;
+    private final CompFileEntity linkedFile;
     private boolean isLastModified;
-    private CompFileEntity linkedFile;
 
     public CompFileEntity(final Entity file) {
         this.file = file;
-        this.isNewFile = true;
         this.isLastModified = true;
+        this.linkedFile = null;
     }
 
-    public CompFileEntity(final Entity file, final boolean isLastModified) {
+    public CompFileEntity(final Entity file, final boolean isLastModified, final CompFileEntity linkedFile) {
         this.file = file;
-        this.isNewFile = false;
         this.isLastModified = isLastModified;
+        this.linkedFile = linkedFile;
     }
+
+    public CompFileEntity(final Entity file, final boolean isLastModified, final Entity rightFile) {
+        this.file = file;
+        this.isLastModified = isLastModified;
+        this.linkedFile = new CompFileEntity(rightFile, !isLastModified, this);
+    }
+
     @Override
     public String toString() { return file.name(); }
 
@@ -41,11 +47,10 @@ public class CompFileEntity implements Entity {
     @Override
     public boolean isDirectory() { return file.isDirectory(); }
 
-    public boolean isNewFile() { return isNewFile; }
+    public boolean isNewFile() { return linkedFile == null; }
     public boolean isLastModified() { return isLastModified; }
     public void switchLastModified() {
         isLastModified = !isLastModified;
     }
-    public void setLinkedFile(CompFileEntity linkedFile) { this.linkedFile = linkedFile; }
     public CompFileEntity linkedFile() { return linkedFile; }
 }
