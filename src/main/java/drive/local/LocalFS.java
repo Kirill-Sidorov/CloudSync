@@ -12,7 +12,7 @@ public class LocalFS {
     public Map<String, Disk> drives() {
         Map<String, Disk> localDrives = new HashMap<>();
         for (Path path : FileSystems.getDefault().getRootDirectories()) {
-            localDrives.put(path.toString(), new LocalDisk(new LocalFileData(path.toFile()).create()));
+            localDrives.put(path.toString(), new LocalDisk(new LocalFileEntity(path.toFile()).create()));
         }
         return localDrives;
     }

@@ -10,8 +10,8 @@ public class ProcessDialog extends JDialog {
     private final JProgressBar progressBar;
     private final JButton cancelButton;
 
-    public ProcessDialog(final JFrame parentFrame, final ResourceBundle bundle) {
-        super(parentFrame, bundle.getString("ui.dialog"), false);
+    public ProcessDialog(final JFrame parentFrame, final String title, final ResourceBundle bundle) {
+        super(parentFrame, title, false);
         infoLabel = new JLabel();
         progressBar = new JProgressBar();
         cancelButton = new JButton(bundle.getString("ui.button.cancel"));

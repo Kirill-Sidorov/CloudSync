@@ -53,7 +53,7 @@ public class GoogleAuth implements Auth {
             About about = service.about().get().setFields("user").execute();
             File file = service.files().get("root").setFields("id, name, size, modifiedTime, mimeType, fileExtension").execute();
             name = (about.getUser().getEmailAddress() != null) ? about.getUser().getEmailAddress() : "";
-            fileEntity = new GoogleFileData(file).create();
+            fileEntity = new GoogleFileEntity(file).create();
         } catch (IOException e) {
             System.out.println("google credentials error");
         } catch (GeneralSecurityException e) {

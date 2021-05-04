@@ -1,19 +1,18 @@
 package drive.googledrive;
 
 import com.google.api.services.drive.model.File;
-import drive.FileData;
+import drive.FileEntity;
 import model.entity.Entity;
-import model.entity.FileEntity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-public class GoogleFileData implements FileData {
+public class GoogleFileEntity implements FileEntity {
 
     private final File file;
 
-    public GoogleFileData(final File file) {
+    public GoogleFileEntity(final File file) {
         this.file = file;
     }
 
@@ -36,6 +35,6 @@ public class GoogleFileData implements FileData {
             typeName = "dir";
             isDirectory = true;
         }
-        return new FileEntity(id, name, modifiedDate, size, typeName, isDirectory);
+        return new model.entity.FileEntity(id, name, modifiedDate, size, typeName, isDirectory);
     }
 }

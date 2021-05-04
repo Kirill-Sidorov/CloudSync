@@ -21,7 +21,11 @@ public enum Error {
     },
     FILE_NOT_UPLOAD_ERROR {
         @Override
-        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.file_not_upload"); }
+        public String getMessage(ResourceBundle bundle) { return "FILE_NOT_UPLOAD_ERROR"; }//bundle.getString("message.error.file_not_upload"); }
+    },
+    FILE_NOT_DOWNLOAD_ERROR {
+        @Override
+        public String getMessage(ResourceBundle bundle) { return "file not download error"; }
     },
     CLOUD_DRIVE_NOT_CONNECTED {
         @Override

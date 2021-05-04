@@ -34,7 +34,7 @@ public class FileExistLogic {
         } else {
             Status status = Status.EQUAL;
             boolean isLastModified = false;
-            if (!rightFile.modifiedDate().isEqual(leftFile.modifiedDate())) {
+            if (!rightFile.size().equals(leftFile.size())) {
                 status = Status.NOT_EQUAL;
                 isLastModified = rightFile.modifiedDate().isBefore(leftFile.modifiedDate());
             }

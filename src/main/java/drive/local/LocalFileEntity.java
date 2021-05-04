@@ -1,19 +1,18 @@
 package drive.local;
 
-import drive.FileData;
+import drive.FileEntity;
 import model.entity.Entity;
-import model.entity.FileEntity;
 
 import java.io.File;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-public class LocalFileData implements FileData {
+public class LocalFileEntity implements FileEntity {
 
     private final File file;
 
-    public LocalFileData(final File file) {
+    public LocalFileEntity(final File file) {
         this.file = file;
     }
 
@@ -32,6 +31,6 @@ public class LocalFileData implements FileData {
             String fileName = file.getName();
             typeName = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".") + 1) : "";
         }
-        return new FileEntity(file.getPath(), file.getName(), modifiedDate, size, typeName, isDirectory);
+        return new model.entity.FileEntity(file.getPath(), file.getName(), modifiedDate, size, typeName, isDirectory);
     }
 }

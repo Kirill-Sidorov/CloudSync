@@ -142,10 +142,7 @@ public class FilePanelControl {
             Object drive = diskComboBox.getSelectedItem();
             if (drive != null) {
                 currentDisk = drives.get((String) diskComboBox.getSelectedItem());
-                humanReadablePath = currentDisk.name();
-                dirs.clear();
-                dirs.push(currentDisk.rootFile());
-                updateFileTable();
+                viewRootDir();
             }
         });
 
@@ -187,6 +184,13 @@ public class FilePanelControl {
         currentDisk = drives.get((String) diskComboBox.getSelectedItem());
         dirs.push(currentDisk.rootFile());
         humanReadablePath = currentDisk.name();
+        updateFileTable();
+    }
+
+    private void viewRootDir() {
+        humanReadablePath = currentDisk.name();
+        dirs.clear();
+        dirs.push(currentDisk.rootFile());
         updateFileTable();
     }
 
@@ -261,12 +265,15 @@ public class FilePanelControl {
         cardLayout.show(cardsPanel, TREE_FILE_TABLE);
     }
 
-    public void viewFileTable() {
+    public void viewFileTable(boolean isViewRootDir) {
         diskComboBox.setEnabled(true);
         updateButton.setEnabled(true);
         backButton.setEnabled(true);
         CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
         cardLayout.show(cardsPanel, FILE_TABLE);
+        if (isViewRootDir) {
+            viewRootDir();
+        }
     }
 
     // delete, get panel from constructor

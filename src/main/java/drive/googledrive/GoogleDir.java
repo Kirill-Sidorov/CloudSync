@@ -12,6 +12,7 @@ import model.result.Error;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GoogleDir implements Dir {
@@ -48,7 +49,7 @@ public class GoogleDir implements Dir {
                     chunk = (double) 100 / size;
                 }
                 for (File file : fileList.getFiles()) {
-                    files.add(new GoogleFileData(file).create());
+                    files.add(new GoogleFileEntity(file).create());
                     i += chunk;
                     progress.value((int)i);
                 }
@@ -64,6 +65,27 @@ public class GoogleDir implements Dir {
 
     @Override
     public Entity giveOrCreateDirInto(String dirName) {
-        return null;
+        Entity dir = null;
+        try {
+            FileList result = service.files().list()
+                    .setQ(String.format("mimeType='application/vnd.google-apps.folder' and '%s' in parents and name = '%s'", fileEntity.path(), dirName))
+                    .setFields("files(id, name, size, modifiedTime, mimeType, fileExtension)")
+                    .execute();
+            if (result.getFiles().size() == 0) {
+                File fileMetadata = new File();
+                fileMetadata.setName(dirName);
+                fileMetadata.setMimeType("application/vnd.google-apps.folder");
+                fileMetadata.setParents(Collections.singletonList(fileEntity.path()));
+                File file = service.files().create(fileMetadata)
+                        .setFields("id, name, size, modifiedTime, mimeType, fileExtension")
+                        .execute();
+                dir = new GoogleFileEntity(file).create();
+            } else {
+                dir = new GoogleFileEntity(result.getFiles().get(0)).create();
+            }
+        } catch (IOException e) {
+            System.out.println("Google drive - dir not gave or created");
+        }
+        return dir;
     }
 }

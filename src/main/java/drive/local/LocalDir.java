@@ -36,7 +36,7 @@ public class LocalDir implements Dir {
                 }
                 System.out.println(files.length);
                 for (File file : files) {
-                    listFileEntity.add(new LocalFileData(file).create());
+                    listFileEntity.add(new LocalFileEntity(file).create());
                     i += chunk;
                     progress.value((int)i);
                 }
@@ -49,6 +49,10 @@ public class LocalDir implements Dir {
 
     @Override
     public Entity giveOrCreateDirInto(String dirName) {
-        return null;
+        File dir = new File(fileEntity.path() + "\\" + dirName);
+        if (!dir.exists() && !dir.isDirectory()) {
+            dir.mkdir();
+        }
+        return new LocalFileEntity(dir).create();
     }
 }

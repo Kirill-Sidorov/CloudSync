@@ -23,9 +23,9 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
         this.dialog = dialog;
         this.viewUpdating = viewUpdating;
         this.bundle = bundle;
-        addPropertyChangeListener(changeEvent -> {
-            if ("progress".equals(changeEvent.getPropertyName())) {
-                dialog.progressBar().setValue((Integer) changeEvent.getNewValue());
+        addPropertyChangeListener(event -> {
+            if ("progress".equals(event.getPropertyName())) {
+                dialog.progressBar().setValue((Integer) event.getNewValue());
             }
         });
         dialog.cancelButton().addActionListener(event -> cancel(true));

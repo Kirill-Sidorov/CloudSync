@@ -2,6 +2,6 @@ package drive;
 
 import model.entity.Entity;
 
-public interface FileData {
+public interface FileEntity {
     Entity create();
 }

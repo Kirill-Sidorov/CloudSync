@@ -6,6 +6,7 @@ import app.logic.SyncMode;
 import app.table.treefiletable.JTreeTable;
 import app.task.CloudDrivesConnectTask;
 import app.task.DirsCompareTask;
+import app.task.SyncTask;
 import drive.local.LocalFS;
 import model.cloud.CloudInfo;
 import model.disk.Disk;
@@ -96,7 +97,7 @@ public class MainFrameControl {
         cancelCompModeButton = new JButton(bundle.getString("ui.button.cancel_comp_mode"));
         syncDirsButton = new JButton(bundle.getString("ui.button.sync_dirs"));
 
-        cancelCompModeButton.addActionListener(event -> viewFileTables());
+        cancelCompModeButton.addActionListener(event -> viewFileTables(false));
 
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
@@ -129,8 +130,15 @@ public class MainFrameControl {
         });
 
         compareDirsButton.addActionListener(event -> {
-            ProcessDialog dialog = new ProcessDialog(mainFrame, bundle);
+            ProcessDialog dialog = new ProcessDialog(mainFrame, bundle.getString("ui.dialog"), bundle);
             DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::viewComparableDirs, bundle);
+            task.execute();
+        });
+
+        syncDirsButton.addActionListener(event -> {
+            viewFileTables(true);
+            ProcessDialog dialog = new ProcessDialog(mainFrame, "Sync", bundle);
+            SyncTask task = new SyncTask(leftPanel.syncData(), rightPanel.syncData(), syncModes[currentSyncMode], dialog, bundle);
             task.execute();
         });
 
@@ -148,13 +156,13 @@ public class MainFrameControl {
         mainFrame.setVisible(true);
     }
 
-    private void viewFileTables() {
+    private void viewFileTables(boolean isViewRootDir) {
         compareDirsButton.setVisible(true);
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
         syncDirsButton.setVisible(false);
-        leftPanel.viewFileTable();
-        rightPanel.viewFileTable();
+        leftPanel.viewFileTable(isViewRootDir);
+        rightPanel.viewFileTable(isViewRootDir);
     }
 
     private void viewComparableDirs(Result result) {

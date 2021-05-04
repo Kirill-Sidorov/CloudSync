@@ -7,7 +7,6 @@ import engine.sync.type.CloudToLocalSync;
 import engine.sync.SyncAction;
 import engine.sync.SyncData;
 import model.disk.Cloud;
-import model.result.Result;
 import model.result.SyncResult;
 
 import java.util.ResourceBundle;
@@ -25,7 +24,7 @@ public class CloudToLocalSyncLogic implements SyncLogic {
     }
 
     @Override
-    public Result execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
+    public SyncResult execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
         SyncResult result = null;
         switch (syncMode) {
             case LEFT:
@@ -52,7 +51,7 @@ public class CloudToLocalSyncLogic implements SyncLogic {
 
     private SyncAction findSyncActionForLeftSync() {
         if (leftData.disk().isCloud()) {
-            return (src, dest) -> ((Cloud)leftData.disk()).cloudFile(src).upload(dest);
+            return (src, dest) -> ((Cloud)leftData.disk()).cloudFile(dest).upload(src);
         } else {
             return (src, dest) -> ((Cloud)rightData.disk()).cloudFile(src).download(dest);
         }
@@ -62,7 +61,7 @@ public class CloudToLocalSyncLogic implements SyncLogic {
         if (leftData.disk().isCloud()) {
             return (src, dest) -> ((Cloud)leftData.disk()).cloudFile(src).download(dest);
         } else {
-            return (src, dest) -> ((Cloud)rightData.disk()).cloudFile(src).upload(dest);
+            return (src, dest) -> ((Cloud)rightData.disk()).cloudFile(dest).upload(src);
         }
     }
 }

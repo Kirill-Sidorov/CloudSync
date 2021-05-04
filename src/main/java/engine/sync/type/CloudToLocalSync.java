@@ -33,6 +33,7 @@ public class CloudToLocalSync implements Sync {
     public SyncResult sync(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
         StringBuilder errorMessage = new StringBuilder();
         for (Entity file : srcDir.files()) {
+            labelUpdating.text(file.name());
             if (file.isDirectory()) {
                 Entity newDestEntity = destDisk.dir(destEntity).giveOrCreateDirInto(file.name());
                 SyncResult syncResult = new CloudToLocalSync(srcDisk, (CompDirEntity)file, destDisk, newDestEntity, syncAction)

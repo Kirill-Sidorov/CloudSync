@@ -3,7 +3,7 @@ package engine.sync;
 import app.logic.SyncMode;
 import app.task.LabelUpdating;
 import app.task.Progress;
-import model.result.Result;
+import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
@@ -18,7 +18,7 @@ public class SyncEngine {
         this.syncMode = syncMode;
     }
 
-    public Result start(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
+    public SyncResult start(final Progress progress, final LabelUpdating labelUpdating, final ResourceBundle bundle) {
         SyncOption syncOption;
         boolean leftDiskType = leftData.disk().isCloud();
         boolean rightDiskType = rightData.disk().isCloud();

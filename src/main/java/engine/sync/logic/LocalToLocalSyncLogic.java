@@ -6,7 +6,7 @@ import app.task.Progress;
 import engine.sync.SyncData;
 import model.result.Error;
 import model.result.ErrorResult;
-import model.result.Result;
+import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
@@ -23,7 +23,7 @@ public class LocalToLocalSyncLogic implements SyncLogic {
     }
 
     @Override
-    public Result execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
-        return new ErrorResult(Error.CURRENT_DISKS_CANNOT_BE_SYNCED);
+    public SyncResult execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
+        return new SyncResult(new ErrorResult(Error.CURRENT_DISKS_CANNOT_BE_SYNCED), bundle);
     }
 }

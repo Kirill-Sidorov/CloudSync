@@ -32,5 +32,5 @@ public class GoogleDisk implements Disk, Cloud {
     public Dir dir(Entity file) { return new GoogleDir(file, service); }
 
     @Override
-    public CloudFile cloudFile(Entity fileEntity) { return new GoogleFile(fileEntity); }
+    public CloudFile cloudFile(Entity fileEntity) { return new GoogleFile(fileEntity, service); }
 }
