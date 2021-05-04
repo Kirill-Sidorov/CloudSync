@@ -11,6 +11,7 @@ import org.apache.tika.Tika;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 
 public class GoogleFile implements CloudFile {
     private final Entity fileEntity;
@@ -22,14 +23,15 @@ public class GoogleFile implements CloudFile {
     }
 
     @Override
-    public Result upload(Entity destFile) {
+    public Result upload(Entity srcFile) {
         Result result;
+
         File fileMetadata = new File();
-        fileMetadata.setName(destFile.name());
+        fileMetadata.setName(srcFile.name());
+        fileMetadata.setParents(Collections.singletonList(fileEntity.path()));
+
         try {
-            System.out.println(fileEntity.path());
-            System.out.println(destFile.path());
-            java.io.File file = new java.io.File(destFile.path());
+            java.io.File file = new java.io.File(srcFile.path());
             FileContent mediaContent = new FileContent(new Tika().detect(file), file);
             service.files().create(fileMetadata, mediaContent).execute();
             result = new SuccessResult(Status.OK);

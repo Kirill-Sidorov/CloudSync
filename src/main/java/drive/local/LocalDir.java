@@ -48,11 +48,16 @@ public class LocalDir implements Dir {
     }
 
     @Override
-    public Entity giveOrCreateDirInto(String dirName) {
+    public EntityResult getDirInto(String dirName) {
         File dir = new File(fileEntity.path() + "\\" + dirName);
         if (!dir.exists() && !dir.isDirectory()) {
             dir.mkdir();
         }
         return new LocalFileEntity(dir).create();
+    }
+
+    @Override
+    public EntityResult searchFileInto(String name, boolean isDir) {
+        return null;
     }
 }

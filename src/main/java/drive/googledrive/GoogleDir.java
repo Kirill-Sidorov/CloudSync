@@ -64,7 +64,7 @@ public class GoogleDir implements Dir {
     }
 
     @Override
-    public Entity giveOrCreateDirInto(String dirName) {
+    public EntityResult getDirInto(String dirName) {
         Entity dir = null;
         try {
             FileList result = service.files().list()
@@ -87,5 +87,10 @@ public class GoogleDir implements Dir {
             System.out.println("Google drive - dir not gave or created");
         }
         return dir;
+    }
+
+    @Override
+    public EntityResult searchFileInto(String name, boolean isDir) {
+        return null;
     }
 }
