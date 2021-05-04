@@ -57,7 +57,7 @@ public class JTreeTable extends JTable {
         return (getColumnClass(editingColumn) == TreeTableModel.class) ? -1 : editingRow;
     }
 
-    public void setTreeTableModel(TreeTableModel treeTableModel) {
+    public void setTreeTableModel(final TreeTableModel treeTableModel) {
         tree = new TreeTableCellRenderer(treeTableModel);
         super.setModel(new TreeTableModelAdapter(treeTableModel, tree));
         tree.setSelectionModel(new DefaultTreeSelectionModel() {
@@ -106,6 +106,7 @@ public class JTreeTable extends JTable {
     }
 
     private class TreeTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+
         public Component getTableCellEditorComponent(JTable table, Object value,
                                                      boolean isSelected, int r, int c) {
             return tree;

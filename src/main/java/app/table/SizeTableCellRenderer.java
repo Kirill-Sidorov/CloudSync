@@ -6,11 +6,9 @@ import java.awt.*;
 import java.util.ResourceBundle;
 
 public class SizeTableCellRenderer extends DefaultTableCellRenderer {
-    private String format;
+    private final String format;
 
-    public SizeTableCellRenderer(ResourceBundle bundle) {
-        this.format = bundle.getString("string.format.file_size");
-    }
+    public SizeTableCellRenderer(final ResourceBundle bundle) { this.format = bundle.getString("string.format.file_size"); }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

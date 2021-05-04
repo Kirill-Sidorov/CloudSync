@@ -24,17 +24,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {}
 
-    public int getIndexOfChild(Object parent, Object child) {
-        /*
-        for (int i = 0; i < getChildCount(parent); i++) {
-            if (getChild(parent, i).equals(child)) {
-                return i;
-            }
-        }
-        return -1;
-         */
-        return 0;
-    }
+    public int getIndexOfChild(Object parent, Object child) { return 0; }
 
     @Override
     public void addTreeModelListener(TreeModelListener l) {

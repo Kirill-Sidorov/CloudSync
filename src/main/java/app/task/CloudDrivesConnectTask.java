@@ -21,10 +21,9 @@ public class CloudDrivesConnectTask extends SwingWorker<CloudsConnectResult, Voi
     }
 
     @Override
-    protected CloudsConnectResult doInBackground() throws Exception {
+    protected CloudsConnectResult doInBackground() {
         Map<String, Disk> cloudDrives =  new HashMap<>();
         Map<String, CloudInfo> cloudsInfo =  new HashMap<>();
-        CloudType[] types = CloudType.values();
         for (CloudType type : CloudType.values()) {
             String[] tokens = new File(type.tokensDir()).list();
             if (tokens != null) {

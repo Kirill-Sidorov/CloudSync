@@ -31,7 +31,7 @@ public class CloudToLocalSync implements Sync {
     }
 
     @Override
-    public SyncResult sync(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
+    public SyncResult sync(LabelUpdating labelUpdating, ResourceBundle bundle) {
         StringBuilder errorMessage = new StringBuilder();
         for (Entity file : srcDir.files()) {
             labelUpdating.text(file.name());
@@ -39,7 +39,7 @@ public class CloudToLocalSync implements Sync {
                 EntityResult newDestEntity = destDisk.dir(destEntity).getDirInto(file.name());
                 if (newDestEntity.status() == Status.FILE_EXIST) {
                     SyncResult syncResult = new CloudToLocalSync(srcDisk, (CompDirEntity)file, destDisk, newDestEntity.entity(), syncAction)
-                            .sync(progress, labelUpdating, bundle);
+                            .sync(labelUpdating, bundle);
                     errorMessage.append(syncResult.errorMessage());
                 } else {
                     errorMessage.append(String.format("%s : %s\n", file.name(), newDestEntity.error().getMessage(bundle)));

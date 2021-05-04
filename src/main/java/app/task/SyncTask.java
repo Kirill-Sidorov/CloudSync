@@ -34,7 +34,7 @@ public class SyncTask extends SwingWorker<SyncResult, String> {
     }
 
     @Override
-    protected SyncResult doInBackground() throws Exception {
+    protected SyncResult doInBackground() {
         return new SyncEngine(leftData, rightData, syncMode).start(this::setProgress, this::publish, bundle);
     }
 

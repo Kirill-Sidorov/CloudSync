@@ -7,16 +7,14 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.TreePath;
 
 public class TreeTableModelAdapter extends AbstractTableModel {
-    private JTree tree;
-    private TreeTableModel treeTableModel;
+    private final JTree tree;
+    private final TreeTableModel treeTableModel;
 
-    public TreeTableModelAdapter(TreeTableModel treeTableModel, JTree tree) {
+    public TreeTableModelAdapter(final TreeTableModel treeTableModel, final JTree tree) {
         this.tree = tree;
         this.treeTableModel = treeTableModel;
 
         tree.addTreeExpansionListener(new TreeExpansionListener() {
-            // Don't use fireTableRowsInserted() here;
-            // the selection model would get  updated twice.
             public void treeExpanded(TreeExpansionEvent event) {
                 fireTableDataChanged();
             }
@@ -26,8 +24,6 @@ public class TreeTableModelAdapter extends AbstractTableModel {
         });
     }
 
-    // Wrappers, implementing TableModel interface.
-
     public int getColumnCount() {
         return treeTableModel.getColumnCount();
     }
@@ -36,7 +32,7 @@ public class TreeTableModelAdapter extends AbstractTableModel {
         return treeTableModel.getColumnName(column);
     }
 
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
         return treeTableModel.getColumnClass(column);
     }
 

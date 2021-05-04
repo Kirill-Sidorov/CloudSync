@@ -1,11 +1,12 @@
 package app.table.filetable;
 
+import app.table.Column;
 import model.entity.Entity;
 
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
-public enum FileTableColumn {
+public enum FileTableColumn implements Column {
     NAME {
         @Override
         public String getColumnName(ResourceBundle bundle) { return bundle.getString("ui.table.files.column.name"); }
@@ -45,10 +46,6 @@ public enum FileTableColumn {
 
         @Override
         public Object getValueAt(Entity file) { return file.size(); }
-    };
-
-    public abstract String getColumnName(ResourceBundle bundle);
-    public abstract Class<?> getColumnClass();
-    public abstract Object getValueAt(Entity file);
+    }
 }
 

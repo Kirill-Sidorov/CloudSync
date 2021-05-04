@@ -33,7 +33,7 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
     }
 
     @Override
-    protected CompResult doInBackground() throws Exception {
+    protected CompResult doInBackground() {
         return new CompEngine(leftData, rightData).compare(this::setProgress, this::publish, this::isCancelled, bundle);
     }
 

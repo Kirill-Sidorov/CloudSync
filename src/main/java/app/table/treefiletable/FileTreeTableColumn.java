@@ -1,5 +1,6 @@
 package app.table.treefiletable;
 
+import app.table.Column;
 import model.entity.CompFileEntity;
 import model.entity.Entity;
 
@@ -7,7 +8,7 @@ import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
-public enum FileTreeTableColumn {
+public enum FileTreeTableColumn implements Column {
     ACTION {
         @Override
         public String getColumnName(ResourceBundle bundle) { return "Version"; }
@@ -60,9 +61,5 @@ public enum FileTreeTableColumn {
 
         @Override
         public Object getValueAt(Entity file) { return file.size(); }
-    };
-
-    public abstract String getColumnName(ResourceBundle bundle);
-    public abstract Class<?> getColumnClass();
-    public abstract Object getValueAt(Entity file);
+    }
 }

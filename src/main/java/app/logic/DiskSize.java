@@ -2,7 +2,7 @@ package app.logic;
 
 public class DiskSize {
 
-    private long value;
+    private final long value;
 
     public DiskSize(long value) {
         this.value = value;

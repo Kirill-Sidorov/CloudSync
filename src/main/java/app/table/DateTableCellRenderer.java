@@ -8,9 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class DateTableCellRenderer extends DefaultTableCellRenderer {
-    private DateTimeFormatter format;
+    private final DateTimeFormatter format;
 
-    public DateTableCellRenderer(ResourceBundle bundle) {
+    public DateTableCellRenderer(final ResourceBundle bundle) {
         this.format = DateTimeFormatter.ofPattern(bundle.getString("pattern.date"));
     }
 

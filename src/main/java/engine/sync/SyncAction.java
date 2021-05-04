@@ -6,5 +6,5 @@ import model.result.Result;
 
 @FunctionalInterface
 public interface SyncAction {
-    Result execute(final Entity src, final Entity dest);
+    Result execute(final Entity left, final Entity right);
 }

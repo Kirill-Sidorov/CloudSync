@@ -29,7 +29,7 @@ public class GoogleDir implements Dir, CloudDir {
     }
 
     @Override
-    public DirResult files(Progress progress, TaskState state) {
+    public DirResult getFiles(Progress progress, TaskState state) {
         ErrorResult result = new ErrorResult(Error.NO);
         List<Entity> files = new ArrayList<>();
         String pageToken = null;
@@ -47,7 +47,6 @@ public class GoogleDir implements Dir, CloudDir {
                 double chunk = 0;
                 progress.value(0);
                 int size = fileList.getFiles().size();
-                System.out.println(size);
                 if (size > 0) {
                     chunk = (double) 100 / size;
                 }
@@ -117,15 +116,18 @@ public class GoogleDir implements Dir, CloudDir {
     }
 
     @Override
-    public Result upload(Entity srcFile) {
+    public Result upload(Entity srcFile, Progress progress) {
         Result result;
+        progress.value(0);
         EntityResult searchResult = searchFileInto(srcFile.name());
         if (searchResult.status() == Status.FILE_EXIST) {
             try {
                 File fileMetadata = new File();
                 java.io.File file = new java.io.File(srcFile.path());
                 FileContent mediaContent = new FileContent(new Tika().detect(file), file);
-                service.files().update(searchResult.entity().path(), fileMetadata, mediaContent).execute();
+                Drive.Files.Update update = service.files().update(searchResult.entity().path(), fileMetadata, mediaContent);
+                update.getMediaHttpUploader().setProgressListener(downloader -> progress.value((int)(downloader.getProgress() * 100)));
+                update.execute();
                 result = new SuccessResult(Status.OK);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -138,7 +140,9 @@ public class GoogleDir implements Dir, CloudDir {
             try {
                 java.io.File file = new java.io.File(srcFile.path());
                 FileContent mediaContent = new FileContent(new Tika().detect(file), file);
-                service.files().create(fileMetadata, mediaContent).execute();
+                Drive.Files.Create create = service.files().create(fileMetadata, mediaContent);
+                create.getMediaHttpUploader().setProgressListener(downloader -> progress.value((int)(downloader.getProgress() * 100)));
+                create.execute();
                 result = new SuccessResult(Status.OK);
             } catch (IOException e) {
                 e.printStackTrace();

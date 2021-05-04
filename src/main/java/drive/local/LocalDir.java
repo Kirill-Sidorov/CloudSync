@@ -21,7 +21,7 @@ public class LocalDir implements Dir {
     }
 
     @Override
-    public DirResult files(Progress progress, TaskState state) {
+    public DirResult getFiles(Progress progress, TaskState state) {
         ErrorResult result = new ErrorResult(Error.NO);
         List<Entity> listFileEntity = new ArrayList<>();
         File dir = new File(fileEntity.path());
@@ -34,7 +34,6 @@ public class LocalDir implements Dir {
                 if (files.length > 0) {
                     chunk = (double) 100 / files.length;
                 }
-                System.out.println(files.length);
                 for (File file : files) {
                     listFileEntity.add(new LocalFileEntity(file).create());
                     i += chunk;
