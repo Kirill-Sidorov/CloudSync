@@ -11,6 +11,10 @@ public enum Error {
         @Override
         public String getMessage(ResourceBundle bundle) { return "Unknown"; }
     },
+    DIR_NOT_CREATED {
+        @Override
+        public String getMessage(ResourceBundle bundle) { return "DIR_NOT_CREATED"; }
+    },
     FILE_NOT_FOUND_ERROR {
         @Override
         public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.file_or_directory_does_not_exist"); }

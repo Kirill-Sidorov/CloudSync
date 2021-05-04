@@ -6,13 +6,13 @@ import model.entity.CompDirEntity;
 public class SyncData {
 
     private final Disk disk;
-    private final CompDirEntity dir;
+    private final CompDirEntity syncDir;
 
-    public SyncData(final Disk disk, final CompDirEntity dir) {
+    public SyncData(final Disk disk, final CompDirEntity syncDir) {
         this.disk = disk;
-        this.dir = dir;
+        this.syncDir = syncDir;
     }
 
     public Disk disk() { return disk; }
-    public CompDirEntity dir() { return dir; }
+    public CompDirEntity syncDir() { return syncDir; }
 }

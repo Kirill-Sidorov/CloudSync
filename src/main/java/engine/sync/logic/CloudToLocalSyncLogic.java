@@ -3,6 +3,7 @@ package engine.sync.logic;
 import app.logic.SyncMode;
 import app.task.LabelUpdating;
 import app.task.Progress;
+import drive.CloudDir;
 import engine.sync.type.CloudToLocalSync;
 import engine.sync.SyncAction;
 import engine.sync.SyncData;
@@ -28,18 +29,18 @@ public class CloudToLocalSyncLogic implements SyncLogic {
         SyncResult result = null;
         switch (syncMode) {
             case LEFT:
-                result = new CloudToLocalSync(rightData.disk(), rightData.dir(), leftData.disk(), leftData.dir(), findSyncActionForLeftSync())
+                result = new CloudToLocalSync(rightData.disk(), rightData.syncDir(), leftData.disk(), leftData.syncDir(), findSyncActionForLeftSync())
                         .sync(progress, labelUpdating, bundle);
                 break;
             case RIGHT:
-                result = new CloudToLocalSync(leftData.disk(), leftData.dir(), rightData.disk(), rightData.dir(), findSyncActionForRightSync())
+                result = new CloudToLocalSync(leftData.disk(), leftData.syncDir(), rightData.disk(), rightData.syncDir(), findSyncActionForRightSync())
                         .sync(progress, labelUpdating, bundle);
                 break;
             case ALL:
                 StringBuilder errorMessage = new StringBuilder();
-                SyncResult leftResult = new CloudToLocalSync(rightData.disk(), rightData.dir(), leftData.disk(), leftData.dir(), findSyncActionForLeftSync())
+                SyncResult leftResult = new CloudToLocalSync(rightData.disk(), rightData.syncDir(), leftData.disk(), leftData.syncDir(), findSyncActionForLeftSync())
                                         .sync(progress, labelUpdating, bundle);
-                SyncResult rightResult = new CloudToLocalSync(leftData.disk(), leftData.dir(), rightData.disk(), rightData.dir(), findSyncActionForRightSync())
+                SyncResult rightResult = new CloudToLocalSync(leftData.disk(), leftData.syncDir(), rightData.disk(), rightData.syncDir(), findSyncActionForRightSync())
                                         .sync(progress, labelUpdating, bundle);
                 errorMessage.append(leftResult.errorMessage());
                 errorMessage.append(rightResult.errorMessage());
@@ -51,17 +52,17 @@ public class CloudToLocalSyncLogic implements SyncLogic {
 
     private SyncAction findSyncActionForLeftSync() {
         if (leftData.disk().isCloud()) {
-            return (src, dest) -> ((Cloud)leftData.disk()).cloudFile(dest).upload(src);
+            return (left, right) -> ((CloudDir)leftData.disk().dir(left)).upload(right);
         } else {
-            return (src, dest) -> ((Cloud)rightData.disk()).cloudFile(src).download(dest);
+            return (left, right) -> ((Cloud)rightData.disk()).cloudFile(right).download(left);
         }
     }
 
     private SyncAction findSyncActionForRightSync() {
         if (leftData.disk().isCloud()) {
-            return (src, dest) -> ((Cloud)leftData.disk()).cloudFile(src).download(dest);
+            return (left, right) -> ((Cloud)leftData.disk()).cloudFile(left).download(right);
         } else {
-            return (src, dest) -> ((Cloud)rightData.disk()).cloudFile(dest).upload(src);
+            return (left, right) -> ((CloudDir)rightData.disk().dir(right)).upload(left);
         }
     }
 }

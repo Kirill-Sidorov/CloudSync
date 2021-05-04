@@ -49,15 +49,27 @@ public class LocalDir implements Dir {
 
     @Override
     public EntityResult getDirInto(String dirName) {
+        EntityResult result;
         File dir = new File(fileEntity.path() + "\\" + dirName);
-        if (!dir.exists() && !dir.isDirectory()) {
-            dir.mkdir();
+        if (dir.exists() && dir.isDirectory()) {
+            result = new EntityResult(new LocalFileEntity(dir).create(), new SuccessResult(Status.FILE_EXIST));
+        } else {
+            if (dir.mkdir()) {
+                result = new EntityResult(new LocalFileEntity(dir).create(), new SuccessResult(Status.FILE_EXIST));
+            } else {
+                result = new EntityResult(new ErrorResult(Error.DIR_NOT_CREATED));
+            }
         }
-        return new LocalFileEntity(dir).create();
+        return result;
     }
 
     @Override
-    public EntityResult searchFileInto(String name, boolean isDir) {
-        return null;
+    public EntityResult searchFileInto(String fileName) {
+        File file = new File(fileEntity.path() + "\\" + fileName);
+        if (file.exists()) {
+            return new EntityResult(new LocalFileEntity(file).create(), new SuccessResult(Status.FILE_EXIST));
+        } else {
+            return new EntityResult(new ErrorResult(Error.FILE_NOT_FOUND_ERROR));
+        }
     }
 }

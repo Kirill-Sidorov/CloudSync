@@ -7,6 +7,7 @@ import model.disk.Disk;
 import model.entity.CompDirEntity;
 import model.entity.CompFileEntity;
 import model.entity.Entity;
+import model.result.EntityResult;
 import model.result.Result;
 import model.result.Status;
 import model.result.SyncResult;
@@ -35,10 +36,14 @@ public class CloudToLocalSync implements Sync {
         for (Entity file : srcDir.files()) {
             labelUpdating.text(file.name());
             if (file.isDirectory()) {
-                Entity newDestEntity = destDisk.dir(destEntity).getDirInto(file.name());
-                SyncResult syncResult = new CloudToLocalSync(srcDisk, (CompDirEntity)file, destDisk, newDestEntity, syncAction)
-                        .sync(progress, labelUpdating, bundle);
-                errorMessage.append(syncResult.errorMessage());
+                EntityResult newDestEntity = destDisk.dir(destEntity).getDirInto(file.name());
+                if (newDestEntity.status() == Status.FILE_EXIST) {
+                    SyncResult syncResult = new CloudToLocalSync(srcDisk, (CompDirEntity)file, destDisk, newDestEntity.entity(), syncAction)
+                            .sync(progress, labelUpdating, bundle);
+                    errorMessage.append(syncResult.errorMessage());
+                } else {
+                    errorMessage.append(String.format("%s : %s\n", file.name(), newDestEntity.error().getMessage(bundle)));
+                }
             } else {
                 if (((CompFileEntity)file).isLastModified()) {
                     Result result = syncAction.execute(file, destEntity);

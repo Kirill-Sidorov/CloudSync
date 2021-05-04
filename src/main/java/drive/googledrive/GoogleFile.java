@@ -1,17 +1,13 @@
 package drive.googledrive;
 
-import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
 import drive.CloudFile;
 import model.entity.Entity;
 import model.result.*;
 import model.result.Error;
-import org.apache.tika.Tika;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
 
 public class GoogleFile implements CloudFile {
     private final Entity fileEntity;
@@ -20,26 +16,6 @@ public class GoogleFile implements CloudFile {
     public GoogleFile(final Entity fileEntity, final Drive service) {
         this.fileEntity = fileEntity;
         this.service = service;
-    }
-
-    @Override
-    public Result upload(Entity srcFile) {
-        Result result;
-
-        File fileMetadata = new File();
-        fileMetadata.setName(srcFile.name());
-        fileMetadata.setParents(Collections.singletonList(fileEntity.path()));
-
-        try {
-            java.io.File file = new java.io.File(srcFile.path());
-            FileContent mediaContent = new FileContent(new Tika().detect(file), file);
-            service.files().create(fileMetadata, mediaContent).execute();
-            result = new SuccessResult(Status.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-            result = new ErrorResult(Error.FILE_NOT_UPLOAD_ERROR);
-        }
-        return result;
     }
 
     @Override

@@ -2,20 +2,23 @@ package drive.googledrive;
 
 import app.task.Progress;
 import app.task.TaskState;
+import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import drive.CloudDir;
 import drive.Dir;
 import model.entity.Entity;
 import model.result.*;
 import model.result.Error;
+import org.apache.tika.Tika;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GoogleDir implements Dir {
+public class GoogleDir implements Dir, CloudDir {
 
     private final Entity fileEntity;
     private final Drive service;
@@ -65,13 +68,17 @@ public class GoogleDir implements Dir {
 
     @Override
     public EntityResult getDirInto(String dirName) {
-        Entity dir = null;
-        try {
-            FileList result = service.files().list()
-                    .setQ(String.format("mimeType='application/vnd.google-apps.folder' and '%s' in parents and name = '%s'", fileEntity.path(), dirName))
-                    .setFields("files(id, name, size, modifiedTime, mimeType, fileExtension)")
-                    .execute();
-            if (result.getFiles().size() == 0) {
+        boolean isNeedCreate = true;
+        EntityResult searchResult = searchFileInto(dirName);
+        EntityResult result = searchResult;
+        if (searchResult.status() == Status.FILE_EXIST) {
+            if (searchResult.entity().isDirectory()) {
+                isNeedCreate = false;
+            }
+        }
+
+        if (isNeedCreate) {
+            try {
                 File fileMetadata = new File();
                 fileMetadata.setName(dirName);
                 fileMetadata.setMimeType("application/vnd.google-apps.folder");
@@ -79,18 +86,65 @@ public class GoogleDir implements Dir {
                 File file = service.files().create(fileMetadata)
                         .setFields("id, name, size, modifiedTime, mimeType, fileExtension")
                         .execute();
-                dir = new GoogleFileEntity(file).create();
-            } else {
-                dir = new GoogleFileEntity(result.getFiles().get(0)).create();
+                result = new EntityResult(new GoogleFileEntity(file).create(), new SuccessResult(Status.FILE_EXIST));
+            } catch (IOException e) {
+                result = new EntityResult(new ErrorResult(Error.DIR_NOT_CREATED));
             }
-        } catch (IOException e) {
-            System.out.println("Google drive - dir not gave or created");
         }
-        return dir;
+        return result;
     }
 
     @Override
-    public EntityResult searchFileInto(String name, boolean isDir) {
-        return null;
+    public EntityResult searchFileInto(String fileName) {
+        EntityResult searchResult;
+        try {
+            FileList result = service.files().list()
+                    .setQ(String.format("'%s' in parents and name = '%s'", fileEntity.path(), fileName))
+                    .setFields("files(id, name, size, modifiedTime, mimeType, fileExtension)")
+                    .execute();
+            if (result.getFiles().size() == 0) {
+                searchResult = new EntityResult(new ErrorResult(Error.FILE_NOT_FOUND_ERROR));
+            } else {
+                searchResult = new EntityResult(
+                        new GoogleFileEntity(result.getFiles().get(0)).create(),
+                        new SuccessResult(Status.FILE_EXIST)
+                );
+            }
+        } catch (IOException e) {
+            searchResult = new EntityResult(new ErrorResult(Error.UNKNOWN));
+        }
+        return searchResult;
+    }
+
+    @Override
+    public Result upload(Entity srcFile) {
+        Result result;
+        EntityResult searchResult = searchFileInto(srcFile.name());
+        if (searchResult.status() == Status.FILE_EXIST) {
+            try {
+                File fileMetadata = new File();
+                java.io.File file = new java.io.File(srcFile.path());
+                FileContent mediaContent = new FileContent(new Tika().detect(file), file);
+                service.files().update(searchResult.entity().path(), fileMetadata, mediaContent).execute();
+                result = new SuccessResult(Status.OK);
+            } catch (IOException e) {
+                e.printStackTrace();
+                result = new ErrorResult(Error.FILE_NOT_UPLOAD_ERROR);
+            }
+        } else {
+            File fileMetadata = new File();
+            fileMetadata.setName(srcFile.name());
+            fileMetadata.setParents(Collections.singletonList(fileEntity.path()));
+            try {
+                java.io.File file = new java.io.File(srcFile.path());
+                FileContent mediaContent = new FileContent(new Tika().detect(file), file);
+                service.files().create(fileMetadata, mediaContent).execute();
+                result = new SuccessResult(Status.OK);
+            } catch (IOException e) {
+                e.printStackTrace();
+                result = new ErrorResult(Error.FILE_NOT_UPLOAD_ERROR);
+            }
+        }
+        return result;
     }
 }
