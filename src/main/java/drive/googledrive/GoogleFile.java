@@ -1,6 +1,7 @@
 package drive.googledrive;
 
 import app.task.Progress;
+import app.task.TaskState;
 import com.google.api.services.drive.Drive;
 import drive.CloudFile;
 import model.entity.Entity;
@@ -20,8 +21,11 @@ public class GoogleFile implements CloudFile {
     }
 
     @Override
-    public Result download(Entity destFile, Progress progress) {
+    public Result download(Entity destFile, Progress progress, TaskState state) {
         Result result;
+        if (state.isCancel()) {
+            return new ErrorResult(Error.FILE_NOT_DOWNLOAD_ERROR);
+        }
         try (FileOutputStream outputStream = new FileOutputStream(destFile.path() + "\\" + fileEntity.name())) {
             Drive.Files.Get request = service.files().get(fileEntity.path());
             request.getMediaHttpDownloader().setProgressListener(downloader -> progress.value((int)(downloader.getProgress() * 100)));

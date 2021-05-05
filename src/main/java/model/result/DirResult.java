@@ -7,11 +7,11 @@ import java.util.List;
 public class DirResult implements Result {
 
     private final List<Entity> files;
-    private long totalSpace;
-    private long unallocatedSpace;
+    private final long totalSpace;
+    private final long unallocatedSpace;
     private final Result result;
 
-    public DirResult(final List<Entity> files, long totalSpace, long unallocatedSpace, final ErrorResult result) {
+    public DirResult(final List<Entity> files, final long totalSpace, final long unallocatedSpace, final ErrorResult result) {
         this.files = files;
         this.totalSpace = totalSpace;
         this.unallocatedSpace = unallocatedSpace;

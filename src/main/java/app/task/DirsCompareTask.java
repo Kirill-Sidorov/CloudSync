@@ -39,7 +39,7 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
 
     @Override
     protected void process(List<String> chunks) {
-        dialog.infoLabel().setText(chunks.get(chunks.size() - 1));
+        dialog.infoTextField().setText(chunks.get(chunks.size() - 1));
     }
 
     @Override
@@ -52,29 +52,5 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
         } catch (Exception e) {
             System.out.println("compare crash");
         }
-        /*
-        if (result != null) {
-            List<Entity> files = result.leftDir().files();
-            System.out.println("------------------------------------------");
-            System.out.println(result.errorMessage());
-            System.out.println("Left files");
-            showFiles(files);
-            files = result.rightDir().files();
-            System.out.println("Right files");
-            showFiles(files);
-            System.out.println("//////////////////////////////////////////");
-        }
-        */
-
     }
-/*
-    private void showFiles(List<Entity> files) {
-        for (Entity file : files) {
-            System.out.println(file.name());
-            if (file.isDirectory()) {
-                showFiles(((CompDirEntity) file).files());
-            }
-        }
-    }
- */
 }

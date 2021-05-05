@@ -33,18 +33,16 @@ public class FilePanelControl {
     private final String FILE_TABLE = "file_table";
     private final String TREE_FILE_TABLE = "tree_file_table";
 
-    private JPanel filePanel;
-
-    private JComboBox diskComboBox;
-    private JProgressBar progressBarUpdateTable;
-    private JLabel diskInfoLabel;
-    private JTextField pathTextField;
-    private JPanel cardsPanel;
-    private JTable fileTable;
-    private JTreeTable treeFileTable;
-    private JButton backButton;
-    private JButton updateButton;
-    private JButton cancelButton;
+    private final JComboBox<String> diskComboBox;
+    private final JProgressBar progressBarUpdateTable;
+    private final JLabel diskInfoLabel;
+    private final JTextField pathTextField;
+    private final JPanel cardsPanel;
+    private final JTable fileTable;
+    private final JTreeTable treeFileTable;
+    private final JButton backButton;
+    private final JButton updateButton;
+    private final JButton cancelButton;
 
     private final FileTableModel fileTableModel;
     private Disk currentDisk;
@@ -57,19 +55,19 @@ public class FilePanelControl {
 
     private CompDirEntity compDirEntity;
 
-    public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives, final JTreeTable treeFileTable) {
+    public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives, final JPanel mainPanel, final JTreeTable treeFileTable) {
         this.bundle = bundle;
         this.drives = drives;
         this.treeFileTable = treeFileTable;
 
-        filePanel = new JPanel();
-        filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        diskComboBox = new JComboBox();
+        diskComboBox = new JComboBox<>();
         diskComboBox.setMaximumSize(new Dimension(30, 20));
         drives.keySet().forEach(diskComboBox::addItem);
         progressBarUpdateTable = new JProgressBar();
         progressBarUpdateTable.setVisible(false);
+        progressBarUpdateTable.setForeground(Color.RED);
         diskInfoLabel = new JLabel();
         diskInfoLabel.setVerticalAlignment(SwingConstants.CENTER);
         backButton = new JButton(new ImageIcon(getClass().getResource("/img/back-button.png")));
@@ -132,16 +130,16 @@ public class FilePanelControl {
                 .addComponent(pathTextField));
         layout.setVerticalGroup(vGroup);
 
-        filePanel.add(controlPanel);
-        filePanel.add(progressBarUpdateTable);
-        filePanel.add(cardsPanel);
+        mainPanel.add(controlPanel);
+        mainPanel.add(progressBarUpdateTable);
+        mainPanel.add(cardsPanel);
 
         updateButton.addActionListener(event -> updateFileTable());
 
         diskComboBox.addActionListener(event -> {
             Object drive = diskComboBox.getSelectedItem();
             if (drive != null) {
-                currentDisk = drives.get((String) diskComboBox.getSelectedItem());
+                currentDisk = drives.get((String)diskComboBox.getSelectedItem());
                 viewRootDir();
             }
         });
@@ -275,9 +273,6 @@ public class FilePanelControl {
             viewRootDir();
         }
     }
-
-    // delete, get panel from constructor
-    public JPanel mainJPanel() { return filePanel; }
 
     public CompData compData() { return new CompData(currentDisk, dirs.peek()); }
     public SyncData syncData() { return new SyncData(currentDisk, compDirEntity); }

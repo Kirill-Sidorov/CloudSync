@@ -1,36 +1,22 @@
 package model.entity;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class FileEntity implements Entity {
-    private String path;
-    private String name;
-    private LocalDateTime modifiedDate;
-    private Long size;
-    private String typeName;
-    private boolean isDirectory;
+    private final String path;
+    private final String name;
+    private final LocalDateTime modifiedDate;
+    private final Long size;
+    private final String typeName;
+    private final boolean isDirectory;
 
-    public FileEntity(String path, String name, LocalDateTime modifiedDate, Long size, String typeName, boolean isDirectory) {
+    public FileEntity(final String path, final String name, final LocalDateTime modifiedDate, final Long size, final String typeName, final boolean isDirectory) {
         this.path = path;
         this.name = name;
         this.modifiedDate = modifiedDate;
         this.size = size;
         this.typeName = typeName;
         this.isDirectory = isDirectory;
-    }
-// delete ?
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FileEntity that = (FileEntity) o;
-        return name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 
     @Override

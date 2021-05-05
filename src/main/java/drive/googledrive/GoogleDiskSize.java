@@ -2,10 +2,11 @@ package drive.googledrive;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.About;
+import drive.DiskSize;
 
 import java.io.IOException;
 
-public class GoogleDiskSize {
+public class GoogleDiskSize implements DiskSize {
 
     private final Drive service;
 
@@ -18,6 +19,7 @@ public class GoogleDiskSize {
         unallocatedSpace = 0L;
     }
 
+    @Override
     public void request() {
         try {
             About about = service.about().get().setFields("storageQuota(limit, usageInDrive)").execute();
@@ -29,6 +31,9 @@ public class GoogleDiskSize {
         }
     }
 
+    @Override
     public long totalSpace() { return totalSpace; }
+
+    @Override
     public long unallocatedSpace() { return unallocatedSpace; }
 }

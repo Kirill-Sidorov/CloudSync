@@ -1,4 +1,4 @@
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import app.MainFrameControl;
 
 import javax.swing.*;
@@ -6,7 +6,7 @@ import javax.swing.*;
 public class App {
     private App() {}
     public static void main(String[] args) {
-        FlatLightLaf.install();
+        FlatIntelliJLaf.install();
         SwingUtilities.invokeLater(MainFrameControl::new);
     }
 }

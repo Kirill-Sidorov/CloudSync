@@ -35,11 +35,11 @@ public class SyncTask extends SwingWorker<SyncResult, String> {
 
     @Override
     protected SyncResult doInBackground() {
-        return new SyncEngine(leftData, rightData, syncMode).start(this::setProgress, this::publish, bundle);
+        return new SyncEngine(leftData, rightData, syncMode).start(this::setProgress, this::publish, this::isCancelled, bundle);
     }
 
     @Override
-    protected void process(List<String> chunks) { dialog.infoLabel().setText(chunks.get(chunks.size() - 1)); }
+    protected void process(List<String> chunks) { dialog.infoTextField().setText(chunks.get(chunks.size() - 1)); }
 
     @Override
     protected void done() {
@@ -47,6 +47,7 @@ public class SyncTask extends SwingWorker<SyncResult, String> {
         try {
             if (!isCancelled()) {
                 SyncResult result = get();
+                System.out.println(result.errorMessage().length());
                 System.out.println(result.errorMessage());
             }
         } catch (Exception e) {

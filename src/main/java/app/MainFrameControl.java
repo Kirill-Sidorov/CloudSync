@@ -25,24 +25,19 @@ import java.util.*;
 public class MainFrameControl {
 
     private JFrame mainFrame;
-    private JMenuBar menuBar;
-    private JMenu programMenu;
-    private JMenuItem cloudManagerMenu;
 
-    private JButton compareDirsButton;
-    private JButton syncModeButton;
-    private JButton cancelCompModeButton;
-    private JButton syncDirsButton;
+    private final JButton compareDirsButton;
+    private final JButton syncModeButton;
+    private final JButton cancelCompModeButton;
+    private final JButton syncDirsButton;
 
-    private JSplitPane splitPane;
-    private JPanel syncControlPanel;
-    private FilePanelControl leftPanel;
-    private FilePanelControl rightPanel;
+    private final FilePanelControl leftPanel;
+    private final FilePanelControl rightPanel;
 
     private final SyncMode[] syncModes = SyncMode.values();
     private final ResourceBundle bundle;
-    private Map<String, Disk> drives;
-    private Map<String, CloudInfo> cloudsInfo;
+    private final Map<String, Disk> drives;
+    private final Map<String, CloudInfo> cloudsInfo;
 
     private int currentSyncMode;
 
@@ -61,9 +56,9 @@ public class MainFrameControl {
         }).execute();
 
 
-        menuBar = new JMenuBar();
-        programMenu = new JMenu(bundle.getString("ui.menu_bar.menu.app"));
-        cloudManagerMenu = new JMenuItem(bundle.getString("ui.menu_bar.menu_item.cloud_manager"));
+        JMenuBar menuBar = new JMenuBar();
+        JMenu programMenu = new JMenu(bundle.getString("ui.menu_bar.menu.app"));
+        JMenuItem cloudManagerMenu = new JMenuItem(bundle.getString("ui.menu_bar.menu_item.cloud_manager"));
         programMenu.add(cloudManagerMenu);
         menuBar.add(programMenu);
 
@@ -86,12 +81,15 @@ public class MainFrameControl {
             }
         });
 
-        leftPanel = new FilePanelControl(bundle, drives, leftTreeTable);
-        rightPanel = new FilePanelControl(bundle, drives, rightTreeTable);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel.mainJPanel(), rightPanel.mainJPanel());
+        JPanel left = new JPanel();
+        JPanel right = new JPanel();
+
+        leftPanel = new FilePanelControl(bundle, drives, left, leftTreeTable);
+        rightPanel = new FilePanelControl(bundle, drives, right, rightTreeTable);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
         splitPane.setResizeWeight(0.5);
 
-        syncControlPanel = new JPanel();
+        JPanel syncControlPanel = new JPanel();
         compareDirsButton = new JButton(bundle.getString("ui.button.comp_current_dirs"));
         syncModeButton = new JButton(syncModes[0].image());
         cancelCompModeButton = new JButton(bundle.getString("ui.button.cancel_comp_mode"));
@@ -130,14 +128,14 @@ public class MainFrameControl {
         });
 
         compareDirsButton.addActionListener(event -> {
-            ProcessDialog dialog = new ProcessDialog(mainFrame, bundle.getString("ui.dialog"), bundle);
+            ProcessDialog dialog = new ProcessDialog(mainFrame, bundle.getString("ui.dialog.comp.title"), bundle.getString("message.process.comp"), bundle);
             DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::viewComparableDirs, bundle);
             task.execute();
         });
 
         syncDirsButton.addActionListener(event -> {
             viewFileTables(true);
-            ProcessDialog dialog = new ProcessDialog(mainFrame, "Sync", bundle);
+            ProcessDialog dialog = new ProcessDialog(mainFrame, bundle.getString("ui.dialog.sync.title"), bundle.getString("message.process.sync"), bundle);
             SyncTask task = new SyncTask(leftPanel.syncData(), rightPanel.syncData(), syncModes[currentSyncMode], dialog, bundle);
             task.execute();
         });

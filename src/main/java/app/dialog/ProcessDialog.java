@@ -6,15 +6,23 @@ import java.util.ResourceBundle;
 
 public class ProcessDialog extends JDialog {
 
-    private final JLabel infoLabel;
+    private final JTextField infoTextField;
     private final JProgressBar progressBar;
     private final JButton cancelButton;
 
-    public ProcessDialog(final JFrame parentFrame, final String title, final ResourceBundle bundle) {
+    public ProcessDialog(final JFrame parentFrame, final String title, final String processMessage, final ResourceBundle bundle) {
         super(parentFrame, title, false);
-        infoLabel = new JLabel();
+        JLabel processMessageLabel = new JLabel(processMessage);
+        infoTextField = new JTextField();
+        infoTextField.setFocusable(false);
         progressBar = new JProgressBar();
         cancelButton = new JButton(bundle.getString("ui.button.cancel"));
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        panel.add(processMessageLabel);
+        panel.add(infoTextField);
 
         Container container = getContentPane();
         GroupLayout groupLayout = new GroupLayout(container);
@@ -24,7 +32,7 @@ public class ProcessDialog extends JDialog {
         groupLayout.setAutoCreateGaps(true);
 
         groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(infoLabel)
+                .addComponent(panel)
                 .addComponent(progressBar)
                 .addComponent(cancelButton)
                 .addGap(200)
@@ -32,7 +40,7 @@ public class ProcessDialog extends JDialog {
 
         groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
                 .addGap(30)
-                .addComponent(infoLabel)
+                .addComponent(panel)
                 .addGap(20)
                 .addComponent(progressBar)
                 .addGap(40)
@@ -47,7 +55,7 @@ public class ProcessDialog extends JDialog {
         setLocationRelativeTo(getOwner());
     }
 
-    public JLabel infoLabel() { return infoLabel; }
+    public JTextField infoTextField() { return infoTextField; }
     public JProgressBar progressBar() { return progressBar; }
     public JButton cancelButton() { return cancelButton; }
 }

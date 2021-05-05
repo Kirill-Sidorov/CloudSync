@@ -3,6 +3,7 @@ package engine.sync.logic;
 import app.logic.SyncMode;
 import app.task.LabelUpdating;
 import app.task.Progress;
+import app.task.TaskState;
 import engine.sync.SyncData;
 import model.result.Error;
 import model.result.ErrorResult;
@@ -23,7 +24,7 @@ public class CloudToCloudSyncLogic implements SyncLogic {
     }
 
     @Override
-    public SyncResult execute(Progress progress, LabelUpdating labelUpdating, ResourceBundle bundle) {
+    public SyncResult execute(Progress progress, LabelUpdating labelUpdating, TaskState state, ResourceBundle bundle) {
         return new SyncResult(new ErrorResult(Error.CURRENT_DISKS_CANNOT_BE_SYNCED), bundle);
     }
 }

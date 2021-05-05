@@ -1,7 +1,6 @@
 package engine.sync.type;
 
 import app.task.LabelUpdating;
-import app.task.Progress;
 import engine.sync.SyncAction;
 import model.disk.Disk;
 import model.entity.CompDirEntity;
