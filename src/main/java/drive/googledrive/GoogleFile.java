@@ -22,10 +22,10 @@ public class GoogleFile implements CloudFile {
 
     @Override
     public Result download(Entity destFile, Progress progress, TaskState state) {
-        Result result;
         if (state.isCancel()) {
             return new ErrorResult(Error.FILE_NOT_DOWNLOAD_ERROR);
         }
+        Result result;
         try (FileOutputStream outputStream = new FileOutputStream(destFile.path() + "\\" + fileEntity.name())) {
             Drive.Files.Get request = service.files().get(fileEntity.path());
             request.getMediaHttpDownloader().setProgressListener(downloader -> progress.value((int)(downloader.getProgress() * 100)));

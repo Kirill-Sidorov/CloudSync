@@ -47,7 +47,6 @@ public class SyncTask extends SwingWorker<SyncResult, String> {
         try {
             if (!isCancelled()) {
                 SyncResult result = get();
-                System.out.println(result.errorMessage().length());
                 System.out.println(result.errorMessage());
             }
         } catch (Exception e) {

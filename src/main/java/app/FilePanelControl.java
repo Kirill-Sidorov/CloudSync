@@ -176,7 +176,9 @@ public class FilePanelControl {
                             }
                         }
                     }
-                } else if (SwingUtilities.isRightMouseButton(e)) {
+                }
+                /*
+                else if (SwingUtilities.isRightMouseButton(e)) {
                     int row = fileTable.getSelectedRow();
                     if (row != -1) {
                         row = fileTable.convertRowIndexToModel(row);
@@ -187,6 +189,7 @@ public class FilePanelControl {
                         }
                     }
                 }
+                */
             }
         });
 

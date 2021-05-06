@@ -16,6 +16,7 @@ public class ProcessDialog extends JDialog {
         infoTextField = new JTextField();
         infoTextField.setFocusable(false);
         progressBar = new JProgressBar();
+        progressBar.setForeground(Color.RED);
         cancelButton = new JButton(bundle.getString("ui.button.cancel"));
 
         JPanel panel = new JPanel();
