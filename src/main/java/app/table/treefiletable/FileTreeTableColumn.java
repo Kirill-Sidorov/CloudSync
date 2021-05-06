@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 public enum FileTreeTableColumn implements Column {
     ACTION {
         @Override
-        public String getColumnName(ResourceBundle bundle) { return "Version"; }
+        public String getColumnName(ResourceBundle bundle) { return bundle.getString("ui.table.files.column.version"); }
 
         @Override
         public Class<?> getColumnClass() { return ImageIcon.class; }

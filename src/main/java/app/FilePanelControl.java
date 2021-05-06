@@ -15,7 +15,6 @@ import model.disk.Disk;
 import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.DirResult;
-import model.result.EntityResult;
 import model.result.Error;
 import model.result.Result;
 
@@ -44,8 +43,8 @@ public class FilePanelControl {
     private final JButton backButton;
     private final JButton updateButton;
     private final JButton cancelButton;
-
     private final FileTableModel fileTableModel;
+
     private Disk currentDisk;
     private String humanReadablePath;
     private TableUpdateTask updateTask;
@@ -60,7 +59,6 @@ public class FilePanelControl {
         this.bundle = bundle;
         this.drives = drives;
         this.treeFileTable = treeFileTable;
-
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         diskComboBox = new JComboBox<>();
@@ -138,9 +136,9 @@ public class FilePanelControl {
         updateButton.addActionListener(event -> updateFileTable());
 
         diskComboBox.addActionListener(event -> {
-            Object drive = diskComboBox.getSelectedItem();
+            String drive = (String)diskComboBox.getSelectedItem();
             if (drive != null) {
-                currentDisk = drives.get((String)diskComboBox.getSelectedItem());
+                currentDisk = drives.get(drive);
                 viewRootDir();
             }
         });
@@ -167,7 +165,6 @@ public class FilePanelControl {
                             humanReadablePath = humanReadablePath + "\\" + file.name();
                             updateFileTable();
                         } else {
-
                             if (currentDisk.isCloud()) {
                                 // ask user: Download this file?
                                 // then download and run file
@@ -192,8 +189,8 @@ public class FilePanelControl {
                 */
             }
         });
-
-        currentDisk = drives.get((String) diskComboBox.getSelectedItem());
+        String stringDisk = (String)diskComboBox.getSelectedItem();
+        currentDisk = drives.get(stringDisk);
         dirs.push(currentDisk.rootFile());
         humanReadablePath = currentDisk.name();
         updateFileTable();
@@ -257,14 +254,9 @@ public class FilePanelControl {
     }
 
     public void updateDiskComboBox() {
-        int index = diskComboBox.getSelectedIndex();
         diskComboBox.removeAllItems();
         drives.keySet().forEach(diskComboBox::addItem);
-        if (diskComboBox.getItemCount() > index) {
-            diskComboBox.setSelectedIndex(index);
-        } else {
-            diskComboBox.setSelectedIndex(diskComboBox.getItemCount() - 1);
-        }
+        updateFileTable();
     }
 
     public void viewComparableDir(CompDirEntity dir) {

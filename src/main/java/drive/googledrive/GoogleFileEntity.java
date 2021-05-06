@@ -32,7 +32,7 @@ public class GoogleFileEntity implements FileEntity {
         typeName = (file.getFileExtension() != null) ? file.getFileExtension() : "";
 
         if (file.getMimeType().equals("application/vnd.google-apps.folder")) {
-            typeName = "dir";
+            typeName = "<dir>";
             isDirectory = true;
         }
         return new model.entity.FileEntity(id, name, modifiedDate, size, typeName, isDirectory);

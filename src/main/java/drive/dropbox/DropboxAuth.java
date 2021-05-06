@@ -29,7 +29,7 @@ public class DropboxAuth implements Auth {
         try {
             FullAccount account = client.users().getCurrentAccount();
             name = "Dropbox-" + account.getName().getDisplayName();
-            fileEntity = new FileEntity("", name, null, 0L, "dir", true);
+            fileEntity = new FileEntity("", name, null, 0L, "<dir>", true);
         } catch (DbxException e) {
             System.out.println("dropbox authorize error");
         }

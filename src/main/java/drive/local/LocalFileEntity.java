@@ -24,7 +24,7 @@ public class LocalFileEntity implements FileEntity {
         boolean isDirectory = false;
         if (file.isDirectory()) {
             size = null;
-            typeName = "dir";
+            typeName = "<dir>";
             isDirectory = true;
         } else {
             size = file.length();

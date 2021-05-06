@@ -43,7 +43,7 @@ public class DropboxFileEntity implements FileEntity {
             FolderMetadata folderMetadata = (FolderMetadata) file;
             path = (folderMetadata.getPathDisplay() != null) ? folderMetadata.getPathDisplay() : "";
             name = (folderMetadata.getName() != null) ? folderMetadata.getName() : "";
-            typeName = "dir";
+            typeName = "<dir>";
         }
         return new model.entity.FileEntity(path, name, modifiedDate, size, typeName, isDirectory);
     }
