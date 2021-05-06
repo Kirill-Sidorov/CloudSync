@@ -4,17 +4,16 @@ import app.task.Progress;
 import app.task.TaskState;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.ListFolderResult;
-import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.*;
 import drive.CloudDir;
 import drive.Dir;
 import model.entity.Entity;
-import model.result.DirResult;
-import model.result.EntityResult;
+import model.result.*;
 import model.result.Error;
-import model.result.ErrorResult;
-import model.result.Result;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,16 +60,64 @@ public class DropboxDir implements Dir, CloudDir {
 
     @Override
     public EntityResult getDirInto(String dirName) {
-        return null;
+        boolean isNeedCreate = true;
+        EntityResult searchResult = searchFileInto(dirName);
+        EntityResult result = searchResult;
+        if (searchResult.status() == Status.FILE_EXIST) {
+            if (searchResult.entity().isDirectory()) {
+                isNeedCreate = false;
+            }
+        }
+
+        if (isNeedCreate) {
+            try {
+                CreateFolderResult createResult = client.files().createFolderV2(fileEntity.path() + "/" + dirName);
+                result = new EntityResult(new DropboxFileEntity(createResult.getMetadata()).create(), new SuccessResult(Status.FILE_EXIST));
+            } catch (DbxException e) {
+                result = new EntityResult(new ErrorResult(Error.DIR_NOT_CREATED));
+            }
+        }
+
+        return result;
     }
 
     @Override
     public EntityResult searchFileInto(String fileName) {
-        return null;
+        EntityResult searchResult = new EntityResult(new ErrorResult(Error.FILE_NOT_FOUND_ERROR));
+        try {
+            boolean isSearch = true;
+            ListFolderResult fileList = client.files().listFolder(fileEntity.path());
+            do {
+                for (Metadata metadata : fileList.getEntries()) {
+                    if (metadata.getName().equals(fileName)) {
+                        searchResult = new EntityResult(new DropboxFileEntity(metadata).create(), new SuccessResult(Status.FILE_EXIST));
+                        isSearch = false;
+                        break;
+                    }
+                }
+                fileList = client.files().listFolderContinue(fileList.getCursor());
+            } while (fileList.getHasMore() && isSearch);
+        } catch (DbxException e) {
+            searchResult = new EntityResult(new ErrorResult(Error.UNKNOWN));
+        }
+        return searchResult;
     }
 
     @Override
     public Result upload(Entity srcFile, Progress progress, TaskState state) {
-        return null;
+        if (state.isCancel()) {
+            return new ErrorResult(Error.FILE_NOT_UPLOAD_ERROR);
+        }
+        Result result;
+        try (InputStream in = new FileInputStream(srcFile.path())) {
+            progress.value(0);
+            long size = srcFile.size();
+            client.files().uploadBuilder(fileEntity.path() + "/" + srcFile.name())
+                    .withMode(WriteMode.OVERWRITE).uploadAndFinish(in, l -> progress.value((int) (100 * (l / (double) size))));
+            result = new SuccessResult(Status.OK);
+        } catch (DbxException | IOException e) {
+            result = new ErrorResult(Error.FILE_NOT_UPLOAD_ERROR);
+        }
+        return result;
     }
 }

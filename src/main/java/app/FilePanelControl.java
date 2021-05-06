@@ -15,6 +15,7 @@ import model.disk.Disk;
 import model.entity.CompDirEntity;
 import model.entity.Entity;
 import model.result.DirResult;
+import model.result.EntityResult;
 import model.result.Error;
 import model.result.Result;
 
@@ -156,7 +157,7 @@ public class FilePanelControl {
         fileTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
                     int row = fileTable.getSelectedRow();
                     if (row != -1) {
                         row = fileTable.convertRowIndexToModel(row);
@@ -173,6 +174,16 @@ public class FilePanelControl {
                             } else {
                                 processResult(new LocalFile(file).execute());
                             }
+                        }
+                    }
+                } else if (SwingUtilities.isRightMouseButton(e)) {
+                    int row = fileTable.getSelectedRow();
+                    if (row != -1) {
+                        row = fileTable.convertRowIndexToModel(row);
+                        Entity file = fileTableModel.getFile(row);
+                        if (file.isDirectory()) {
+                            EntityResult result = currentDisk.dir(file).getDirInto("yyy");
+                            System.out.println(result.entity().path());
                         }
                     }
                 }

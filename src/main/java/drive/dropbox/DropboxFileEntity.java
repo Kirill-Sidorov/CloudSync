@@ -19,7 +19,7 @@ public class DropboxFileEntity implements FileEntity {
 
     @Override
     public Entity create() {
-        String id = "";
+        String path = "";
         String name = "";
         LocalDateTime modifiedDate = null;
         Long size = null;
@@ -29,7 +29,7 @@ public class DropboxFileEntity implements FileEntity {
         if (file instanceof FileMetadata) {
             isDirectory = false;
             FileMetadata fileMetadata = (FileMetadata)file;
-            id = (fileMetadata.getId() != null) ? fileMetadata.getId() : "";
+            path = (fileMetadata.getPathDisplay() != null) ? fileMetadata.getPathDisplay() : "";
             name = (fileMetadata.getName() != null) ? fileMetadata.getName() : "";
             if (fileMetadata.getClientModified() != null) {
                 modifiedDate = LocalDateTime.ofInstant(fileMetadata.getClientModified().toInstant(), ZoneOffset.systemDefault());
@@ -41,10 +41,10 @@ public class DropboxFileEntity implements FileEntity {
         }  else if (file instanceof FolderMetadata) {
             isDirectory = true;
             FolderMetadata folderMetadata = (FolderMetadata) file;
-            id = (folderMetadata.getId() != null) ? folderMetadata.getId() : "";
+            path = (folderMetadata.getPathDisplay() != null) ? folderMetadata.getPathDisplay() : "";
             name = (folderMetadata.getName() != null) ? folderMetadata.getName() : "";
             typeName = "dir";
         }
-        return new model.entity.FileEntity(id, name, modifiedDate, size, typeName, isDirectory);
+        return new model.entity.FileEntity(path, name, modifiedDate, size, typeName, isDirectory);
     }
 }

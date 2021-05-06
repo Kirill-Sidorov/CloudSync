@@ -118,10 +118,10 @@ public class GoogleDir implements Dir, CloudDir {
     @Override
     public Result upload(Entity srcFile, Progress progress, TaskState state) {
         Result result;
-        progress.value(0);
         if (state.isCancel()) {
             return new ErrorResult(Error.FILE_NOT_UPLOAD_ERROR);
         }
+        progress.value(0);
         EntityResult searchResult = searchFileInto(srcFile.name());
         if (searchResult.status() == Status.FILE_EXIST) {
             try {
