@@ -2,6 +2,7 @@ package app;
 
 import app.dialog.CloudManagerDialog;
 import app.dialog.ProcessDialog;
+import app.dialog.SyncTaskDialog;
 import app.logic.SyncMode;
 import app.table.treefiletable.JTreeTable;
 import app.task.CloudDrivesConnectTask;
@@ -27,6 +28,7 @@ public class MainFrameControl {
     private JFrame mainFrame;
 
     private final JButton compareDirsButton;
+    private final JButton setSyncTaskButton;
     private final JButton syncModeButton;
     private final JButton cancelCompModeButton;
     private final JButton syncDirsButton;
@@ -58,9 +60,11 @@ public class MainFrameControl {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu programMenu = new JMenu(bundle.getString("ui.menu_bar.menu.app"));
+        JMenu helpMenu = new JMenu(bundle.getString("ui.menu_bar.menu.help"));
         JMenuItem cloudManagerMenu = new JMenuItem(bundle.getString("ui.menu_bar.menu_item.cloud_manager"));
         programMenu.add(cloudManagerMenu);
         menuBar.add(programMenu);
+        menuBar.add(helpMenu);
 
         JTreeTable rightTreeTable = new JTreeTable(bundle);
         JTreeTable leftTreeTable = new JTreeTable(bundle);
@@ -91,6 +95,9 @@ public class MainFrameControl {
 
         JPanel syncControlPanel = new JPanel();
         compareDirsButton = new JButton(bundle.getString("ui.button.comp_current_dirs"));
+        compareDirsButton.setToolTipText(bundle.getString("ui.button.tool_tip.comp_current_dirs"));
+        setSyncTaskButton = new JButton(bundle.getString("ui.button.set_timer_for_sync"));
+        setSyncTaskButton.setToolTipText(bundle.getString("ui.button.tool_tip.set_timer_for_sync"));
         syncModeButton = new JButton(syncModes[0].image());
         cancelCompModeButton = new JButton(bundle.getString("ui.button.cancel_comp_mode"));
         syncDirsButton = new JButton(bundle.getString("ui.button.sync_dirs"));
@@ -102,6 +109,7 @@ public class MainFrameControl {
         syncDirsButton.setVisible(false);
 
         syncControlPanel.add(compareDirsButton);
+        syncControlPanel.add(setSyncTaskButton);
         syncControlPanel.add(syncModeButton);
         syncControlPanel.add(syncDirsButton);
         syncControlPanel.add(cancelCompModeButton);
@@ -124,6 +132,11 @@ public class MainFrameControl {
                     updateComboBoxes();
                 }
             });
+            dialog.setVisible(true);
+        });
+
+        setSyncTaskButton.addActionListener(event -> {
+            SyncTaskDialog dialog = new SyncTaskDialog(mainFrame, bundle);
             dialog.setVisible(true);
         });
 
@@ -156,6 +169,7 @@ public class MainFrameControl {
 
     private void viewFileTables(boolean isViewRootDir) {
         compareDirsButton.setVisible(true);
+        setSyncTaskButton.setVisible(true);
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
         syncDirsButton.setVisible(false);
@@ -166,6 +180,7 @@ public class MainFrameControl {
     private void viewComparableDirs(Result result) {
         CompResult compResult = (CompResult) result;
         compareDirsButton.setVisible(false);
+        setSyncTaskButton.setVisible(false);
         syncModeButton.setVisible(true);
         cancelCompModeButton.setVisible(true);
         syncDirsButton.setVisible(true);
