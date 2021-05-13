@@ -48,7 +48,9 @@ public class SyncTask extends SwingWorker<SyncResult, String> {
         try {
             if (!isCancelled()) {
                 SyncResult result = get();
-                JOptionPane.showMessageDialog(dialog.getOwner(), result.errorMessage(), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
+                if (result.errorMessage().length() > 0) {
+                    JOptionPane.showMessageDialog(dialog.getOwner(), result.errorMessage(), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(dialog.getOwner(), Error.UNKNOWN.getMessage(bundle), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
