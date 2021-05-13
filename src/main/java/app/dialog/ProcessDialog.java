@@ -44,7 +44,7 @@ public class ProcessDialog extends JDialog {
                 .addComponent(panel)
                 .addGap(20)
                 .addComponent(progressBar)
-                .addGap(40)
+                .addGap(20)
                 .addComponent(cancelButton)
                 .addGap(10)
         );

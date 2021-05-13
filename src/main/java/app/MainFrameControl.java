@@ -138,7 +138,7 @@ public class MainFrameControl {
         });
 
         setSyncTaskButton.addActionListener(event -> {
-            SyncTaskDialog dialog = new SyncTaskDialog(mainFrame, leftPanel.currentHumanReadablePath(), rightPanel.currentHumanReadablePath(), bundle);
+            SyncTaskDialog dialog = new SyncTaskDialog(mainFrame, leftPanel.compData(), rightPanel.compData(), bundle);
             dialog.setVisible(true);
         });
 

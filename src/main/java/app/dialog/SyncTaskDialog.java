@@ -1,7 +1,8 @@
 package app.dialog;
 
 import app.logic.SyncMode;
-import app.task.SyncTask;
+import engine.comp.CompData;
+import app.job.CompAndSyncJob;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,35 +12,55 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class SyncTaskDialog extends JDialog {
 
     private final SyncMode[] syncModes = SyncMode.values();
+    private int currentSyncMode;
 
-    public SyncTaskDialog(final JFrame parentFrame, final String leftReadablePath, final String rightReadablePath, final ResourceBundle bundle) {
+    public SyncTaskDialog(final JFrame parentFrame, final CompData leftData, final CompData rightData, final ResourceBundle bundle) {
         super(parentFrame, bundle.getString("ui.dialog.create_sync_task.title"), true);
+        currentSyncMode = 0;
         JSpinner timeSpinner = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
         timeSpinner.setEditor(timeEditor);
         timeSpinner.setValue(new Date());
 
         JLabel infoLabel = new JLabel(bundle.getString("ui.dialog.sync_task.label_info"));
+        JLabel startTimeLabel = new JLabel(bundle.getString("ui.dialog.sync_task.label_task_time"));
 
-        JTextField leftTextField = new JTextField(leftReadablePath);
-        JTextField rightTextFiled = new JTextField(rightReadablePath);
+        JTextField leftTextField = new JTextField(leftData.fileEntity().name());
+        JTextField rightTextFiled = new JTextField(rightData.fileEntity().name());
 
         JButton syncModeButton = new JButton(syncModes[0].image());
+        syncModeButton.addActionListener(e -> {
+            if (syncModes.length - 1 > currentSyncMode) {
+                syncModeButton.setIcon(syncModes[++currentSyncMode].image());
+            } else {
+                currentSyncMode = 0;
+                syncModeButton.setIcon(syncModes[0].image());
+            }
+        });
+
         JButton createTaskButton = new JButton(bundle.getString("ui.button.set_timer_for_sync"));
 
         createTaskButton.addActionListener(event -> {
             Date date = (Date)timeSpinner.getValue();
-            LocalTime time = LocalDateTime.ofInstant(date.toInstant(),
-                    ZoneId.systemDefault()).toLocalTime();
+            LocalTime time = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalTime();
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, time.getHour());
             calendar.set(Calendar.MINUTE, time.getMinute());
             calendar.set(Calendar.SECOND, time.getSecond());
-            System.out.println(calendar.toString());
+            if (time.isBefore(LocalTime.now())) {
+                calendar.add(Calendar.DATE, 1);
+            }
+            java.util.Timer timer = new Timer();
+            timer.schedule(new CompAndSyncJob(parentFrame, leftData, rightData, syncModes[currentSyncMode], bundle),
+                    calendar.getTime(),
+                    TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+            this.dispose();
         });
 
         leftTextField.setFocusable(false);
@@ -58,7 +79,9 @@ public class SyncTaskDialog extends JDialog {
                         .addComponent(leftTextField)
                         .addComponent(syncModeButton)
                         .addComponent(rightTextFiled))
-                .addComponent(timeSpinner)
+                .addGroup(groupLayout.createSequentialGroup()
+                        .addComponent(startTimeLabel)
+                        .addComponent(timeSpinner))
                 .addComponent(createTaskButton)
         );
 
@@ -66,12 +89,14 @@ public class SyncTaskDialog extends JDialog {
                 .addGap(10)
                 .addComponent(infoLabel)
                 .addGap(10)
-                .addGroup(groupLayout.createParallelGroup()
+                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(leftTextField)
                         .addComponent(syncModeButton)
                         .addComponent(rightTextFiled))
                 .addGap(10)
-                .addComponent(timeSpinner)
+                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(startTimeLabel)
+                        .addComponent(timeSpinner))
                 .addGap(10)
                 .addComponent(createTaskButton)
                 .addGap(10)

@@ -282,7 +282,6 @@ public class FilePanelControl {
         }
     }
 
-    public String currentHumanReadablePath() { return humanReadablePath; }
     public CompData compData() { return new CompData(currentDisk, dirs.peek()); }
     public SyncData syncData() { return new SyncData(currentDisk, compDirEntity); }
 }
