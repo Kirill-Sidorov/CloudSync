@@ -99,7 +99,9 @@ public class MainFrameControl {
         setSyncTaskButton = new JButton(bundle.getString("ui.button.set_timer_for_sync"));
         setSyncTaskButton.setToolTipText(bundle.getString("ui.button.tool_tip.set_timer_for_sync"));
         syncModeButton = new JButton(syncModes[0].image());
-        cancelCompModeButton = new JButton(bundle.getString("ui.button.cancel_comp_mode"));
+        syncModeButton.setToolTipText(bundle.getString("ui.button.tool_tip.sync_mode"));
+        cancelCompModeButton = new JButton(bundle.getString("ui.button.cancel"));
+        cancelCompModeButton.setToolTipText(bundle.getString("ui.button.cancel_comp_mode"));
         syncDirsButton = new JButton(bundle.getString("ui.button.sync_dirs"));
 
         cancelCompModeButton.addActionListener(event -> viewFileTables(false));

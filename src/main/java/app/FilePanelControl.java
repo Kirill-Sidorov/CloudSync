@@ -33,6 +33,7 @@ public class FilePanelControl {
     private final String FILE_TABLE = "file_table";
     private final String TREE_FILE_TABLE = "tree_file_table";
 
+    private final JPanel mainPanel;
     private final JComboBox<String> diskComboBox;
     private final JProgressBar progressBarUpdateTable;
     private final JLabel diskInfoLabel;
@@ -58,7 +59,9 @@ public class FilePanelControl {
     public FilePanelControl(final ResourceBundle bundle, final Map<String, Disk> drives, final JPanel mainPanel, final JTreeTable treeFileTable) {
         this.bundle = bundle;
         this.drives = drives;
+        this.mainPanel = mainPanel;
         this.treeFileTable = treeFileTable;
+
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         diskComboBox = new JComboBox<>();
@@ -232,8 +235,7 @@ public class FilePanelControl {
     }
 
     private void processError(Error error) {
-        System.out.println(error.getMessage(bundle));
-        //JOptionPane.showMessageDialog(component, text, BundleHolder.getBundle().getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(mainPanel, error.getMessage(bundle), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private void updateFileTable() {

@@ -9,11 +9,11 @@ public enum Error {
     },
     UNKNOWN {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "Unknown"; }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.unknown"); }
     },
     DIR_NOT_CREATED {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "DIR_NOT_CREATED"; }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.dir_not_created"); }
     },
     FILE_NOT_FOUND_ERROR {
         @Override
@@ -25,11 +25,11 @@ public enum Error {
     },
     FILE_NOT_UPLOAD_ERROR {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "FILE_NOT_UPLOAD_ERROR"; }//bundle.getString("message.error.file_not_upload"); }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.file_not_upload"); }
     },
     FILE_NOT_DOWNLOAD_ERROR {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "file not download error"; }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.file_not_download"); }
     },
     CLOUD_DRIVE_NOT_CONNECTED {
         @Override
@@ -45,15 +45,15 @@ public enum Error {
     },
     FAILED_GET_DIRECTORY_FILES {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "failed_get_dir_files";}//bundle.getString("message.error.failed_get_directory_files"); }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.failed_get_directory_files"); }
     },
     UPDATE_THREAD_CRASH {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "update thread crash"; }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.update_thread_crash"); }
     },
     CURRENT_DISKS_CANNOT_BE_SYNCED {
         @Override
-        public String getMessage(ResourceBundle bundle) { return "CURRENT_DISKS_CANNOT_BE_SYNCED"; }
+        public String getMessage(ResourceBundle bundle) { return bundle.getString("message.error.current_dirs_cannot_be_synced"); }
     };
 
     public abstract String getMessage(ResourceBundle bundle);

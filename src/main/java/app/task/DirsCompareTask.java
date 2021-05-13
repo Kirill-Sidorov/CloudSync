@@ -4,6 +4,7 @@ import app.dialog.ProcessDialog;
 import engine.comp.CompData;
 import engine.comp.CompEngine;
 import model.result.CompResult;
+import model.result.Error;
 
 import javax.swing.*;
 import java.util.List;
@@ -50,7 +51,7 @@ public class DirsCompareTask extends SwingWorker<CompResult, String> {
                 viewUpdating.result(get());
             }
         } catch (Exception e) {
-            System.out.println("compare crash");
+            JOptionPane.showMessageDialog(dialog.getOwner(), Error.FAILED_GET_DIRECTORY_FILES.getMessage(bundle), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

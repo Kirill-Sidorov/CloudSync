@@ -4,6 +4,7 @@ import app.dialog.ProcessDialog;
 import app.logic.SyncMode;
 import engine.sync.SyncData;
 import engine.sync.SyncEngine;
+import model.result.Error;
 import model.result.SyncResult;
 
 import javax.swing.*;
@@ -47,10 +48,10 @@ public class SyncTask extends SwingWorker<SyncResult, String> {
         try {
             if (!isCancelled()) {
                 SyncResult result = get();
-                System.out.println(result.errorMessage());
+                JOptionPane.showMessageDialog(dialog.getOwner(), result.errorMessage(), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
-            System.out.println("compare crash");
+            JOptionPane.showMessageDialog(dialog.getOwner(), Error.UNKNOWN.getMessage(bundle), bundle.getString("message.title.error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }
