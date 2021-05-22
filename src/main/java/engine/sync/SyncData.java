@@ -3,6 +3,9 @@ package engine.sync;
 import model.disk.Disk;
 import model.entity.CompDirEntity;
 
+/**
+ * Данные для синхронизации
+ */
 public class SyncData {
 
     private final Disk disk;

@@ -29,20 +29,23 @@ public class CompAndSyncJob extends TimerTask {
         this.rightData = rightData;
         this.syncMode = syncMode;
         this.bundle = bundle;
-
-        dialog.cancelButton().addActionListener(event -> isCancel = cancel());
+        this.isCancel = false;
+        dialog.cancelButton().addActionListener(event -> {
+            isCancel = cancel();
+            dialog.dispose();
+        });
     }
 
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> dialog.setVisible(true));
-        CompResult compResult = new CompEngine(leftData, rightData).compare(this::setProgress, this::setLabelText, this::isCancel, bundle);
+        CompResult compResult = new CompEngine(leftData, rightData).compare(this::setProgress, this::setLabelText, () -> isCancel, bundle);
         if (compResult.error() == Error.NO) {
             SyncResult syncResult = new SyncEngine(
                     new SyncData(leftData.disk(), compResult.leftDir()),
                     new SyncData(rightData.disk(), compResult.rightDir()),
                     syncMode
-            ).start(this::setProgress, this::setLabelText, this::isCancel, bundle);
+            ).start(this::setProgress, this::setLabelText, () -> isCancel, bundle);
             System.out.println(syncResult.error().toString());
         }
         SwingUtilities.invokeLater(dialog::dispose);
@@ -55,6 +58,4 @@ public class CompAndSyncJob extends TimerTask {
     private void setLabelText(String text) {
         SwingUtilities.invokeLater(() -> dialog.infoTextField().setText(text));
     }
-
-    private boolean isCancel() { return isCancel; }
 }

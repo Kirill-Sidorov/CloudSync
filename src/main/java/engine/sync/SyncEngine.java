@@ -8,6 +8,9 @@ import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
+/**
+ * Запускающий синхроинизацию класс
+ */
 public class SyncEngine {
     private final SyncData leftData;
     private final SyncData rightData;
@@ -19,6 +22,14 @@ public class SyncEngine {
         this.syncMode = syncMode;
     }
 
+    /**
+     * Начать алгоритм действий для синхронизации
+     * @param progress Прогресс выполнения
+     * @param labelUpdating Обновлении информации о выполнении синхронизации
+     * @param state Состояние задачи (отменена или нет)
+     * @param bundle Строки программы
+     * @return Результат выполнения алгоритма
+     */
     public SyncResult start(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         SyncOption syncOption;
         boolean leftDiskType = leftData.disk().isCloud();

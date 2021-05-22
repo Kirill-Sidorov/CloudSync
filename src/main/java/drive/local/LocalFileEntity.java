@@ -8,6 +8,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Сущность файла локального хранилища данных
+ */
 public class LocalFileEntity implements FileEntity {
 
     private final File file;

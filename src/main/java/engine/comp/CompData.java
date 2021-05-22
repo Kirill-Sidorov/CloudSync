@@ -3,6 +3,9 @@ package engine.comp;
 import model.disk.Disk;
 import model.entity.Entity;
 
+/**
+ * Данные для сравнения
+ */
 public class CompData {
 
     private final Disk disk;

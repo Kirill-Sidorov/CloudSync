@@ -1,4 +1,4 @@
-package drive.googledrive;
+package drive.google;
 
 import app.task.Progress;
 import app.task.TaskState;
@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Каталог Google
+ */
 public class GoogleDir implements Dir, CloudDir {
 
     private final Entity fileEntity;
@@ -62,7 +65,7 @@ public class GoogleDir implements Dir, CloudDir {
         } while (pageToken != null);
         GoogleDiskSize diskSize = new GoogleDiskSize(service);
         diskSize.request();
-        return new DirResult(files, diskSize.totalSpace(), diskSize.unallocatedSpace(), result);
+        return new DirResult(files, diskSize.getTotalSpace(), diskSize.getUnallocatedSpace(), result);
     }
 
     @Override

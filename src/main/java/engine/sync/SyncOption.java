@@ -6,6 +6,9 @@ import engine.sync.logic.CloudToLocalSyncLogic;
 import engine.sync.logic.LocalToLocalSyncLogic;
 import engine.sync.logic.SyncLogic;
 
+/**
+ * Варианты синхронизации
+ */
 public enum SyncOption {
     LOCAL_TO_LOCAL {
         @Override
@@ -26,5 +29,12 @@ public enum SyncOption {
         }
     };
 
+    /**
+     * Получить алгоритм действий для варианта синхронизации
+     * @param leftData Левые данные для синхронизации
+     * @param rightData Правые данные для синхронизации
+     * @param syncMode Направление синхроинзации
+     * @return Алгоритм действий
+     */
     public abstract SyncLogic syncLogic(final SyncData leftData, final SyncData rightData, final SyncMode syncMode);
 }

@@ -12,6 +12,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Каталог локальной файловой системы
+ */
 public class LocalDir implements Dir {
 
     private final Entity fileEntity;
@@ -66,7 +69,6 @@ public class LocalDir implements Dir {
     public EntityResult searchFileInto(String fileName) {
         File file = new File(fileEntity.path() + "\\" + fileName);
         if (file.exists()) {
-            System.out.println(file.getName());
             return new EntityResult(new LocalFileEntity(file).create(), new SuccessResult(Status.FILE_EXIST));
         } else {
             return new EntityResult(new ErrorResult(Error.FILE_NOT_FOUND_ERROR));

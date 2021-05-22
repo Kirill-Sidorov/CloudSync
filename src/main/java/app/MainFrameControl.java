@@ -21,6 +21,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class MainFrameControl {
@@ -49,18 +52,35 @@ public class MainFrameControl {
 
         drives = new LocalFS().drives();
         cloudsInfo = new HashMap<>();
+        mainFrame = new JFrame();
 
         new CloudDrivesConnectTask(result -> {
-            CloudsConnectResult cloudsConnectResult = (CloudsConnectResult) result;
-            drives.putAll(cloudsConnectResult.cloudDrives());
-            cloudsInfo.putAll(cloudsConnectResult.cloudsInfo());
-            updateComboBoxes();
-        }).execute();
+                    CloudsConnectResult cloudsConnectResult = (CloudsConnectResult) result;
+                    drives.putAll(cloudsConnectResult.cloudDrives());
+                    cloudsInfo.putAll(cloudsConnectResult.cloudsInfo());
+                    updateComboBoxes();
+                },
+                mainFrame,
+                bundle).
+                execute();
 
 
         JMenuBar menuBar = new JMenuBar();
         JMenu programMenu = new JMenu(bundle.getString("ui.menu_bar.menu.app"));
         JMenu helpMenu = new JMenu(bundle.getString("ui.menu_bar.menu.help"));
+
+        helpMenu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                super.mouseClicked(event);
+                try {
+                    Desktop.getDesktop().open(new File(getClass().getResource("/help/help.html").toURI()));
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         JMenuItem cloudManagerMenu = new JMenuItem(bundle.getString("ui.menu_bar.menu_item.cloud_manager"));
         programMenu.add(cloudManagerMenu);
         menuBar.add(programMenu);
@@ -155,7 +175,6 @@ public class MainFrameControl {
             task.execute();
         });
 
-        mainFrame = new JFrame();
         mainFrame.setJMenuBar(menuBar);
         mainFrame.add(splitPane);
         mainFrame.add(syncControlPanel, BorderLayout.SOUTH);

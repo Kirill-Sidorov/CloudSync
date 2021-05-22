@@ -13,14 +13,14 @@ public class LocalDisk implements Disk {
     }
 
     @Override
-    public String name() { return rootFile.path().replace("\\", ""); }
+    public String getName() { return rootFile.path().replace("\\", ""); }
 
     @Override
     public boolean isCloud() { return false; }
 
     @Override
-    public Entity rootFile() { return rootFile; }
+    public Entity getRootDir() { return rootFile; }
 
     @Override
-    public Dir dir(Entity file) { return new LocalDir(file); }
+    public Dir getDir(Entity file) { return new LocalDir(file); }
 }

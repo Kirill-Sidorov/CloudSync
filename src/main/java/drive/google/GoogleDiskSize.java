@@ -1,4 +1,4 @@
-package drive.googledrive;
+package drive.google;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.About;
@@ -6,6 +6,9 @@ import drive.DiskSize;
 
 import java.io.IOException;
 
+/**
+ * Размер хранилища Google
+ */
 public class GoogleDiskSize implements DiskSize {
 
     private final Drive service;
@@ -32,8 +35,8 @@ public class GoogleDiskSize implements DiskSize {
     }
 
     @Override
-    public long totalSpace() { return totalSpace; }
+    public long getTotalSpace() { return totalSpace; }
 
     @Override
-    public long unallocatedSpace() { return unallocatedSpace; }
+    public long getUnallocatedSpace() { return unallocatedSpace; }
 }

@@ -9,6 +9,9 @@ import model.entity.Entity;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Сущность файла хранилища Dropbox
+ */
 public class DropboxFileEntity implements FileEntity {
 
     private final Metadata file;

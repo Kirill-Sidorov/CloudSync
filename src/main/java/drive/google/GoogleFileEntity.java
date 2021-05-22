@@ -1,4 +1,4 @@
-package drive.googledrive;
+package drive.google;
 
 import com.google.api.services.drive.model.File;
 import drive.FileEntity;
@@ -8,6 +8,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Сущность файла хранилища Google
+ */
 public class GoogleFileEntity implements FileEntity {
 
     private final File file;

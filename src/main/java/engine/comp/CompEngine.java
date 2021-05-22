@@ -9,6 +9,9 @@ import model.result.*;
 
 import java.util.*;
 
+/**
+ * Сравнение каталогов
+ */
 public class CompEngine {
 
     private final CompData leftData;
@@ -19,6 +22,14 @@ public class CompEngine {
         this.rightData = rightData;
     }
 
+    /**
+     * Сравнить каталоги
+     * @param progress Прогресс выполнения сравнения
+     * @param labelUpdating Обновление информации о сравнении файлов
+     * @param state Состояние задачи (отменена или нет)
+     * @param bundle Строки программы
+     * @return Результат сравнения каталогов
+     */
     public CompResult compare(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         Status status = Status.EQUAL;
         StringBuilder errorMessage = new StringBuilder();
@@ -26,12 +37,12 @@ public class CompEngine {
         List<Entity> rightList = new ArrayList<>();
 
         labelUpdating.text(leftData.fileEntity().name());
-        DirResult dirResult = leftData.disk().dir(leftData.fileEntity()).getFiles(progress, state);
+        DirResult dirResult = leftData.disk().getDir(leftData.fileEntity()).getFiles(progress, state);
         Map<String, Entity> leftMap = new HashMap<>();
         dirResult.files().forEach(file -> leftMap.put(file.name(), file));
 
         labelUpdating.text(rightData.fileEntity().name());
-        dirResult = rightData.disk().dir(rightData.fileEntity()).getFiles(progress, state);
+        dirResult = rightData.disk().getDir(rightData.fileEntity()).getFiles(progress, state);
 
         for (Entity rightFile : dirResult.files()) {
             labelUpdating.text(rightFile.name());

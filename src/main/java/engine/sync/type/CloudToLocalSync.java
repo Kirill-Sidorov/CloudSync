@@ -35,7 +35,7 @@ public class CloudToLocalSync implements Sync {
         for (Entity file : srcDir.files()) {
             labelUpdating.text(file.name());
             if (file.isDirectory()) {
-                EntityResult newDestEntity = destDisk.dir(destEntity).getDirInto(file.name());
+                EntityResult newDestEntity = destDisk.getDir(destEntity).getDirInto(file.name());
                 if (newDestEntity.status() == Status.FILE_EXIST) {
                     SyncResult syncResult = new CloudToLocalSync(srcDisk, (CompDirEntity)file, destDisk, newDestEntity.entity(), syncAction)
                             .sync(labelUpdating, bundle);

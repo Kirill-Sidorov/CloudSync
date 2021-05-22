@@ -4,8 +4,8 @@ import drive.Dir;
 import model.entity.Entity;
 
 public interface Disk {
-    String name();
+    String getName();
     boolean isCloud();
-    Entity rootFile();
-    Dir dir(final Entity file);
+    Entity getRootDir();
+    Dir getDir(final Entity file);
 }

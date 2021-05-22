@@ -20,19 +20,19 @@ public class DropboxDisk implements Disk, Cloud {
     }
 
     @Override
-    public String name() { return name; }
+    public String getName() { return name; }
 
     @Override
     public boolean isCloud() { return true; }
 
     @Override
-    public Entity rootFile() { return rootFile; }
+    public Entity getRootDir() { return rootFile; }
 
     @Override
-    public Dir dir(Entity file) {
+    public Dir getDir(Entity file) {
         return new DropboxDir(file, client);
     }
 
     @Override
-    public CloudFile cloudFile(Entity fileEntity) { return new DropboxFile(fileEntity, client); }
+    public CloudFile cloudFile(Entity file) { return new DropboxFile(file, client); }
 }

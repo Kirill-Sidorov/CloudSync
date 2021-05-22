@@ -12,6 +12,10 @@ import model.result.Status;
 
 import java.util.ResourceBundle;
 
+/**
+ * Алгоритм действий, когда найдены файлы
+ * с одинаковыми именами при сравнении каталогов
+ */
 public class FileExistLogic {
 
     private final Entity leftFile;
@@ -26,6 +30,14 @@ public class FileExistLogic {
         this.rightDisk = rightDisk;
     }
 
+    /**
+     * Выполнить алгоритм действий
+     * @param progress Прогресс выполнения
+     * @param labelUpdating Обновлении информации о выполнении алгоритма
+     * @param state Состояние задачи (отменена или нет)
+     * @param bundle Строки программы
+     * @return Результат выполнения алгоритма
+     */
     public FileExistResult execute(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         if (rightFile.isDirectory()) {
             CompResult result = new CompEngine(new CompData(leftDisk, leftFile), new CompData(rightDisk, rightFile))

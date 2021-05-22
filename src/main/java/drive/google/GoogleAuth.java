@@ -1,4 +1,4 @@
-package drive.googledrive;
+package drive.google;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -19,6 +19,7 @@ import model.disk.Disk;
 import model.disk.GoogleDisk;
 import model.entity.Entity;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,9 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * јвторизаци€ учетной записи облачного хранилища Google
+ */
 public class GoogleAuth implements Auth {
     private final String APPLICATION_NAME = "CloudSync";
     private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -70,7 +74,6 @@ public class GoogleAuth implements Auth {
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(tokenPath)))

@@ -2,6 +2,7 @@ package app.dialog;
 
 import app.table.cloudtable.CloudTableModel;
 import model.cloud.CloudInfo;
+import model.cloud.CloudType;
 import model.disk.Disk;
 
 import javax.swing.*;
@@ -23,9 +24,24 @@ public class CloudManagerDialog extends JDialog {
         cloudTable.setAutoCreateRowSorter(false);
         JScrollPane scrollPane = new JScrollPane(cloudTable);
 
-        JButton addButton = new JButton(bundle.getString("ui.button.add_drive"));
+        JButton addGoogleButton = new JButton(CloudType.GOOGLE.image());
+        JButton addDropboxButton = new JButton(CloudType.DROPBOX.image());
 
-        addButton.addFocusListener(new FocusAdapter() {
+        addGoogleButton.setText(bundle.getString("ui.button.add_drive"));
+        addDropboxButton.setText(bundle.getString("ui.button.add_drive"));
+
+        addGoogleButton.setToolTipText(bundle.getString("ui.button.tool_tip.add_google_drive"));
+        addDropboxButton.setToolTipText(bundle.getString("ui.button.tool_tip.add_dropbox_drive"));
+
+        addGoogleButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                cloudTable.clearSelection();
+            }
+        });
+
+        addDropboxButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
@@ -54,16 +70,18 @@ public class CloudManagerDialog extends JDialog {
 
         hGroup.addComponent(scrollPane)
                 .addGroup(layout.createParallelGroup()
-                        .addComponent(addButton)
+                        .addComponent(addGoogleButton)
+                        .addComponent(addDropboxButton)
                         .addComponent(removeButton));
         layout.setHorizontalGroup(hGroup);
 
-        layout.linkSize(SwingConstants.HORIZONTAL, addButton, removeButton);
+        layout.linkSize(SwingConstants.HORIZONTAL, addGoogleButton, removeButton);
 
         GroupLayout.ParallelGroup vGroup = layout.createParallelGroup();
         vGroup.addComponent(scrollPane)
                 .addGroup(layout.createSequentialGroup()
-                        .addComponent(addButton)
+                        .addComponent(addGoogleButton)
+                        .addComponent(addDropboxButton)
                         .addComponent(removeButton));
         layout.setVerticalGroup(vGroup);
 

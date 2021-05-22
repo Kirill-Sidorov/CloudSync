@@ -194,15 +194,15 @@ public class FilePanelControl {
         });
         String stringDisk = (String)diskComboBox.getSelectedItem();
         currentDisk = drives.get(stringDisk);
-        dirs.push(currentDisk.rootFile());
-        humanReadablePath = currentDisk.name();
+        dirs.push(currentDisk.getRootDir());
+        humanReadablePath = currentDisk.getName();
         updateFileTable();
     }
 
     private void viewRootDir() {
-        humanReadablePath = currentDisk.name();
+        humanReadablePath = currentDisk.getName();
         dirs.clear();
-        dirs.push(currentDisk.rootFile());
+        dirs.push(currentDisk.getRootDir());
         updateFileTable();
     }
 

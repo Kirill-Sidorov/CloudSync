@@ -10,6 +10,9 @@ import model.disk.DropboxDisk;
 import model.entity.Entity;
 import model.entity.FileEntity;
 
+/**
+ * јвторизаци€ учетной записи облачного хранилища Dropbox
+ */
 public class DropboxAuth implements Auth {
 
     private final String ACCESS_TOKEN = "V0Wx66JK6L8AAAAAAAAAAe-Y3QeCAG_jz1C1KZDjDBaQe0JpGGcJt0k2g9_51Pio";

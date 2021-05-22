@@ -8,6 +8,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Файл локальной файловой системы
+ */
 public class LocalFile {
     private final Entity fileEntity;
 
@@ -15,6 +18,10 @@ public class LocalFile {
         this.fileEntity = fileEntity;
     }
 
+    /**
+     * Запустить файл
+     * @return Результат запуска файла
+     */
     public Result execute() {
         Result result;
         if (Desktop.isDesktopSupported()) {

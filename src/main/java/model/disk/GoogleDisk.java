@@ -3,8 +3,8 @@ package model.disk;
 import com.google.api.services.drive.Drive;
 import drive.CloudFile;
 import drive.Dir;
-import drive.googledrive.GoogleDir;
-import drive.googledrive.GoogleFile;
+import drive.google.GoogleDir;
+import drive.google.GoogleFile;
 import model.entity.Entity;
 
 public class GoogleDisk implements Disk, Cloud {
@@ -20,17 +20,17 @@ public class GoogleDisk implements Disk, Cloud {
     }
 
     @Override
-    public String name() { return name; }
+    public String getName() { return name; }
 
     @Override
     public boolean isCloud() { return true; }
 
     @Override
-    public Entity rootFile() { return rootFile; }
+    public Entity getRootDir() { return rootFile; }
 
     @Override
-    public Dir dir(Entity file) { return new GoogleDir(file, service); }
+    public Dir getDir(Entity file) { return new GoogleDir(file, service); }
 
     @Override
-    public CloudFile cloudFile(Entity fileEntity) { return new GoogleFile(fileEntity, service); }
+    public CloudFile cloudFile(Entity file) { return new GoogleFile(file, service); }
 }

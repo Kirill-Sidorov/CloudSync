@@ -2,7 +2,7 @@ package model.cloud;
 
 import drive.Auth;
 import drive.dropbox.DropboxAuth;
-import drive.googledrive.GoogleAuth;
+import drive.google.GoogleAuth;
 
 import javax.swing.*;
 

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Содрежимое каталога и его подкаталогов
+ */
 public class DirStructure {
 
     private final Disk disk;
@@ -24,11 +27,19 @@ public class DirStructure {
         this.file = file;
     }
 
+    /**
+     * Получить содержимое каталога и его подкаталогов
+     * @param progress Прогресс получения содержимого
+     * @param labelUpdating Обновлении информации о получении файлов
+     * @param state Состояние задачи (отменена или нет)
+     * @param bundle Строки программы
+     * @return Результат получения содержимого
+     */
     public FileNotExistResult get(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         List<Entity> files = new ArrayList<>();
         StringBuilder errorMessage = new StringBuilder();
 
-        DirResult dirResult = disk.dir(file).getFiles(progress, state);
+        DirResult dirResult = disk.getDir(file).getFiles(progress, state);
         if (dirResult.error() != Error.NO) {
             errorMessage.append(String.format("%s : %s\n", file.name(), dirResult.error().getMessage(bundle)));
         }

@@ -13,6 +13,9 @@ import model.result.Error;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Файл хранилища Dropbox
+ */
 public class DropboxFile implements CloudFile {
     private final Entity fileEntity;
     private final DbxClientV2 client;

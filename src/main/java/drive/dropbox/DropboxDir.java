@@ -17,6 +17,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Каталог Dropbox
+ */
 public class DropboxDir implements Dir, CloudDir {
 
     private final Entity fileEntity;
@@ -55,7 +58,7 @@ public class DropboxDir implements Dir, CloudDir {
         }
         DropboxDiskSize diskSize = new DropboxDiskSize(client);
         diskSize.request();
-        return new DirResult(files, diskSize.totalSpace(), diskSize.unallocatedSpace(), result);
+        return new DirResult(files, diskSize.getTotalSpace(), diskSize.getUnallocatedSpace(), result);
     }
 
     @Override

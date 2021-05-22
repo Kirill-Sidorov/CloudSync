@@ -5,6 +5,9 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.users.SpaceUsage;
 import drive.DiskSize;
 
+/**
+ * Размер хранилища Dropbox
+ */
 public class DropboxDiskSize implements DiskSize {
 
     private final DbxClientV2 client;
@@ -31,8 +34,8 @@ public class DropboxDiskSize implements DiskSize {
     }
 
     @Override
-    public long totalSpace() { return totalSpace; }
+    public long getTotalSpace() { return totalSpace; }
 
     @Override
-    public long unallocatedSpace() { return unallocatedSpace; }
+    public long getUnallocatedSpace() { return unallocatedSpace; }
 }

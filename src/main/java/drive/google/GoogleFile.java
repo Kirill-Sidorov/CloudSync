@@ -1,4 +1,4 @@
-package drive.googledrive;
+package drive.google;
 
 import app.task.Progress;
 import app.task.TaskState;
@@ -11,6 +11,9 @@ import model.result.Error;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Файл хранилища Google
+ */
 public class GoogleFile implements CloudFile {
     private final Entity fileEntity;
     private final Drive service;

@@ -13,6 +13,10 @@ import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
+/**
+ * Алгоритм действий перед синхроинзацией
+ * из облачного хранилища в локальное или наоборот
+ */
 public class CloudToLocalSyncLogic implements SyncLogic {
 
     private final SyncData leftData;
@@ -71,19 +75,31 @@ public class CloudToLocalSyncLogic implements SyncLogic {
         return result;
     }
 
+    /**
+     * Получить опреацию синхроиназации в левую сторону
+     * @param progress Прогресс выполнения
+     * @param state Состояние задачи (отменена или нет)
+     * @return Операция синхроинзации
+     */
     private SyncAction findSyncActionForLeftSync(final Progress progress, final TaskState state) {
         if (leftData.disk().isCloud()) {
-            return (local, cloud) -> ((CloudDir)leftData.disk().dir(cloud)).upload(local, progress, state);
+            return (local, cloud) -> ((CloudDir)leftData.disk().getDir(cloud)).upload(local, progress, state);
         } else {
             return (cloud, local) -> ((Cloud)rightData.disk()).cloudFile(cloud).download(local, progress, state);
         }
     }
 
+    /**
+     * Получить опреацию синхроиназации в правую сторону
+     * @param progress Прогресс выполнения
+     * @param state Состояние задачи (отменена или нет)
+     * @return Операция синхроинзации
+     */
     private SyncAction findSyncActionForRightSync(final Progress progress, final TaskState state) {
         if (leftData.disk().isCloud()) {
             return (cloud, local) -> ((Cloud)leftData.disk()).cloudFile(cloud).download(local, progress, state);
         } else {
-            return (local, cloud) -> ((CloudDir)rightData.disk().dir(cloud)).upload(local, progress, state);
+            return (local, cloud) -> ((CloudDir)rightData.disk().getDir(cloud)).upload(local, progress, state);
         }
     }
 }
