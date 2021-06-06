@@ -1,27 +1,23 @@
 # CloudSync
-App for synchronizing local file system with cloud storages. Interface created using Swing library. <br/>
-Available languages:
-<ul>
- <li>russian.</li>
-</ul><br/>
+App for synchronizing local file system with cloud storages. Interface created using Swing library.
+
 Available cloud storages:
-<ul>
- <li>Google Drive;</li>
- <li>Dropbox.</li>
-</ul>
-<h3>Features:</h3>
-<ul>
- <li>connecting accounts;</li>
- <li>browsing the catalogs of data storages;</li>
- <li>moving through the directories of various data storages;</li>
- <li>comparison of directories in a separate thread;</li>
- <li>selecting file versions when synchronizing directories;</li>
- <li>choice of direction of synchronization;</li>
- <li>synchronization of directories in a separate thread;</li>
- <li>creating a task to synchronize directories at a specified time.</li>
-</ul>
-<h3>Required software:</h3>
-<ul>
- <li>JRE 8 or greater;</li>
- <li>apache maven 3.6.2.</li>
-</ul>
+* Google Drive;
+* Dropbox.
+
+Available languages:
+* russian.
+
+### Features:
+* connecting accounts;
+* browsing the catalogs of data storages;
+* moving through the directories of various data storages;
+* comparison of directories in a separate thread;
+* selecting file versions when synchronizing directories;
+* choice of direction of synchronization;
+* synchronization of directories in a separate thread;
+* creating a task to synchronize directories at a specified time.
+
+### Required software:
+* JRE 8 or greater;
+* apache maven 3.6.2.
