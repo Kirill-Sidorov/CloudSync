@@ -16,7 +16,9 @@ import java.util.ResourceBundle;
  */
 public class FileNotExistLogic {
 
+    /** Сущность файла */
     private final Entity file;
+    /** Сущность хранилища данных */
     private final Disk disk;
 
     public FileNotExistLogic(final Entity file, final Disk disk) {

@@ -18,8 +18,9 @@ import java.util.ResourceBundle;
  * Содрежимое каталога и его подкаталогов
  */
 public class DirStructure {
-
+    /** Сущность хранилища данных */
     private final Disk disk;
+    /** Сущность каталога */
     private final Entity file;
 
     public DirStructure(final Disk disk, final Entity file) {

@@ -16,7 +16,7 @@ import java.util.List;
  * Каталог локальной файловой системы
  */
 public class LocalDir implements Dir {
-
+    /** Сущность каталога */
     private final Entity fileEntity;
 
     public LocalDir(final Entity fileEntity) {

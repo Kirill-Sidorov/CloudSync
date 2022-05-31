@@ -23,7 +23,9 @@ import java.util.List;
  */
 public class GoogleDir implements Dir, CloudDir {
 
+    /** Сущность каталога */
     private final Entity fileEntity;
+    /** Объект для работы хранилищем учетной записи */
     private final Drive service;
 
     public GoogleDir(final Entity fileEntity, final Drive service) {

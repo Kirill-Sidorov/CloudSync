@@ -10,7 +10,7 @@ import model.result.Result;
  */
 public interface CloudDir {
     /**
-     * Отправить файл в каталог
+     * Отправить локальный файл в каталог
      * @param srcFile Отправляемый файл
      * @param progress Прогресс выполнения отправления
      * @param state Состояние задачи (отменена или нет)

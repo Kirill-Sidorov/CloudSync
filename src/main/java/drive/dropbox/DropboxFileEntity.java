@@ -14,6 +14,7 @@ import java.time.ZoneOffset;
  */
 public class DropboxFileEntity implements FileEntity {
 
+    /** ־בתוךע Dropbox-פאיכא */
     private final Metadata file;
 
     public DropboxFileEntity(final Metadata file) {

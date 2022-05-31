@@ -18,9 +18,13 @@ import java.util.ResourceBundle;
  */
 public class FileExistLogic {
 
+    /** Сущность левого каталога */
     private final Entity leftFile;
+    /** Сущность левого хранилища */
     private final Disk leftDisk;
+    /** Сущность левого каталога */
     private final Entity rightFile;
+    /** Сущность правого хранилища */
     private final Disk rightDisk;
 
     public FileExistLogic(final Entity leftFile, final Disk leftDisk, final Entity rightFile, final Disk rightDisk) {

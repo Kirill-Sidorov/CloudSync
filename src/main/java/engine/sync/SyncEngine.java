@@ -12,8 +12,11 @@ import java.util.ResourceBundle;
  * Запускающий синхроинизацию класс
  */
 public class SyncEngine {
+    /** Данные левой таблицы файлов */
     private final SyncData leftData;
+    /** Данные левой таблицы файлов */
     private final SyncData rightData;
+    /** Направление синхронизации */
     private final SyncMode syncMode;
 
     public SyncEngine(final SyncData leftData, final SyncData rightData, final SyncMode syncMode) {

@@ -13,12 +13,21 @@ import model.result.SyncResult;
 
 import java.util.ResourceBundle;
 
+/**
+ * Синхронизация каталогов из облачного
+ * хранилища в локальное или наоборот
+ */
 public class CloudToLocalSync implements Sync {
 
+    /** Сущность хранилища - источника данных */
     private final Disk srcDisk;
+    /** Каталог - источник данных */
     private final CompDirEntity srcDir;
+    /** Сущность хранилища - пункта назначения */
     private final Disk destDisk;
+    /** Каталог - пункт назначения */
     private final Entity destEntity;
+    /** Операция синхронизации */
     private final SyncAction syncAction;
 
     public CloudToLocalSync(final Disk srcDisk, final CompDirEntity srcDir, final Disk destDisk, final Entity destEntity, final SyncAction syncAction) {

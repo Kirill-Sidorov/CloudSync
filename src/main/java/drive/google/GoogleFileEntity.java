@@ -13,6 +13,7 @@ import java.time.ZoneOffset;
  */
 public class GoogleFileEntity implements FileEntity {
 
+    /** ־בתוךע Google-פאיכא */
     private final File file;
 
     public GoogleFileEntity(final File file) {

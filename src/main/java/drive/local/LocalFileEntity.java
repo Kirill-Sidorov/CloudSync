@@ -12,7 +12,7 @@ import java.time.ZoneOffset;
  * Сущность файла локального хранилища данных
  */
 public class LocalFileEntity implements FileEntity {
-
+    /** Объект локального файла */
     private final File file;
 
     public LocalFileEntity(final File file) {

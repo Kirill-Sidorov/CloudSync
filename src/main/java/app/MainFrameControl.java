@@ -124,7 +124,7 @@ public class MainFrameControl {
         cancelCompModeButton.setToolTipText(bundle.getString("ui.button.cancel_comp_mode"));
         syncDirsButton = new JButton(bundle.getString("ui.button.sync_dirs"));
 
-        cancelCompModeButton.addActionListener(event -> viewFileTables(false));
+        cancelCompModeButton.addActionListener(event -> showFileTables(false));
 
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
@@ -164,12 +164,12 @@ public class MainFrameControl {
 
         compareDirsButton.addActionListener(event -> {
             ProcessDialog dialog = new ProcessDialog(mainFrame, bundle.getString("ui.dialog.comp.title"), bundle.getString("message.process.comp"), bundle);
-            DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::viewComparableDirs, bundle);
+            DirsCompareTask task = new DirsCompareTask(leftPanel.compData(), rightPanel.compData(), dialog, this::showComparableDirs, bundle);
             task.execute();
         });
 
         syncDirsButton.addActionListener(event -> {
-            viewFileTables(true);
+            showFileTables(true);
             ProcessDialog dialog = new ProcessDialog(mainFrame, bundle.getString("ui.dialog.sync.title"), bundle.getString("message.process.sync"), bundle);
             SyncTask task = new SyncTask(leftPanel.syncData(), rightPanel.syncData(), syncModes[currentSyncMode], dialog, bundle);
             task.execute();
@@ -188,25 +188,25 @@ public class MainFrameControl {
         mainFrame.setVisible(true);
     }
 
-    private void viewFileTables(boolean isViewRootDir) {
+    private void showFileTables(boolean isShowRootDir) {
         compareDirsButton.setVisible(true);
         setSyncTaskButton.setVisible(true);
         syncModeButton.setVisible(false);
         cancelCompModeButton.setVisible(false);
         syncDirsButton.setVisible(false);
-        leftPanel.viewFileTable(isViewRootDir);
-        rightPanel.viewFileTable(isViewRootDir);
+        leftPanel.showFileTable(isShowRootDir);
+        rightPanel.showFileTable(isShowRootDir);
     }
 
-    private void viewComparableDirs(Result result) {
+    private void showComparableDirs(Result result) {
         CompResult compResult = (CompResult) result;
         compareDirsButton.setVisible(false);
         setSyncTaskButton.setVisible(false);
         syncModeButton.setVisible(true);
         cancelCompModeButton.setVisible(true);
         syncDirsButton.setVisible(true);
-        leftPanel.viewComparableDir(compResult.leftDir());
-        rightPanel.viewComparableDir(compResult.rightDir());
+        leftPanel.showComparableDir(compResult.leftDir());
+        rightPanel.showComparableDir(compResult.rightDir());
     }
 
     private void updateComboBoxes() {

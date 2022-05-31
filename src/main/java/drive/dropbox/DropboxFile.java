@@ -17,7 +17,9 @@ import java.io.IOException;
  * Файл хранилища Dropbox
  */
 public class DropboxFile implements CloudFile {
+    /** Сущность файла */
     private final Entity fileEntity;
+    /** Объект для работы хранилищем учетной записи */
     private final DbxClientV2 client;
 
     public DropboxFile(final Entity fileEntity, final DbxClientV2 client) {
@@ -34,7 +36,6 @@ public class DropboxFile implements CloudFile {
         try (FileOutputStream outputStream = new FileOutputStream(destFile.path() + "\\" + fileEntity.name())) {
             progress.value(0);
             long size = fileEntity.size();
-            //client.files().downloadBuilder(fileEntity.path()).start().download(outputStream, l -> progress.value((int) (100 * (l / (double) size))));
             client.files().download(fileEntity.path()).download(outputStream, l -> progress.value((int) (100 * (l / (double) size))));
             result = new SuccessResult(Status.OK);
         } catch (DbxException | IOException e) {

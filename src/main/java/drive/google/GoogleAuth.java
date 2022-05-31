@@ -32,12 +32,15 @@ import java.util.List;
  * Авторизация учетной записи облачного хранилища Google
  */
 public class GoogleAuth implements Auth {
+    /** Название приложения */
     private final String APPLICATION_NAME = "CloudSync";
+    /** JSON фабрика */
     private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
+    /** Список разрешений для учетной записи */
     private final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
+    /** Путь к учетным данным Google */
     private final String CREDENTIALS_FILE_PATH = "/credential/credentials.json";
-
+    /** Путь к ключу от учетной записи */
     private final String tokenPath;
 
     public GoogleAuth(final String tokenPath) {

@@ -11,9 +11,11 @@ import java.io.IOException;
  */
 public class GoogleDiskSize implements DiskSize {
 
+    /** Объект для работы хранилищем учетной записи */
     private final Drive service;
-
+    /** Размер хранилища */
     private long totalSpace;
+    /** Незанятое пространство */
     private long unallocatedSpace;
 
     public GoogleDiskSize(final Drive service) {

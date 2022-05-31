@@ -8,8 +8,8 @@ import model.entity.Entity;
 public interface FileEntity {
 
     /**
-     * Создать сущность файла
-     * @return Сущность файла
+     * Создать сущность файла этой программы
+     * @return Сущность файла этой программы
      */
     Entity create();
 }

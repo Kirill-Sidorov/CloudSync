@@ -10,9 +10,11 @@ import drive.DiskSize;
  */
 public class DropboxDiskSize implements DiskSize {
 
+    /** Объект для работы хранилищем учетной записи */
     private final DbxClientV2 client;
-
+    /** Размер хранилища */
     private long totalSpace;
+    /** Незанятое пространство */
     private long unallocatedSpace;
 
     public DropboxDiskSize(final DbxClientV2 client) {

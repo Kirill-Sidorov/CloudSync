@@ -14,7 +14,9 @@ import java.util.*;
  */
 public class CompEngine {
 
+    /** Данные левой таблицы файлов */
     private final CompData leftData;
+    /** Данные правой таблицы файлов */
     private final CompData rightData;
 
     public CompEngine(final CompData leftData, final CompData rightData) {

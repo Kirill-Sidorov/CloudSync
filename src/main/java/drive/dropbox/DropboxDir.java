@@ -22,7 +22,9 @@ import java.util.List;
  */
 public class DropboxDir implements Dir, CloudDir {
 
+    /** Сущность каталога */
     private final Entity fileEntity;
+    /** Объект для работы хранилищем учетной записи */
     private final DbxClientV2 client;
 
     public DropboxDir(final Entity fileEntity, final DbxClientV2 client) {

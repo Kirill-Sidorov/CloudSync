@@ -15,7 +15,9 @@ import java.io.IOException;
  * Файл хранилища Google
  */
 public class GoogleFile implements CloudFile {
+    /** Сущность файла */
     private final Entity fileEntity;
+    /** Объект для работы хранилищем учетной записи */
     private final Drive service;
 
     public GoogleFile(final Entity fileEntity, final Drive service) {

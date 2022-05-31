@@ -19,8 +19,11 @@ import java.util.ResourceBundle;
  */
 public class CloudToLocalSyncLogic implements SyncLogic {
 
+    /** Данные левой таблицы файлов */
     private final SyncData leftData;
+    /** Данные левой таблицы файлов */
     private final SyncData rightData;
+    /** Направление синхронизации */
     private final SyncMode syncMode;
 
     public CloudToLocalSyncLogic(final SyncData leftData, final SyncData rightData, final SyncMode syncMode) {

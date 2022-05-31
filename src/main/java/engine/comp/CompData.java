@@ -7,8 +7,9 @@ import model.entity.Entity;
  * Данные для сравнения
  */
 public class CompData {
-
+    /** Сущность хранилища данных */
     private final Disk disk;
+    /** Сущность каталога для сравнения */
     private final Entity fileEntity;
 
     public CompData(final Disk disk, final Entity fileEntity) {

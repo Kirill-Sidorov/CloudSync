@@ -142,7 +142,7 @@ public class FilePanelControl {
             String drive = (String)diskComboBox.getSelectedItem();
             if (drive != null) {
                 currentDisk = drives.get(drive);
-                viewRootDir();
+                showRootDir();
             }
         });
 
@@ -199,7 +199,7 @@ public class FilePanelControl {
         updateFileTable();
     }
 
-    private void viewRootDir() {
+    private void showRootDir() {
         humanReadablePath = currentDisk.getName();
         dirs.clear();
         dirs.push(currentDisk.getRootDir());
@@ -261,7 +261,7 @@ public class FilePanelControl {
         updateFileTable();
     }
 
-    public void viewComparableDir(CompDirEntity dir) {
+    public void showComparableDir(CompDirEntity dir) {
         diskComboBox.setEnabled(false);
         updateButton.setEnabled(false);
         backButton.setEnabled(false);
@@ -271,14 +271,14 @@ public class FilePanelControl {
         cardLayout.show(cardsPanel, TREE_FILE_TABLE);
     }
 
-    public void viewFileTable(boolean isViewRootDir) {
+    public void showFileTable(boolean isShowRootDir) {
         diskComboBox.setEnabled(true);
         updateButton.setEnabled(true);
         backButton.setEnabled(true);
         CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
         cardLayout.show(cardsPanel, FILE_TABLE);
-        if (isViewRootDir) {
-            viewRootDir();
+        if (isShowRootDir) {
+            showRootDir();
         }
     }
 

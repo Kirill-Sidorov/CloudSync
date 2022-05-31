@@ -15,8 +15,9 @@ import model.entity.FileEntity;
  */
 public class DropboxAuth implements Auth {
 
+    /** Ключ досупа к Dropbox */
     private final String ACCESS_TOKEN = "V0Wx66JK6L8AAAAAAAAAAe-Y3QeCAG_jz1C1KZDjDBaQe0JpGGcJt0k2g9_51Pio";
-
+    /** Путь к ключу от учетной записи */
     private final String tokenPath;
 
     public DropboxAuth(final String tokenPath) {

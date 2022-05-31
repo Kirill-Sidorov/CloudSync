@@ -7,8 +7,9 @@ import model.entity.CompDirEntity;
  * Данные для синхронизации
  */
 public class SyncData {
-
+    /** Сущность хранилища данных */
     private final Disk disk;
+    /** Сущность синхронизируемого каталога */
     private final CompDirEntity syncDir;
 
     public SyncData(final Disk disk, final CompDirEntity syncDir) {

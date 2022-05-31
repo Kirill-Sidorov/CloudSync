@@ -12,6 +12,7 @@ import java.io.IOException;
  * Файл локальной файловой системы
  */
 public class LocalFile {
+    /** Сущность файла */
     private final Entity fileEntity;
 
     public LocalFile(final Entity fileEntity) {
