@@ -14,12 +14,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Файл хранилища Dropbox
+ * Р¤Р°Р№Р» С…СЂР°РЅРёР»РёС‰Р° Dropbox
  */
 public class DropboxFile implements CloudFile {
-    /** Сущность файла */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С„Р°Р№Р»Р° */
     private final Entity fileEntity;
-    /** Объект для работы хранилищем учетной записи */
+    /** РћР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ С…СЂР°РЅРёР»РёС‰РµРј СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final DbxClientV2 client;
 
     public DropboxFile(final Entity fileEntity, final DbxClientV2 client) {

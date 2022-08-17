@@ -4,12 +4,12 @@ import model.disk.Disk;
 import model.entity.Entity;
 
 /**
- * Данные для сравнения
+ * Р”Р°РЅРЅС‹Рµ РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ
  */
 public class CompData {
-    /** Сущность хранилища данных */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С… */
     private final Disk disk;
-    /** Сущность каталога для сравнения */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ РєР°С‚Р°Р»РѕРіР° РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ */
     private final Entity fileEntity;
 
     public CompData(final Disk disk, final Entity fileEntity) {

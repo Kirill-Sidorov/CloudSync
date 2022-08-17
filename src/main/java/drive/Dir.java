@@ -6,28 +6,28 @@ import model.result.DirResult;
 import model.result.EntityResult;
 
 /**
- * Каталог
+ * РљР°С‚Р°Р»РѕРі
  */
 public interface Dir {
     /**
-     * Получить файлы каталога
-     * @param progress Прогресс выполнения получения
-     * @param state Состояние задачи (отменена или нет)
-     * @return Результат получения файлов
+     * РџРѕР»СѓС‡РёС‚СЊ С„Р°Р№Р»С‹ РєР°С‚Р°Р»РѕРіР°
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ РїРѕР»СѓС‡РµРЅРёСЏ
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РїРѕР»СѓС‡РµРЅРёСЏ С„Р°Р№Р»РѕРІ
      */
     DirResult getFiles(final Progress progress, final TaskState state);
 
     /**
-     * Получить каталог внутри
-     * @param dirName Имя каталога
-     * @return Результат получения каталога
+     * РџРѕР»СѓС‡РёС‚СЊ РєР°С‚Р°Р»РѕРі РІРЅСѓС‚СЂРё
+     * @param dirName РРјСЏ РєР°С‚Р°Р»РѕРіР°
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РїРѕР»СѓС‡РµРЅРёСЏ РєР°С‚Р°Р»РѕРіР°
      */
     EntityResult getDirInto(final String dirName);
 
     /**
-     * Искать файл внутри
-     * @param fileName Имя файла
-     * @return Результат поиска файла
+     * РСЃРєР°С‚СЊ С„Р°Р№Р» РІРЅСѓС‚СЂРё
+     * @param fileName РРјСЏ С„Р°Р№Р»Р°
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РїРѕРёСЃРєР° С„Р°Р№Р»Р°
      */
     EntityResult searchFileInto(final String fileName);
 }

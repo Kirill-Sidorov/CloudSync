@@ -6,15 +6,15 @@ import com.dropbox.core.v2.users.SpaceUsage;
 import drive.DiskSize;
 
 /**
- * Размер хранилища Dropbox
+ * Р Р°Р·РјРµСЂ С…СЂР°РЅРёР»РёС‰Р° Dropbox
  */
 public class DropboxDiskSize implements DiskSize {
 
-    /** Объект для работы хранилищем учетной записи */
+    /** РћР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ С…СЂР°РЅРёР»РёС‰РµРј СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final DbxClientV2 client;
-    /** Размер хранилища */
+    /** Р Р°Р·РјРµСЂ С…СЂР°РЅРёР»РёС‰Р° */
     private long totalSpace;
-    /** Незанятое пространство */
+    /** РќРµР·Р°РЅСЏС‚РѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ */
     private long unallocatedSpace;
 
     public DropboxDiskSize(final DbxClientV2 client) {

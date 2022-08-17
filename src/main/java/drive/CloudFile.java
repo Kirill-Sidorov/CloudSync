@@ -6,15 +6,15 @@ import model.entity.Entity;
 import model.result.Result;
 
 /**
- * Файл облачного хранилища данных
+ * Р¤Р°Р№Р» РѕР±Р»Р°С‡РЅРѕРіРѕ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С…
  */
 public interface CloudFile {
     /**
-     * Загрузить файл
-     * @param destFile Пункт назначения файла (каталог)
-     * @param progress Прогресс выполнения отправления
-     * @param state Состояние задачи (отменена или нет)
-     * @return Результат загрузки
+     * Р—Р°РіСЂСѓР·РёС‚СЊ С„Р°Р№Р»
+     * @param destFile РџСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ С„Р°Р№Р»Р° (РєР°С‚Р°Р»РѕРі)
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕС‚РїСЂР°РІР»РµРЅРёСЏ
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ Р·Р°РіСЂСѓР·РєРё
      */
     Result download(final Entity destFile, final Progress progress, final TaskState state);
 }

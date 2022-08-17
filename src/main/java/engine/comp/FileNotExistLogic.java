@@ -11,14 +11,14 @@ import model.result.FileNotExistResult;
 import java.util.ResourceBundle;
 
 /**
- * Алгоритм действий, когда файл с таким же
- * именем не найден при сравнении каталогов
+ * РђР»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№, РєРѕРіРґР° С„Р°Р№Р» СЃ С‚Р°РєРёРј Р¶Рµ
+ * РёРјРµРЅРµРј РЅРµ РЅР°Р№РґРµРЅ РїСЂРё СЃСЂР°РІРЅРµРЅРёРё РєР°С‚Р°Р»РѕРіРѕРІ
  */
 public class FileNotExistLogic {
 
-    /** Сущность файла */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С„Р°Р№Р»Р° */
     private final Entity file;
-    /** Сущность хранилища данных */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С… */
     private final Disk disk;
 
     public FileNotExistLogic(final Entity file, final Disk disk) {
@@ -27,12 +27,12 @@ public class FileNotExistLogic {
     }
 
     /**
-     * Выполнить алгоритм действий
-     * @param progress Прогресс выполнения
-     * @param labelUpdating Обновлении информации о выполнении алгоритма
-     * @param state Состояние задачи (отменена или нет)
-     * @param bundle Строки программы
-     * @return Результат выполнения алгоритма
+     * Р’С‹РїРѕР»РЅРёС‚СЊ Р°Р»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РІС‹РїРѕР»РЅРµРЅРёРё Р°Р»РіРѕСЂРёС‚РјР°
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ Р°Р»РіРѕСЂРёС‚РјР°
      */
     public FileNotExistResult execute(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         if (file.isDirectory()) {

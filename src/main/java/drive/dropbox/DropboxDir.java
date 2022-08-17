@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Каталог Dropbox
+ * РљР°С‚Р°Р»РѕРі Dropbox
  */
 public class DropboxDir implements Dir, CloudDir {
 
-    /** Сущность каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ РєР°С‚Р°Р»РѕРіР° */
     private final Entity fileEntity;
-    /** Объект для работы хранилищем учетной записи */
+    /** РћР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ С…СЂР°РЅРёР»РёС‰РµРј СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final DbxClientV2 client;
 
     public DropboxDir(final Entity fileEntity, final DbxClientV2 client) {

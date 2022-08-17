@@ -12,12 +12,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Файл хранилища Google
+ * Р¤Р°Р№Р» С…СЂР°РЅРёР»РёС‰Р° Google
  */
 public class GoogleFile implements CloudFile {
-    /** Сущность файла */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С„Р°Р№Р»Р° */
     private final Entity fileEntity;
-    /** Объект для работы хранилищем учетной записи */
+    /** РћР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ С…СЂР°РЅРёР»РёС‰РµРј СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final Drive service;
 
     public GoogleFile(final Entity fileEntity, final Drive service) {

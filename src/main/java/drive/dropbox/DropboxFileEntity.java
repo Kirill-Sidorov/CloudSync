@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 /**
- * Сущность файла хранилища Dropbox
+ * РЎСѓС‰РЅРѕСЃС‚СЊ С„Р°Р№Р»Р° С…СЂР°РЅРёР»РёС‰Р° Dropbox
  */
 public class DropboxFileEntity implements FileEntity {
 
-    /** Объект Dropbox-файла */
+    /** РћР±СЉРµРєС‚ Dropbox-С„Р°Р№Р»Р° */
     private final Metadata file;
 
     public DropboxFileEntity(final Metadata file) {

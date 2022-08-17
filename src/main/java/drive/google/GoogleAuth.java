@@ -29,18 +29,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Авторизация учетной записи облачного хранилища Google
+ * РђРІС‚РѕСЂРёР·Р°С†РёСЏ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё РѕР±Р»Р°С‡РЅРѕРіРѕ С…СЂР°РЅРёР»РёС‰Р° Google
  */
 public class GoogleAuth implements Auth {
-    /** Название приложения */
+    /** РќР°Р·РІР°РЅРёРµ РїСЂРёР»РѕР¶РµРЅРёСЏ */
     private final String APPLICATION_NAME = "CloudSync";
-    /** JSON фабрика */
+    /** JSON С„Р°Р±СЂРёРєР° */
     private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    /** Список разрешений для учетной записи */
+    /** РЎРїРёСЃРѕРє СЂР°Р·СЂРµС€РµРЅРёР№ РґР»СЏ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-    /** Путь к учетным данным Google */
+    /** РџСѓС‚СЊ Рє СѓС‡РµС‚РЅС‹Рј РґР°РЅРЅС‹Рј Google */
     private final String CREDENTIALS_FILE_PATH = "/credential/credentials.json";
-    /** Путь к ключу от учетной записи */
+    /** РџСѓС‚СЊ Рє РєР»СЋС‡Сѓ РѕС‚ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final String tokenPath;
 
     public GoogleAuth(final String tokenPath) {

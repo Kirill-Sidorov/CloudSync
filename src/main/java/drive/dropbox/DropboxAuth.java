@@ -11,13 +11,13 @@ import model.entity.Entity;
 import model.entity.FileEntity;
 
 /**
- * Авторизация учетной записи облачного хранилища Dropbox
+ * РђРІС‚РѕСЂРёР·Р°С†РёСЏ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё РѕР±Р»Р°С‡РЅРѕРіРѕ С…СЂР°РЅРёР»РёС‰Р° Dropbox
  */
 public class DropboxAuth implements Auth {
 
-    /** Ключ досупа к Dropbox */
+    /** РљР»СЋС‡ РґРѕСЃСѓРїР° Рє Dropbox */
     private final String ACCESS_TOKEN = "V0Wx66JK6L8AAAAAAAAAAe-Y3QeCAG_jz1C1KZDjDBaQe0JpGGcJt0k2g9_51Pio";
-    /** Путь к ключу от учетной записи */
+    /** РџСѓС‚СЊ Рє РєР»СЋС‡Сѓ РѕС‚ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final String tokenPath;
 
     public DropboxAuth(final String tokenPath) {

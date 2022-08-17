@@ -19,13 +19,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Каталог Google
+ * РљР°С‚Р°Р»РѕРі Google
  */
 public class GoogleDir implements Dir, CloudDir {
 
-    /** Сущность каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ РєР°С‚Р°Р»РѕРіР° */
     private final Entity fileEntity;
-    /** Объект для работы хранилищем учетной записи */
+    /** РћР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ С…СЂР°РЅРёР»РёС‰РµРј СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final Drive service;
 
     public GoogleDir(final Entity fileEntity, final Drive service) {

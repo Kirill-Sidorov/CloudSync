@@ -14,20 +14,20 @@ import model.result.SyncResult;
 import java.util.ResourceBundle;
 
 /**
- * Синхронизация каталогов из облачного
- * хранилища в локальное или наоборот
+ * РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ РєР°С‚Р°Р»РѕРіРѕРІ РёР· РѕР±Р»Р°С‡РЅРѕРіРѕ
+ * С…СЂР°РЅРёР»РёС‰Р° РІ Р»РѕРєР°Р»СЊРЅРѕРµ РёР»Рё РЅР°РѕР±РѕСЂРѕС‚
  */
 public class CloudToLocalSync implements Sync {
 
-    /** Сущность хранилища - источника данных */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С…СЂР°РЅРёР»РёС‰Р° - РёСЃС‚РѕС‡РЅРёРєР° РґР°РЅРЅС‹С… */
     private final Disk srcDisk;
-    /** Каталог - источник данных */
+    /** РљР°С‚Р°Р»РѕРі - РёСЃС‚РѕС‡РЅРёРє РґР°РЅРЅС‹С… */
     private final CompDirEntity srcDir;
-    /** Сущность хранилища - пункта назначения */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С…СЂР°РЅРёР»РёС‰Р° - РїСѓРЅРєС‚Р° РЅР°Р·РЅР°С‡РµРЅРёСЏ */
     private final Disk destDisk;
-    /** Каталог - пункт назначения */
+    /** РљР°С‚Р°Р»РѕРі - РїСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ */
     private final Entity destEntity;
-    /** Операция синхронизации */
+    /** РћРїРµСЂР°С†РёСЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё */
     private final SyncAction syncAction;
 
     public CloudToLocalSync(final Disk srcDisk, final CompDirEntity srcDir, final Disk destDisk, final Entity destEntity, final SyncAction syncAction) {

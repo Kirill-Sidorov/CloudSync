@@ -7,15 +7,15 @@ import drive.DiskSize;
 import java.io.IOException;
 
 /**
- * Размер хранилища Google
+ * Р Р°Р·РјРµСЂ С…СЂР°РЅРёР»РёС‰Р° Google
  */
 public class GoogleDiskSize implements DiskSize {
 
-    /** Объект для работы хранилищем учетной записи */
+    /** РћР±СЉРµРєС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ С…СЂР°РЅРёР»РёС‰РµРј СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё */
     private final Drive service;
-    /** Размер хранилища */
+    /** Р Р°Р·РјРµСЂ С…СЂР°РЅРёР»РёС‰Р° */
     private long totalSpace;
-    /** Незанятое пространство */
+    /** РќРµР·Р°РЅСЏС‚РѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ */
     private long unallocatedSpace;
 
     public GoogleDiskSize(final Drive service) {

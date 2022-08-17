@@ -8,16 +8,16 @@ import model.result.SyncResult;
 import java.util.ResourceBundle;
 
 /**
- * Алгоритм действий перед синхроинзацией
+ * РђР»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№ РїРµСЂРµРґ СЃРёРЅС…СЂРѕРёРЅР·Р°С†РёРµР№
  */
 public interface SyncLogic {
     /**
-     * Выполнить алгоритм действий
-     * @param progress Прогресс выполнения
-     * @param labelUpdating Обновлении информации о выполнении алгоритма
-     * @param state Состояние задачи (отменена или нет)
-     * @param bundle Строки программы
-     * @return Результат выполнения алгоритма
+     * Р’С‹РїРѕР»РЅРёС‚СЊ Р°Р»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РІС‹РїРѕР»РЅРµРЅРёРё Р°Р»РіРѕСЂРёС‚РјР°
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ Р°Р»РіРѕСЂРёС‚РјР°
      */
     SyncResult execute(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle);
 }

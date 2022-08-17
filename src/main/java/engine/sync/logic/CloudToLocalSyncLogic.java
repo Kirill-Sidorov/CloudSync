@@ -14,16 +14,16 @@ import model.result.SyncResult;
 import java.util.ResourceBundle;
 
 /**
- * Алгоритм действий перед синхроинзацией
- * из облачного хранилища в локальное или наоборот
+ * РђР»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№ РїРµСЂРµРґ СЃРёРЅС…СЂРѕРёРЅР·Р°С†РёРµР№
+ * РёР· РѕР±Р»Р°С‡РЅРѕРіРѕ С…СЂР°РЅРёР»РёС‰Р° РІ Р»РѕРєР°Р»СЊРЅРѕРµ РёР»Рё РЅР°РѕР±РѕСЂРѕС‚
  */
 public class CloudToLocalSyncLogic implements SyncLogic {
 
-    /** Данные левой таблицы файлов */
+    /** Р”Р°РЅРЅС‹Рµ Р»РµРІРѕР№ С‚Р°Р±Р»РёС†С‹ С„Р°Р№Р»РѕРІ */
     private final SyncData leftData;
-    /** Данные левой таблицы файлов */
+    /** Р”Р°РЅРЅС‹Рµ Р»РµРІРѕР№ С‚Р°Р±Р»РёС†С‹ С„Р°Р№Р»РѕРІ */
     private final SyncData rightData;
-    /** Направление синхронизации */
+    /** РќР°РїСЂР°РІР»РµРЅРёРµ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё */
     private final SyncMode syncMode;
 
     public CloudToLocalSyncLogic(final SyncData leftData, final SyncData rightData, final SyncMode syncMode) {
@@ -79,10 +79,10 @@ public class CloudToLocalSyncLogic implements SyncLogic {
     }
 
     /**
-     * Получить опреацию синхроиназации в левую сторону
-     * @param progress Прогресс выполнения
-     * @param state Состояние задачи (отменена или нет)
-     * @return Операция синхроинзации
+     * РџРѕР»СѓС‡РёС‚СЊ РѕРїСЂРµР°С†РёСЋ СЃРёРЅС…СЂРѕРёРЅР°Р·Р°С†РёРё РІ Р»РµРІСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @return РћРїРµСЂР°С†РёСЏ СЃРёРЅС…СЂРѕРёРЅР·Р°С†РёРё
      */
     private SyncAction findSyncActionForLeftSync(final Progress progress, final TaskState state) {
         if (leftData.disk().isCloud()) {
@@ -93,10 +93,10 @@ public class CloudToLocalSyncLogic implements SyncLogic {
     }
 
     /**
-     * Получить опреацию синхроиназации в правую сторону
-     * @param progress Прогресс выполнения
-     * @param state Состояние задачи (отменена или нет)
-     * @return Операция синхроинзации
+     * РџРѕР»СѓС‡РёС‚СЊ РѕРїСЂРµР°С†РёСЋ СЃРёРЅС…СЂРѕРёРЅР°Р·Р°С†РёРё РІ РїСЂР°РІСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @return РћРїРµСЂР°С†РёСЏ СЃРёРЅС…СЂРѕРёРЅР·Р°С†РёРё
      */
     private SyncAction findSyncActionForRightSync(final Progress progress, final TaskState state) {
         if (leftData.disk().isCloud()) {

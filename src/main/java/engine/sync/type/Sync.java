@@ -6,14 +6,14 @@ import model.result.SyncResult;
 import java.util.ResourceBundle;
 
 /**
- * Синхронизация каталогов
+ * РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ РєР°С‚Р°Р»РѕРіРѕРІ
  */
 public interface Sync {
     /**
-     * Синхронизировать
-     * @param labelUpdating Обновлении информации о выполнении синхронизации
-     * @param bundle Строки программы
-     * @return Результат синхронизации
+     * РЎРёРЅС…СЂРѕРЅРёР·РёСЂРѕРІР°С‚СЊ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РІС‹РїРѕР»РЅРµРЅРёРё СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
      */
     SyncResult sync(final LabelUpdating labelUpdating, final ResourceBundle bundle);
 }

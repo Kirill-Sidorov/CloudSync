@@ -4,12 +4,12 @@ import model.disk.Disk;
 import model.entity.CompDirEntity;
 
 /**
- * Данные для синхронизации
+ * Р”Р°РЅРЅС‹Рµ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
  */
 public class SyncData {
-    /** Сущность хранилища данных */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С… */
     private final Disk disk;
-    /** Сущность синхронизируемого каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ СЃРёРЅС…СЂРѕРЅРёР·РёСЂСѓРµРјРѕРіРѕ РєР°С‚Р°Р»РѕРіР° */
     private final CompDirEntity syncDir;
 
     public SyncData(final Disk disk, final CompDirEntity syncDir) {

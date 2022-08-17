@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Локальная файловая система
+ * Р›РѕРєР°Р»СЊРЅР°СЏ С„Р°Р№Р»РѕРІР°СЏ СЃРёСЃС‚РµРјР°
  */
 public class LocalFS {
     /**
-     * Получить локальные хранилища данных
-     * @return Локальные диски
+     * РџРѕР»СѓС‡РёС‚СЊ Р»РѕРєР°Р»СЊРЅС‹Рµ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С…
+     * @return Р›РѕРєР°Р»СЊРЅС‹Рµ РґРёСЃРєРё
      */
     public Map<String, Disk> drives() {
         Map<String, Disk> localDrives = new HashMap<>();

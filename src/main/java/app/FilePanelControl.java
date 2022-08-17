@@ -177,19 +177,6 @@ public class FilePanelControl {
                         }
                     }
                 }
-                /*
-                else if (SwingUtilities.isRightMouseButton(e)) {
-                    int row = fileTable.getSelectedRow();
-                    if (row != -1) {
-                        row = fileTable.convertRowIndexToModel(row);
-                        Entity file = fileTableModel.getFile(row);
-                        if (file.isDirectory()) {
-                            EntityResult result = currentDisk.dir(file).getDirInto("yyy");
-                            System.out.println(result.entity().path());
-                        }
-                    }
-                }
-                */
             }
         });
         String stringDisk = (String)diskComboBox.getSelectedItem();

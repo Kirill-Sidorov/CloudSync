@@ -9,10 +9,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Файл локальной файловой системы
+ * Р¤Р°Р№Р» Р»РѕРєР°Р»СЊРЅРѕР№ С„Р°Р№Р»РѕРІРѕР№ СЃРёСЃС‚РµРјС‹
  */
 public class LocalFile {
-    /** Сущность файла */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С„Р°Р№Р»Р° */
     private final Entity fileEntity;
 
     public LocalFile(final Entity fileEntity) {
@@ -20,8 +20,8 @@ public class LocalFile {
     }
 
     /**
-     * Запустить файл
-     * @return Результат запуска файла
+     * Р—Р°РїСѓСЃС‚РёС‚СЊ С„Р°Р№Р»
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ Р·Р°РїСѓСЃРєР° С„Р°Р№Р»Р°
      */
     public Result execute() {
         Result result;

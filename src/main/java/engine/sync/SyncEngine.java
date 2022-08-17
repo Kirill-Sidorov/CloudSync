@@ -9,14 +9,14 @@ import model.result.SyncResult;
 import java.util.ResourceBundle;
 
 /**
- * Запускающий синхроинизацию класс
+ * Р—Р°РїСѓСЃРєР°СЋС‰РёР№ СЃРёРЅС…СЂРѕРёРЅРёР·Р°С†РёСЋ РєР»Р°СЃСЃ
  */
 public class SyncEngine {
-    /** Данные левой таблицы файлов */
+    /** Р”Р°РЅРЅС‹Рµ Р»РµРІРѕР№ С‚Р°Р±Р»РёС†С‹ С„Р°Р№Р»РѕРІ */
     private final SyncData leftData;
-    /** Данные левой таблицы файлов */
+    /** Р”Р°РЅРЅС‹Рµ Р»РµРІРѕР№ С‚Р°Р±Р»РёС†С‹ С„Р°Р№Р»РѕРІ */
     private final SyncData rightData;
-    /** Направление синхронизации */
+    /** РќР°РїСЂР°РІР»РµРЅРёРµ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё */
     private final SyncMode syncMode;
 
     public SyncEngine(final SyncData leftData, final SyncData rightData, final SyncMode syncMode) {
@@ -26,12 +26,12 @@ public class SyncEngine {
     }
 
     /**
-     * Начать алгоритм действий для синхронизации
-     * @param progress Прогресс выполнения
-     * @param labelUpdating Обновлении информации о выполнении синхронизации
-     * @param state Состояние задачи (отменена или нет)
-     * @param bundle Строки программы
-     * @return Результат выполнения алгоритма
+     * РќР°С‡Р°С‚СЊ Р°Р»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РІС‹РїРѕР»РЅРµРЅРёРё СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ Р°Р»РіРѕСЂРёС‚РјР°
      */
     public SyncResult start(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         SyncOption syncOption;

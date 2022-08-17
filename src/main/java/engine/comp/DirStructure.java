@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Содрежимое каталога и его подкаталогов
+ * РЎРѕРґСЂРµР¶РёРјРѕРµ РєР°С‚Р°Р»РѕРіР° Рё РµРіРѕ РїРѕРґРєР°С‚Р°Р»РѕРіРѕРІ
  */
 public class DirStructure {
-    /** Сущность хранилища данных */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ С…СЂР°РЅРёР»РёС‰Р° РґР°РЅРЅС‹С… */
     private final Disk disk;
-    /** Сущность каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ РєР°С‚Р°Р»РѕРіР° */
     private final Entity file;
 
     public DirStructure(final Disk disk, final Entity file) {
@@ -29,12 +29,12 @@ public class DirStructure {
     }
 
     /**
-     * Получить содержимое каталога и его подкаталогов
-     * @param progress Прогресс получения содержимого
-     * @param labelUpdating Обновлении информации о получении файлов
-     * @param state Состояние задачи (отменена или нет)
-     * @param bundle Строки программы
-     * @return Результат получения содержимого
+     * РџРѕР»СѓС‡РёС‚СЊ СЃРѕРґРµСЂР¶РёРјРѕРµ РєР°С‚Р°Р»РѕРіР° Рё РµРіРѕ РїРѕРґРєР°С‚Р°Р»РѕРіРѕРІ
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РїРѕР»СѓС‡РµРЅРёСЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїРѕР»СѓС‡РµРЅРёРё С„Р°Р№Р»РѕРІ
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РїРѕР»СѓС‡РµРЅРёСЏ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
      */
     public FileNotExistResult get(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         List<Entity> files = new ArrayList<>();

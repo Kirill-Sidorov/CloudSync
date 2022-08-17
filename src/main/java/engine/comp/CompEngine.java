@@ -10,13 +10,13 @@ import model.result.*;
 import java.util.*;
 
 /**
- * Сравнение каталогов
+ * РЎСЂР°РІРЅРµРЅРёРµ РєР°С‚Р°Р»РѕРіРѕРІ
  */
 public class CompEngine {
 
-    /** Данные левой таблицы файлов */
+    /** Р”Р°РЅРЅС‹Рµ Р»РµРІРѕР№ С‚Р°Р±Р»РёС†С‹ С„Р°Р№Р»РѕРІ */
     private final CompData leftData;
-    /** Данные правой таблицы файлов */
+    /** Р”Р°РЅРЅС‹Рµ РїСЂР°РІРѕР№ С‚Р°Р±Р»РёС†С‹ С„Р°Р№Р»РѕРІ */
     private final CompData rightData;
 
     public CompEngine(final CompData leftData, final CompData rightData) {
@@ -25,12 +25,12 @@ public class CompEngine {
     }
 
     /**
-     * Сравнить каталоги
-     * @param progress Прогресс выполнения сравнения
-     * @param labelUpdating Обновление информации о сравнении файлов
-     * @param state Состояние задачи (отменена или нет)
-     * @param bundle Строки программы
-     * @return Результат сравнения каталогов
+     * РЎСЂР°РІРЅРёС‚СЊ РєР°С‚Р°Р»РѕРіРё
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ СЃСЂР°РІРЅРµРЅРёСЏ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃСЂР°РІРЅРµРЅРёРё С„Р°Р№Р»РѕРІ
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ СЃСЂР°РІРЅРµРЅРёСЏ РєР°С‚Р°Р»РѕРіРѕРІ
      */
     public CompResult compare(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         Status status = Status.EQUAL;

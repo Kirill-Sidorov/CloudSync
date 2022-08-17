@@ -7,7 +7,7 @@ import engine.sync.logic.LocalToLocalSyncLogic;
 import engine.sync.logic.SyncLogic;
 
 /**
- * Варианты синхронизации
+ * Р’Р°СЂРёР°РЅС‚С‹ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
  */
 public enum SyncOption {
     LOCAL_TO_LOCAL {
@@ -30,11 +30,11 @@ public enum SyncOption {
     };
 
     /**
-     * Получить алгоритм действий для варианта синхронизации
-     * @param leftData Левые данные для синхронизации
-     * @param rightData Правые данные для синхронизации
-     * @param syncMode Направление синхроинзации
-     * @return Алгоритм действий
+     * РџРѕР»СѓС‡РёС‚СЊ Р°Р»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№ РґР»СЏ РІР°СЂРёР°РЅС‚Р° СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+     * @param leftData Р›РµРІС‹Рµ РґР°РЅРЅС‹Рµ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+     * @param rightData РџСЂР°РІС‹Рµ РґР°РЅРЅС‹Рµ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
+     * @param syncMode РќР°РїСЂР°РІР»РµРЅРёРµ СЃРёРЅС…СЂРѕРёРЅР·Р°С†РёРё
+     * @return РђР»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№
      */
     public abstract SyncLogic syncLogic(final SyncData leftData, final SyncData rightData, final SyncMode syncMode);
 }

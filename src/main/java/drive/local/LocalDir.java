@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Каталог локальной файловой системы
+ * РљР°С‚Р°Р»РѕРі Р»РѕРєР°Р»СЊРЅРѕР№ С„Р°Р№Р»РѕРІРѕР№ СЃРёСЃС‚РµРјС‹
  */
 public class LocalDir implements Dir {
-    /** Сущность каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ РєР°С‚Р°Р»РѕРіР° */
     private final Entity fileEntity;
 
     public LocalDir(final Entity fileEntity) {

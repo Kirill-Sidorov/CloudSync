@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 /**
- * Сущность файла хранилища Google
+ * РЎСѓС‰РЅРѕСЃС‚СЊ С„Р°Р№Р»Р° С…СЂР°РЅРёР»РёС‰Р° Google
  */
 public class GoogleFileEntity implements FileEntity {
 
-    /** Объект Google-файла */
+    /** РћР±СЉРµРєС‚ Google-С„Р°Р№Р»Р° */
     private final File file;
 
     public GoogleFileEntity(final File file) {

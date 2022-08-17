@@ -13,18 +13,18 @@ import model.result.Status;
 import java.util.ResourceBundle;
 
 /**
- * Алгоритм действий, когда найдены файлы
- * с одинаковыми именами при сравнении каталогов
+ * РђР»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№, РєРѕРіРґР° РЅР°Р№РґРµРЅС‹ С„Р°Р№Р»С‹
+ * СЃ РѕРґРёРЅР°РєРѕРІС‹РјРё РёРјРµРЅР°РјРё РїСЂРё СЃСЂР°РІРЅРµРЅРёРё РєР°С‚Р°Р»РѕРіРѕРІ
  */
 public class FileExistLogic {
 
-    /** Сущность левого каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ Р»РµРІРѕРіРѕ РєР°С‚Р°Р»РѕРіР° */
     private final Entity leftFile;
-    /** Сущность левого хранилища */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ Р»РµРІРѕРіРѕ С…СЂР°РЅРёР»РёС‰Р° */
     private final Disk leftDisk;
-    /** Сущность левого каталога */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ Р»РµРІРѕРіРѕ РєР°С‚Р°Р»РѕРіР° */
     private final Entity rightFile;
-    /** Сущность правого хранилища */
+    /** РЎСѓС‰РЅРѕСЃС‚СЊ РїСЂР°РІРѕРіРѕ С…СЂР°РЅРёР»РёС‰Р° */
     private final Disk rightDisk;
 
     public FileExistLogic(final Entity leftFile, final Disk leftDisk, final Entity rightFile, final Disk rightDisk) {
@@ -35,12 +35,12 @@ public class FileExistLogic {
     }
 
     /**
-     * Выполнить алгоритм действий
-     * @param progress Прогресс выполнения
-     * @param labelUpdating Обновлении информации о выполнении алгоритма
-     * @param state Состояние задачи (отменена или нет)
-     * @param bundle Строки программы
-     * @return Результат выполнения алгоритма
+     * Р’С‹РїРѕР»РЅРёС‚СЊ Р°Р»РіРѕСЂРёС‚Рј РґРµР№СЃС‚РІРёР№
+     * @param progress РџСЂРѕРіСЂРµСЃСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ
+     * @param labelUpdating РћР±РЅРѕРІР»РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РІС‹РїРѕР»РЅРµРЅРёРё Р°Р»РіРѕСЂРёС‚РјР°
+     * @param state РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РґР°С‡Рё (РѕС‚РјРµРЅРµРЅР° РёР»Рё РЅРµС‚)
+     * @param bundle РЎС‚СЂРѕРєРё РїСЂРѕРіСЂР°РјРјС‹
+     * @return Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ Р°Р»РіРѕСЂРёС‚РјР°
      */
     public FileExistResult execute(final Progress progress, final LabelUpdating labelUpdating, final TaskState state, final ResourceBundle bundle) {
         if (rightFile.isDirectory()) {
