@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CloudSync" target="8" />
+      <module name="CloudSync" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
