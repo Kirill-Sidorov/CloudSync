@@ -7,8 +7,10 @@ import model.disk.Disk;
 import model.entity.CompDirEntity;
 import model.entity.CompFileEntity;
 import model.entity.Entity;
-import model.result.*;
+import model.result.DirResult;
 import model.result.Error;
+import model.result.FileNotExistResult;
+import model.result.Status;
 
 import java.util.ArrayList;
 import java.util.List;

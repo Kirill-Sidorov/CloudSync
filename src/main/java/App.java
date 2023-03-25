@@ -1,5 +1,5 @@
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import app.MainFrameControl;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import javax.swing.*;
 

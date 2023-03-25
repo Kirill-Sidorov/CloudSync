@@ -1,6 +1,7 @@
 package app.dialog;
 
 import app.table.cloudtable.CloudTableModel;
+import drive.google.GoogleAuth;
 import model.cloud.CloudInfo;
 import model.cloud.CloudType;
 import model.disk.Disk;
@@ -39,6 +40,12 @@ public class CloudManagerDialog extends JDialog {
                 super.focusGained(e);
                 cloudTable.clearSelection();
             }
+        });
+
+        addGoogleButton.addActionListener(event -> {
+            Disk googleDisk = new GoogleAuth(CloudType.GOOGLE.tokensDir()).authorize();
+            drives.put(googleDisk.getName(), googleDisk);
+            cloudsInfo.put(googleDisk.getName(), new CloudInfo(CloudType.GOOGLE, googleDisk.getName(), CloudType.GOOGLE.tokensDir()));
         });
 
         addDropboxButton.addFocusListener(new FocusAdapter() {

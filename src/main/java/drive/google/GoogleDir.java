@@ -9,8 +9,8 @@ import com.google.api.services.drive.model.FileList;
 import drive.CloudDir;
 import drive.Dir;
 import model.entity.Entity;
-import model.result.*;
 import model.result.Error;
+import model.result.*;
 import org.apache.tika.Tika;
 
 import java.io.IOException;

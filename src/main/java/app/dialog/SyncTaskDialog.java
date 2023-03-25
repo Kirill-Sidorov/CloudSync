@@ -1,8 +1,8 @@
 package app.dialog;
 
+import app.job.CompAndSyncJob;
 import app.logic.SyncMode;
 import engine.comp.CompData;
-import app.job.CompAndSyncJob;
 
 import javax.swing.*;
 import java.awt.*;

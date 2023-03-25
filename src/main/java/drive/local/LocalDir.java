@@ -4,8 +4,8 @@ import app.task.Progress;
 import app.task.TaskState;
 import drive.Dir;
 import model.entity.Entity;
-import model.result.*;
 import model.result.Error;
+import model.result.*;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;

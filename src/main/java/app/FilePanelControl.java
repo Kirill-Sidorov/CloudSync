@@ -1,10 +1,10 @@
 package app;
 
 import app.logic.DiskSize;
-import app.table.filetable.FileTableColumn;
 import app.table.DateTableCellRenderer;
-import app.table.filetable.FileTableModel;
 import app.table.SizeTableCellRenderer;
+import app.table.filetable.FileTableColumn;
+import app.table.filetable.FileTableModel;
 import app.table.treefiletable.FileTreeTableModel;
 import app.table.treefiletable.JTreeTable;
 import app.task.TableUpdateTask;

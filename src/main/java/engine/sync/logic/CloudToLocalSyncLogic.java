@@ -5,9 +5,9 @@ import app.task.LabelUpdating;
 import app.task.Progress;
 import app.task.TaskState;
 import drive.CloudDir;
-import engine.sync.type.CloudToLocalSync;
 import engine.sync.SyncAction;
 import engine.sync.SyncData;
+import engine.sync.type.CloudToLocalSync;
 import model.disk.Cloud;
 import model.result.SyncResult;
 
