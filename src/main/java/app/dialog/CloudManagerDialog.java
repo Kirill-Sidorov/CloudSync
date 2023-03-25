@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -18,7 +19,8 @@ public class CloudManagerDialog extends JDialog {
     public CloudManagerDialog(final JFrame parentFrame, final ResourceBundle bundle, Map<String, Disk> drives, Map<String, CloudInfo> cloudsInfo) {
         super(parentFrame, bundle.getString("ui.menu_bar.menu_item.cloud_manager"), true);
 
-        CloudTableModel cloudTableModel = new CloudTableModel(bundle, new ArrayList<>(cloudsInfo.values()));
+        List<CloudInfo> clouds = new ArrayList<>(cloudsInfo.values());
+        CloudTableModel cloudTableModel = new CloudTableModel(bundle, clouds);
         JTable cloudTable = new JTable(cloudTableModel);
 
         cloudTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -45,7 +47,10 @@ public class CloudManagerDialog extends JDialog {
         addGoogleButton.addActionListener(event -> {
             Disk googleDisk = new GoogleAuth(CloudType.GOOGLE.tokensDir()).authorize();
             drives.put(googleDisk.getName(), googleDisk);
-            cloudsInfo.put(googleDisk.getName(), new CloudInfo(CloudType.GOOGLE, googleDisk.getName(), CloudType.GOOGLE.tokensDir()));
+            CloudInfo cloudInfo = new CloudInfo(CloudType.GOOGLE, googleDisk.getName(), CloudType.GOOGLE.tokensDir());
+            cloudsInfo.put(googleDisk.getName(), cloudInfo);
+            clouds.add(cloudInfo);
+            cloudTable.updateUI();
         });
 
         addDropboxButton.addFocusListener(new FocusAdapter() {

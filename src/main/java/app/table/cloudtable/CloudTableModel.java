@@ -12,7 +12,7 @@ public class CloudTableModel extends AbstractTableModel {
     private final List<CloudInfo> clouds;
     private final CloudTableColumn[] columns = CloudTableColumn.values();
 
-    public CloudTableModel(final ResourceBundle bundle, final List<CloudInfo> clouds) {
+    public CloudTableModel(final ResourceBundle bundle, List<CloudInfo> clouds) {
         this.bundle = bundle;
         this.clouds = clouds;
     }
