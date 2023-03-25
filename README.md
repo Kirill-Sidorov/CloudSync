@@ -20,14 +20,14 @@ Available languages:
 
 ### Images
 
-![main screen](https://github.com/Kirill-Sidorov/CloudSync/blob/master/images/main.jpg)
+![main screen](https://github.com/Kirill-Sidorov/CloudSync/blob/readmedata/images/main.jpg)
 |:--:| 
 | *Image 1 - Main window* |
-![compare](https://github.com/Kirill-Sidorov/CloudSync/blob/master/images/compare.jpg)
+![compare](https://github.com/Kirill-Sidorov/CloudSync/blob/readmedata/images/compare.jpg)
 | *Image 2 - Compare dirs window* |
-![storage manager](https://github.com/Kirill-Sidorov/CloudSync/blob/master/images/storage_manager.jpg)
+![storage manager](https://github.com/Kirill-Sidorov/CloudSync/blob/readmedata/images/storage_manager.jpg)
 | *Image 3 - Storage manager window* |
-![sync task](https://github.com/Kirill-Sidorov/CloudSync/blob/master/images/sync_task.jpg)
+![sync task](https://github.com/Kirill-Sidorov/CloudSync/blob/readmedata/images/sync_task.jpg)
 | *Image 4 - Sync dialog window* |
 
 ### Required software:
