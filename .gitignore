@@ -1,6 +1,6 @@
 target/
 .idea/
-src/main/resources/credential/
+src/main/resources/credential/credentials.json
 *.iml
 .DS_Store
 .classpath
