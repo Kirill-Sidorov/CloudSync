@@ -29,20 +29,27 @@ public class CloudManagerDialog extends JDialog {
 
         JButton addGoogleButton = new JButton(CloudType.GOOGLE.image());
         JButton addDropboxButton = new JButton(CloudType.DROPBOX.image());
+        JButton addRemoteServerButton = new JButton(CloudType.REMOTE_SERVER.image());
 
         addGoogleButton.setText(bundle.getString("ui.button.add_drive"));
         addDropboxButton.setText(bundle.getString("ui.button.add_drive"));
+        addRemoteServerButton.setText(bundle.getString("ui.button.add_drive"));
 
         addGoogleButton.setToolTipText(bundle.getString("ui.button.tool_tip.add_google_drive"));
         addDropboxButton.setToolTipText(bundle.getString("ui.button.tool_tip.add_dropbox_drive"));
+        addRemoteServerButton.setToolTipText(bundle.getString("ui.button.tool_tip.add_remote_server"));
 
-        addGoogleButton.addFocusListener(new FocusAdapter() {
+        FocusAdapter focusListener = new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
                 cloudTable.clearSelection();
             }
-        });
+        };
+
+        addGoogleButton.addFocusListener(focusListener);
+        addDropboxButton.addFocusListener(focusListener);
+        addRemoteServerButton.addFocusListener(focusListener);
 
         addGoogleButton.addActionListener(event -> {
             Disk googleDisk = new GoogleAuth(CloudType.GOOGLE.tokensDir()).authorize();
@@ -51,14 +58,6 @@ public class CloudManagerDialog extends JDialog {
             cloudsInfo.put(googleDisk.getName(), cloudInfo);
             clouds.add(cloudInfo);
             cloudTable.updateUI();
-        });
-
-        addDropboxButton.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                cloudTable.clearSelection();
-            }
         });
 
         JButton removeButton = new JButton(bundle.getString("ui.button.delete"));
@@ -84,6 +83,7 @@ public class CloudManagerDialog extends JDialog {
                 .addGroup(layout.createParallelGroup()
                         .addComponent(addGoogleButton)
                         .addComponent(addDropboxButton)
+                        .addComponent(addRemoteServerButton)
                         .addComponent(removeButton));
         layout.setHorizontalGroup(hGroup);
 
@@ -94,6 +94,7 @@ public class CloudManagerDialog extends JDialog {
                 .addGroup(layout.createSequentialGroup()
                         .addComponent(addGoogleButton)
                         .addComponent(addDropboxButton)
+                        .addComponent(addRemoteServerButton)
                         .addComponent(removeButton));
         layout.setVerticalGroup(vGroup);
 
