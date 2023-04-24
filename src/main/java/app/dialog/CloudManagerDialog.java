@@ -60,6 +60,11 @@ public class CloudManagerDialog extends JDialog {
             cloudTable.updateUI();
         });
 
+        addRemoteServerButton.addActionListener(event -> {
+            RemoteServerAddDialog remoteSeverAddDialog = new RemoteServerAddDialog(parentFrame, "title", bundle);
+            remoteSeverAddDialog.setVisible(true);
+        });
+
         JButton removeButton = new JButton(bundle.getString("ui.button.delete"));
 
         removeButton.addActionListener(event -> {
