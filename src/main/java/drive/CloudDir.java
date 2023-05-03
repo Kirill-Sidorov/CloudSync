@@ -13,7 +13,7 @@ public interface CloudDir {
      * Отправить локальный файл в каталог
      * @param srcFile Отправляемый файл
      * @param progress Прогресс выполнения отправления
-     * @param state Состояние задачи (отменена или нет)
+     * @param state Состояние задачи (отмена или нет)
      * @return Результат отправления
      */
     Result upload(final Entity srcFile, final Progress progress, final TaskState state);

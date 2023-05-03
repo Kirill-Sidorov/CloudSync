@@ -1,9 +1,10 @@
 package model.disk;
 
+import drive.CloudFile;
 import drive.Dir;
 import model.entity.Entity;
 
-public class RemoteServerDisk implements Disk {
+public class RemoteServerDisk implements Disk, Cloud {
     @Override
     public String getName() {
         return null;
@@ -21,6 +22,11 @@ public class RemoteServerDisk implements Disk {
 
     @Override
     public Dir getDir(Entity file) {
+        return null;
+    }
+
+    @Override
+    public CloudFile cloudFile(Entity file) {
         return null;
     }
 }
